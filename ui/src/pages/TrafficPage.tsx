@@ -83,7 +83,7 @@ export default function TrafficPage() {
     refetchInterval: 10_000,
   })
 
-  const locale = i18n.resolvedLanguage === 'en' ? 'en-US' : 'ko-KR'
+  const locale = i18n.resolvedLanguage === 'en' ? 'en-US' : i18n.resolvedLanguage === 'zh-CN' ? 'zh-CN' : 'ko-KR'
   const timeLabel = (time: string | number, withDate = false) =>
     new Date(time).toLocaleString(locale, withDate
       ? { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }

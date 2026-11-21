@@ -1,0 +1,92 @@
+{
+  "http": {
+    "400": "错误的请求",
+    "401": "需要身份验证",
+    "403": "拒绝访问",
+    "404": "未找到",
+    "405": "不允许的方法",
+    "408": "请求超时",
+    "409": "冲突",
+    "413": "请求太大",
+    "429": "请求过多",
+    "500": "服务器错误",
+    "502": "坏网关",
+    "503": "暂停服务",
+    "504": "网关超时"
+  },
+  "auth": {
+    "INVALID_CREDENTIALS": "电子邮件或密码无效",
+    "ACCOUNT_LOCKED": "帐户已被锁定。请稍后重试",
+    "SESSION_EXPIRED": "会话已过期。请重新登录",
+    "UNAUTHORIZED": "需要身份验证",
+    "FORBIDDEN": "拒绝访问",
+    "TOKEN_EXPIRED": "令牌已过期",
+    "TOKEN_INVALID": "无效令牌"
+  },
+  "validation": {
+    "REQUIRED": "此字段是必需的",
+    "INVALID_EMAIL": "请输入有效的电子邮件",
+    "INVALID_URL": "请输入有效的URL",
+    "INVALID_IP": "请输入有效的IP地址",
+    "INVALID_DOMAIN": "请输入有效域名",
+    "INVALID_PORT": "端口必须介于 1 和 65535 之间",
+    "PASSWORD_TOO_SHORT": "密码必须至少 10 个字符",
+    "PASSWORD_MISMATCH": "密码不匹配",
+    "DUPLICATE_DOMAIN": "域已存在",
+    "DUPLICATE_NAME": "名称已被使用"
+  },
+  "proxy": {
+    "HOST_NOT_FOUND": "找不到代理主机",
+    "HOST_CREATE_FAILED": "创建代理主机失败",
+    "HOST_UPDATE_FAILED": "更新代理主机失败",
+    "HOST_DELETE_FAILED": "删除代理主机失败",
+    "INVALID_CONFIG": "配置无效",
+    "UPSTREAM_UNREACHABLE": "无法连接到上游服务器",
+    "SSL_REQUIRED": "需要SSL证书"
+  },
+  "certificate": {
+    "NOT_FOUND": "未找到证书",
+    "CREATE_FAILED": "创建证书失败",
+    "RENEW_FAILED": "更新证书失败",
+    "DELETE_FAILED": "删除证书失败",
+    "INVALID_CERTIFICATE": "证书无效",
+    "INVALID_PRIVATE_KEY": "私钥无效",
+    "DOMAIN_VALIDATION_FAILED": "域验证失败",
+    "RATE_LIMITED": "超出速率限制。请稍后重试",
+    "DNS_CHALLENGE_FAILED": "DNS挑战失败"
+  },
+  "waf": {
+    "CONFIG_ERROR": "WAF配置错误",
+    "RULE_NOT_FOUND": "未找到规则",
+    "INVALID_RULE": "规则无效"
+  },
+  "geoip": {
+    "NOT_CONFIGURED": "未配置 GeoIP",
+    "DATABASE_ERROR": "GeoIP 数据库错误",
+    "DOWNLOAD_FAILED": "下载 GeoIP 数据库失败",
+    "INVALID_CREDENTIALS": "MaxMind 凭据无效"
+  },
+  "network": {
+    "CONNECTION_FAILED": "连接失败",
+    "TIMEOUT": "连接超时",
+    "OFFLINE": "无网络连接"
+  },
+  "nginx": {
+    "CONFIG_TEST_FAILED": "Nginx 配置测试失败",
+    "RELOAD_FAILED": "无法重新加载 Nginx",
+    "NOT_RUNNING": "Nginx 没有运行"
+  },
+  "database": {
+    "CONNECTION_FAILED": "数据库连接失败",
+    "QUERY_FAILED": "数据库查询失败",
+    "MIGRATION_FAILED": "数据库迁移失败"
+  },
+  "general": {
+    "UNKNOWN_ERROR": "发生未知错误",
+    "SERVER_ERROR": "服务器发生错误",
+    "NOT_FOUND": "未找到请求的资源",
+    "PERMISSION_DENIED": "没有权限",
+    "RATE_LIMITED": "请求太多。请稍后重试",
+    "MAINTENANCE_MODE": "系统正在维护中"
+  }
+}

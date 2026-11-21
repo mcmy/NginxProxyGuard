@@ -1,11 +1,12 @@
-// Compile-time check that every Korean and English locale file has the same
+// Compile-time check that every Korean, English, and Simplified Chinese locale file has the same
 // keys. Nothing imports this file: `tsc -b` type-checks everything under src,
 // so the check runs in `npm run build`, the CI typecheck job and the Docker
 // image build.
 //
-// Why: a key that exists only in ko/*.json falls back to Korean in the English
+// Why: a key that exists only in one locale falls back to Korean in another
 // UI (fallbackLng is 'ko'), as the WAF log detail button did in #321. A key
-// that exists only in en/*.json shows the raw key in the Korean UI.
+// that exists only in the English or Chinese file shows the raw key in a
+// locale that cannot find it.
 //
 // Reading a failure: the error lands on the language that is missing the key,
 // on the line of its namespace, and names the key ("Property 'viewAccessLog'
@@ -63,6 +64,27 @@ export type LocaleParity = {
   filterSubscription: Same<Keys<typeof import('./locales/ko/filterSubscription.json')>, Keys<typeof import('./locales/en/filterSubscription.json')>>
   ddns: Same<Keys<typeof import('./locales/ko/ddns.json')>, Keys<typeof import('./locales/en/ddns.json')>>
   dnsEntries: Same<Keys<typeof import('./locales/ko/dnsEntries.json')>, Keys<typeof import('./locales/en/dnsEntries.json')>>
+  commonZh: Same<Keys<typeof import('./locales/en/common.json')>, Keys<typeof import('./locales/zh-CN/common.json')>>
+  navigationZh: Same<Keys<typeof import('./locales/en/navigation.json')>, Keys<typeof import('./locales/zh-CN/navigation.json')>>
+  authZh: Same<Keys<typeof import('./locales/en/auth.json')>, Keys<typeof import('./locales/zh-CN/auth.json')>>
+  dashboardZh: Same<Keys<typeof import('./locales/en/dashboard.json')>, Keys<typeof import('./locales/zh-CN/dashboard.json')>>
+  trafficZh: Same<Keys<typeof import('./locales/en/traffic.json')>, Keys<typeof import('./locales/zh-CN/traffic.json')>>
+  accessControlZh: Same<Keys<typeof import('./locales/en/accessControl.json')>, Keys<typeof import('./locales/zh-CN/accessControl.json')>>
+  authProviderZh: Same<Keys<typeof import('./locales/en/authProvider.json')>, Keys<typeof import('./locales/zh-CN/authProvider.json')>>
+  proxyHostZh: Same<Keys<typeof import('./locales/en/proxyHost.json')>, Keys<typeof import('./locales/zh-CN/proxyHost.json')>>
+  settingsZh: Same<Keys<typeof import('./locales/en/settings.json')>, Keys<typeof import('./locales/zh-CN/settings.json')>>
+  wafZh: Same<Keys<typeof import('./locales/en/waf.json')>, Keys<typeof import('./locales/zh-CN/waf.json')>>
+  logsZh: Same<Keys<typeof import('./locales/en/logs.json')>, Keys<typeof import('./locales/zh-CN/logs.json')>>
+  certificatesZh: Same<Keys<typeof import('./locales/en/certificates.json')>, Keys<typeof import('./locales/zh-CN/certificates.json')>>
+  errorsZh: Same<Keys<typeof import('./locales/en/errors.json')>, Keys<typeof import('./locales/zh-CN/errors.json')>>
+  redirectHostZh: Same<Keys<typeof import('./locales/en/redirectHost.json')>, Keys<typeof import('./locales/zh-CN/redirectHost.json')>>
+  exploitExceptionsZh: Same<Keys<typeof import('./locales/en/exploitExceptions.json')>, Keys<typeof import('./locales/zh-CN/exploitExceptions.json')>>
+  exploitRulesZh: Same<Keys<typeof import('./locales/en/exploitRules.json')>, Keys<typeof import('./locales/zh-CN/exploitRules.json')>>
+  fail2banZh: Same<Keys<typeof import('./locales/en/fail2ban.json')>, Keys<typeof import('./locales/zh-CN/fail2ban.json')>>
+  exploitLogsZh: Same<Keys<typeof import('./locales/en/exploitLogs.json')>, Keys<typeof import('./locales/zh-CN/exploitLogs.json')>>
+  filterSubscriptionZh: Same<Keys<typeof import('./locales/en/filterSubscription.json')>, Keys<typeof import('./locales/zh-CN/filterSubscription.json')>>
+  ddnsZh: Same<Keys<typeof import('./locales/en/ddns.json')>, Keys<typeof import('./locales/zh-CN/ddns.json')>>
+  dnsEntriesZh: Same<Keys<typeof import('./locales/en/dnsEntries.json')>, Keys<typeof import('./locales/zh-CN/dnsEntries.json')>>
 }
 
 // A namespace added to ALL_NAMESPACES without a line above fails here, so a

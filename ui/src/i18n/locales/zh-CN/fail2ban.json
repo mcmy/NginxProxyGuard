@@ -1,0 +1,59 @@
+{
+  "title": "Fail2ban 管理",
+  "subtitle": "管理所有主机的自动IP禁止设置",
+  "viewBannedIPs": "查看禁止的 IP",
+  "info": {
+    "title": "关于 Fail2ban",
+    "description": "Fail2ban 会自动阻止登录尝试失败次数过多（401/403 错误）的IP地址。配置每个主机的设置以防止暴力攻击。"
+  },
+  "hostList": {
+    "title": "主机",
+    "empty": "没有配置主机"
+  },
+  "status": {
+    "enabled": "已启用",
+    "disabled": "已禁用"
+  },
+  "settings": {
+    "maxRetries": "最大重试次数",
+    "maxRetriesHelp": "禁令前尝试失败的次数",
+    "findTime": "查找时间（秒）",
+    "findTimeHelp": "计算失败的时间窗口",
+    "banTime": "封禁时长",
+    "banTimeHelp": "被禁止的IP被禁止多久。永久禁令（0 秒）永不过期。",
+    "banTimeCustom": "自定义（秒）",
+    "banTimeSecondsPlaceholder": "秒，0 = 永久",
+    "failCodes": "失败代码",
+    "failCodesHelp": "HTTP视为失败的状态代码。仅计算该主机本身回答的响应 - 来自 direct-IPcatch-all 的 444 不属于任何主机，因此对该流量使用 Global Fail2ban。",
+    "action": "操作",
+    "actionOptions": {
+      "block": "阻止 IP",
+      "log": "仅记录",
+      "notify": "仅通知"
+    }
+  },
+  "actions": {
+    "configure": "配置",
+    "cancel": "取消",
+    "save": "保存"
+  },
+  "editModal": {
+    "title": "Fail2ban 设置 -{{host}}"
+  },
+  "global": {
+    "title": "全局 Fail2ban",
+    "subtitle": "自动禁止与任何主机不匹配的请求",
+    "intro": "对通过IP地址或未配置的主机名到达的请求进行计数。这些不属于任何代理主机，因此每个主机的监狱在结构上看不到它们——这就是为什么将 444 放入主机的失败代码中从来没有任何作用。",
+    "blastRadius": "⚠️ 此处创建的禁令同时适用于**每个主机**。误报会影响您的所有网站，而不是一个。这就是为什么它被禁用的原因，以及为什么从“仅记录”开始（记录而不禁止）是更安全的顺序。观察几天日志，确认只捕获您想要的流量，然后将其打开。",
+    "excluded": "不计算在内：您配置为重定向主机的域（这些是您的主机，它们的访问者不是扫描仪）、请求格式过于错误而无法读取主机名、NPG自己的自检以及环回或可信代理地址。",
+    "enable": "启用全局fail2ban",
+    "enableHelp": "必须首先配置设置 → 可信代理。如果没有它，每个请求似乎都来自您的CDN或上游代理，并且禁止该地址会阻止每个主机上该地址后面的每个访问者。",
+    "ignorePrivate": "切勿禁止本地网络地址",
+    "ignorePrivateHelp": "适用于每个fail2ban 监狱，包括每个主机的监狱。私有范围（10.x、172.16–31.x、192.168.x、fc00::/7）和链接本地地址会被计算在内，但不会被禁止。无论哪种方式，环回和可信代理都不会被禁止。",
+    "maxRetriesHelp": "禁令前的失败。由于该禁令适用于所有地方，因此比每个主机的监狱更宽松的阈值是更安全的默认设置。",
+    "actionHelp": "从“仅记录”开始几天，然后切换到“阻止IP”。 “仅通知”警报而不禁止。",
+    "failCodesHelp": "HTTP视为失败的状态代码。仅考虑不匹配的主机请求，这就是 444（直接IP阻塞）实际发生的地方。",
+    "failCodesNote": "通过分析真实日志选择默认的400,444。添加 403 或 404 不会捕获任何额外的信息 - 这些仅来自您配置的主机。",
+    "saved": "已保存。"
+  }
+}

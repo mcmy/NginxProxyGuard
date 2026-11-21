@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
 import DatePicker from 'react-datepicker';
-import { ko } from 'date-fns/locale';
+import { ko, zhCN } from 'date-fns/locale';
 import { HelpTip } from '../common/HelpTip';
 import {
   fetchDistinctHosts, fetchDistinctIPs, fetchDistinctUserAgents,
@@ -112,7 +112,7 @@ export function AdvancedFilterPanel({ filter, onFilterChange, logType, onClose }
             timeFormat="HH:mm"
             timeIntervals={15}
             dateFormat="yyyy-MM-dd HH:mm"
-            locale={i18n.language === 'ko' ? ko : undefined}
+            locale={i18n.language === 'ko' ? ko : i18n.language === 'zh-CN' ? zhCN : undefined}
             placeholderText={t('filters.startDate')}
             isClearable
             maxDate={localFilter.end_time ? new Date(localFilter.end_time) : undefined}
@@ -131,7 +131,7 @@ export function AdvancedFilterPanel({ filter, onFilterChange, logType, onClose }
             timeFormat="HH:mm"
             timeIntervals={15}
             dateFormat="yyyy-MM-dd HH:mm"
-            locale={i18n.language === 'ko' ? ko : undefined}
+            locale={i18n.language === 'ko' ? ko : i18n.language === 'zh-CN' ? zhCN : undefined}
             placeholderText={t('filters.endDate')}
             isClearable
             minDate={localFilter.start_time ? new Date(localFilter.start_time) : undefined}

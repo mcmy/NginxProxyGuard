@@ -1,0 +1,61 @@
+{
+  "list": {
+    "title": "重定向主机",
+    "addNew": "添加重定向",
+    "empty": "未配置重定向主机",
+    "emptyDescription": "创建一个来设置域重定向。",
+    "columns": {
+      "source": "源域",
+      "target": "重定向至",
+      "code": "代码",
+      "status": "状态",
+      "actions": "操作"
+    },
+    "edit": "编辑",
+    "delete": "删除"
+  },
+  "form": {
+    "newTitle": "新重定向主机",
+    "editTitle": "编辑重定向主机",
+    "domainNames": "域名（每行一个）",
+    "scheme": "方案",
+    "targetDomain": "目标域",
+    "redirectCode": "重定向代码",
+    "forwardPath": "前进的道路",
+    "preservePath": "保留原来的路径",
+    "sslConfig": "SSL配置",
+    "enableSsl": "启用SSL",
+    "selectCertificate": "选择证书",
+    "forceHttps": "力HTTPS",
+    "enabled": "已启用",
+    "blockExploits": "阻止漏洞利用",
+    "cancel": "取消",
+    "create": "创建",
+    "update": "更新",
+    "saving": "保存中...",
+    "schemeAuto": "自动",
+    "redirectCodePermanent": "永久",
+    "redirectCodeFound": "已找到",
+    "redirectCodeTemporary": "临时"
+  },
+  "messages": {
+    "deleteConfirm": "您确定要删除此重定向主机吗？",
+    "loadError": "加载重定向主机时出错",
+    "saveError": "无法保存重定向主机",
+    "domainRequired": "至少需要一个域名"
+  },
+  "badges": {
+    "active": "活跃",
+    "disabled": "已禁用"
+  },
+  "help": {
+    "domainNames": "输入要重定向的源域。每行输入一个。",
+    "scheme": "选择目标URL的协议 (HTTP/HTTPS)。自动自动选择。",
+    "targetDomain": "要重定向到的目标域地址。",
+    "forwardPath": "转发到的路径。留空以使用原始路径。",
+    "preservePath": "重定向时保留原来URL的路径。",
+    "enableSsl": "将SSL证书应用于该主机。",
+    "forceHttps": "强制所有HTTP请求重定向到HTTPS。",
+    "blockExploits": "阻止常见的网络攻击模式。"
+  }
+}

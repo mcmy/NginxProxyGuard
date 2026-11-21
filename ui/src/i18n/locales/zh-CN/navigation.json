@@ -1,0 +1,112 @@
+{
+  "menu": {
+    "dashboard": "仪表板",
+    "traffic": "流量",
+    "proxyHosts": "代理主机",
+    "hosts": "主机",
+    "redirects": "重定向",
+    "redirectHosts": "重定向主机",
+    "waf": "WAF",
+    "wafBanIp": "WAF/ 阻塞",
+    "access": "访问",
+    "accessControl": "访问控制",
+    "accessLists": "访问列表",
+    "authProviders": "身份验证提供商",
+    "authProvidersShort": "认证",
+    "certificates": "证书",
+    "sslCerts": "SSL证书",
+    "logs": "日志",
+    "settings": "设置"
+  },
+  "header": {
+    "nginxProxyGuard": "Nginx 代理卫士",
+    "subtitle": "安全反向代理管理器",
+    "testConfig": "测试配置",
+    "syncAll": "同步全部",
+    "notifications": "通知",
+    "noNotifications": "没有新通知"
+  },
+  "account": {
+    "myAccount": "我的账户",
+    "settings": "设置",
+    "language": "语言",
+    "theme": "主题",
+    "lightMode": "灯光模式",
+    "darkMode": "深色模式",
+    "logout": "退出登录",
+    "logoutConfirm": "您确定要退出吗？"
+  },
+  "footer": {
+    "version": "版本",
+    "documentation": "文档",
+    "support": "支持",
+    "github": "GitHub",
+    "sponsor": "赞助者",
+    "allRightsReserved": "版权所有。"
+  },
+  "subTabs": {
+    "certificates": {
+      "list": "证书",
+      "history": "发行/更新历史",
+      "dnsProviders": "DNS提供商",
+      "ddns": "DDNS"
+    },
+    "waf": {
+      "ruleSettings": "WAF策略设置",
+      "bannedIps": "IP禁令管理",
+      "uriBlocks": "URI块管理",
+      "exploitRules": "漏洞利用阻止规则",
+      "fail2ban": "Fail2ban",
+      "tester": "WAF 测试器",
+      "globalGeo": "全球地理 IP",
+      "globalBotFilter": "全局机器人过滤器",
+      "globalSecurityHeaders": "全局安全标头",
+      "globalCloud": "全局云封锁",
+      "globalRateLimit": "全局速率限制",
+      "globalFail2ban": "全局 Fail2ban",
+      "globalWAF": "全局 WAF"
+    },
+    "logs": {
+      "access": "访问日志",
+      "wafEvents": "WAF活动",
+      "botFilter": "机器人过滤器",
+      "exploitBlocks": "漏洞漏洞利用阻止",
+      "stream": "流",
+      "error": "错误日志",
+      "system": "系统日志",
+      "audit": "管理审核",
+      "rawFiles": "原始文件"
+    },
+    "settings": {
+      "global": "全局设置",
+      "captcha": "CAPTCHA",
+      "geoip": "地理IP",
+      "botfilter": "机器人过滤器",
+      "wafAutoBan": "WAF自动禁止",
+      "ssl": "SSL/ACME",
+      "maintenance": "维护",
+      "backups": "备份",
+      "systemLogs": "系统日志",
+      "filterSubscriptions": "过滤订阅",
+      "cloudflareTunnel": "Cloudflare 隧道",
+      "groups": {
+        "general": "常规",
+        "security": "安全",
+        "operations": "运营",
+        "access": "访问"
+      },
+      "users": "用户",
+      "roles": "角色",
+      "sso": "SSO",
+      "notifications": "通知",
+      "trustedProxies": "可信代理",
+      "dnsEntries": "域条目 (DDNS)",
+      "errorPages": "错误页面"
+    }
+  },
+  "loading": "加载中...",
+  "noPermission": {
+    "title": "您没有权限查看该页面",
+    "hint": "请求管理员授予您的角色访问权限。"
+  }
+}

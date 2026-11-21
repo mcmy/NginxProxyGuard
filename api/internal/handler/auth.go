@@ -359,9 +359,9 @@ func (h *AuthHandler) SetLanguage(c echo.Context) error {
 	}
 
 	// Validate language
-	if req.Language != "ko" && req.Language != "en" {
+	if req.Language != "ko" && req.Language != "en" && req.Language != "zh-CN" {
 		return c.JSON(http.StatusBadRequest, map[string]string{
-			"error": "Invalid language. Supported languages: ko, en",
+			"error": "Invalid language. Supported languages: ko, en, zh-CN",
 		})
 	}
 

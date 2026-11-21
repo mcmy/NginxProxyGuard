@@ -5361,7 +5361,7 @@ paths:
     put:
       tags: [Auth]
       summary: Set own UI language
-      description: Self-service — authentication only. Only `ko` and `en` are accepted.
+      description: Self-service — authentication only. `ko`, `en`, and `zh-CN` are accepted.
       security:
         - SessionAuth: []
       requestBody:
@@ -12119,7 +12119,7 @@ components:
           description: Set on accounts created by an administrator, and set again by an admin password reset (PUT /users/{id}/password). While true every RESOURCE endpoint returns 403 with code `must_change_password`; the self-service /auth/* endpoints are not gated by it. POST /auth/change-password clears the flag.
         language:
           type: string
-          description: UI language (`ko` or `en`). May be empty for an account that never set one.
+          description: UI language (`ko`, `en`, or `zh-CN`). May be empty for an account that never set one.
         font_family:
           type: string
           description: UI font family. May be empty for an account that never set one.
@@ -15105,7 +15105,7 @@ components:
       properties:
         language:
           type: string
-          enum: [ko, en]
+          enum: [ko, en, zh-CN]
     FontFamilySetting:
       type: object
       description: Body and response of GET/PUT /auth/font. GET may return an empty string for an account that never set one; PUT accepts only the listed values.

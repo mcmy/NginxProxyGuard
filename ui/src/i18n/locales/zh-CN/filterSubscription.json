@@ -1,0 +1,127 @@
+{
+  "title": "过滤订阅",
+  "subtitle": "订阅外部阻止列表以自动阻止恶意 IP、CIDR 和用户代理。",
+  "tabs": {
+    "catalog": "目录",
+    "subscriptions": "我的订阅"
+  },
+  "howItWorks": {
+    "title": "它是如何运作的",
+    "step1": "1.添加推荐黑名单或输入外部URL进行订阅。",
+    "step2": "2. 获取列表的IP/CIDR条目并将其存储在数据库中。默认情况下禁用新订阅。",
+    "step3": "3. 切换ON重新生成 nginx 配置并重新加载 — 阻止立即生效。切换OFF以移除阻塞。",
+    "step4": "4. 列表会按照您配置的时间间隔自动刷新，以保持最新状态。如果刷新失败，现有数据将被保留。"
+  },
+  "catalog": {
+    "title": "NPG过滤器目录",
+    "description": "社区维护的安全过滤器列表。",
+    "empty": "无法加载目录。",
+    "subscribe": "订阅精选",
+    "unsubscribe": "取消订阅",
+    "subscribed": "已订阅",
+    "entries": "{{count}}条目",
+    "showEntries": "显示参赛作品",
+    "hideEntries": "隐藏条目",
+    "fetchError": "无法获取目录。",
+    "unsubscribeConfirm": "您确定要取消订阅此过滤器吗？"
+  },
+  "list": {
+    "empty": "没有活动的过滤器订阅。",
+    "addUrl": "添加者：URL",
+    "lastFetch": "最后获取的",
+    "showEntries": "显示参赛作品",
+    "hideEntries": "隐藏条目",
+    "noEntries": "没有条目。",
+    "searchPlaceholder": "搜索IP或图案...",
+    "searchResults": "结果",
+    "status": {
+      "ok": "OK",
+      "error": "错误",
+      "never": "从不"
+    },
+    "limited": "已应用{{listed}}条目中的{{applied}}（限制）",
+    "limitedHint": "所有订阅总共最多可应用 100,000 个条目，因此此列表的其余部分被忽略。"
+  },
+  "form": {
+    "url": "过滤器列表URL",
+    "urlPlaceholder": "https://example.com/blocklist.json",
+    "name": "名称",
+    "namePlaceholder": "自动检测或手动输入",
+    "type": "类型",
+    "refreshType": "刷新方法",
+    "refreshValue": "刷新值",
+    "refreshTypes": {
+      "interval": "间隔",
+      "daily": "每天",
+      "cron": "高级（Cron）"
+    },
+    "intervals": {
+      "6h": "6小时",
+      "12h": "12小时",
+      "24h": "24小时",
+      "48h": "48小时"
+    }
+  },
+  "settings": {
+    "title": "订阅设置",
+    "exclusions": "主机排除",
+    "exclusionDescription": "此过滤器不会应用于选定的主机。",
+    "excluded": "已排除",
+    "excludePrivateIPs": "排除私有IP范围",
+    "excludePrivateIPsDescription": "启用后，从所有订阅阻止列表中排除RFC1918 私有IP范围（10.0.0.0/8、172.16.0.0/12、192.168.0.0/16）。"
+  },
+  "entryExclusions": {
+    "exclude": "排除",
+    "include": "包含",
+    "excluded": "已排除"
+  },
+  "actions": {
+    "refresh": "立即刷新",
+    "refreshing": "刷新中...",
+    "enable": "启用",
+    "disable": "禁用",
+    "delete": "删除订阅",
+    "deleteConfirm": "您确定要删除此过滤器订阅吗？所有条目都将被删除。",
+    "settings": "设置"
+  },
+  "types": {
+    "ip": "IP",
+    "cidr": "CIDR",
+    "user_agent": "用户代理"
+  },
+  "messages": {
+    "created": "已添加过滤器订阅。",
+    "deleted": "过滤器订阅已被删除。",
+    "refreshed": "过滤器已刷新。",
+    "updated": "设置已保存。",
+    "catalogSubscribed": "选定的过滤器已被订阅。"
+  },
+  "presets": {
+    "title": "推荐的黑名单",
+    "add": "添加",
+    "visitSite": "官方网站",
+    "spamhaus": {
+      "description": "SpamhausDROP（不路由或对等）— 被劫持和垃圾邮件控制的IP范围",
+      "detail": "由 Spamhaus 项目运营。全球 ISP 和企业使用的最值得信赖的黑名单之一。提供CIDR范围。"
+    },
+    "firehol": {
+      "description": "FireHOL 1 级 — 来自多个来源的聚合威胁情报",
+      "detail": "由 FireHOL 项目运营。聚合 Spamhaus、DShield、Abuse.ch 等。 1 级（最安全）列表，误报率非常低。"
+    },
+    "blocklistde": {
+      "description": "Blocklist.de — 报告实际攻击的 IP",
+      "detail": "德国社区项目。收集 Fail2ban 和类似工具检测到的暴力、机器人和垃圾邮件攻击 IP。实时更新。"
+    },
+    "ipsum": {
+      "description": "IPsum Level 3 — IP 出现在 3 个以上黑名单中",
+      "detail": "由 stamparm（sqlmap 开发者）操作。每天交叉检查 30 多个黑名单。 3 级 = IP 由 3 个以上独立来源确认。"
+    },
+    "emergingthreats": {
+      "description": "新兴威胁 - 编制的威胁阻止列表",
+      "detail": "由 Proofpoint（以前称为 Emerging Threats）运营。聚合 Spamhaus、DShield、Abuse.ch 数据。专为防火墙阻止规则而设计。"
+    }
+  },
+  "badge": {
+    "filterSubscription": "过滤订阅"
+  }
+}

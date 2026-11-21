@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { useQuery, useQueries } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import DatePicker from 'react-datepicker';
-import { ko, enUS } from 'date-fns/locale';
+import { ko, enUS, zhCN } from 'date-fns/locale';
 import { fetchLogs, fetchLogStats } from '../api/logs';
 import type { Log, LogFilter, BotCategory } from '../types/log';
 import { HelpTip } from './common/HelpTip';
@@ -134,7 +134,7 @@ export function BotFilterLogs() {
   });
   const [searchInput, setSearchInput] = useState('');
   const debouncedSearch = useDebounce(searchInput, 300);
-  const dateLocale = i18n.language === 'ko' ? ko : enUS;
+  const dateLocale = i18n.language === 'ko' ? ko : i18n.language === 'zh-CN' ? zhCN : enUS;
 
   const filter: LogFilter = useMemo(() => ({
     log_type: 'access',

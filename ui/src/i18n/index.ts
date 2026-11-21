@@ -9,14 +9,17 @@ import koCommon from './locales/ko/common.json'
 import koNavigation from './locales/ko/navigation.json'
 import enCommon from './locales/en/common.json'
 import enNavigation from './locales/en/navigation.json'
+import zhCNCommon from './locales/zh-CN/common.json'
+import zhCNNavigation from './locales/zh-CN/navigation.json'
 
 export const STORAGE_KEY = 'npg_language'
-export const SUPPORTED_LANGUAGES = ['ko', 'en'] as const
+export const SUPPORTED_LANGUAGES = ['ko', 'en', 'zh-CN'] as const
 export type SupportedLanguage = typeof SUPPORTED_LANGUAGES[number]
 
 export const LANGUAGE_NAMES: Record<SupportedLanguage, string> = {
   ko: '한국어',
   en: 'English',
+  'zh-CN': '简体中文',
 }
 
 const EAGER_NAMESPACES = ['common', 'navigation'] as const
@@ -60,6 +63,10 @@ export const resources = {
     common: enCommon,
     navigation: enNavigation,
   },
+  'zh-CN': {
+    common: zhCNCommon,
+    navigation: zhCNNavigation,
+  },
 }
 
 // loadLocaleNamespace dynamically imports a single JSON file. The two
@@ -71,6 +78,9 @@ async function loadLocaleNamespace(lng: string, ns: string): Promise<Record<stri
   }
   if (lng === 'en') {
     return (await import(`./locales/en/${ns}.json`)).default
+  }
+  if (lng === 'zh-CN') {
+    return (await import(`./locales/zh-CN/${ns}.json`)).default
   }
   throw new Error(`unsupported locale: ${lng}`)
 }

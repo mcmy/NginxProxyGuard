@@ -1,0 +1,1949 @@
+{
+  "title": "设置",
+  "tabs": {
+    "general": "常规",
+    "security": "安全",
+    "geoip": "地理IP",
+    "waf": "WAF",
+    "system": "系统",
+    "backup": "备份",
+    "logs": "日志"
+  },
+  "general": {
+    "title": "常规设置",
+    "siteName": "站点名称",
+    "siteNamePlaceholder": "Nginx 代理卫士",
+    "adminEmail": "管理员邮箱",
+    "adminEmailPlaceholder": "admin@example.com",
+    "defaultPage": "默认页面",
+    "congratulations": "恭喜",
+    "notFound": "404 未找到",
+    "redirect": "重定向",
+    "custom": "自定义",
+    "timezone": "时区",
+    "dateFormat": "日期格式",
+    "language": "语言"
+  },
+  "security": {
+    "title": "安全设置",
+    "globalDdosProtection": {
+      "title": "全球 DDoS 防护",
+      "description": "为所有主机启用 DDoS 防护",
+      "enabled": "启用全球 DDoS 防护"
+    },
+    "directIpAccess": {
+      "title": "直接IP访问",
+      "description": "处理通过IP而不是域访问的请求",
+      "mode": "模式",
+      "allow": "允许",
+      "block": "阻止",
+      "redirect": "重定向",
+      "redirectUrl": "重定向URL",
+      "redirectUrlPlaceholder": "https://example.com"
+    },
+    "failedLoginProtection": {
+      "title": "登录失败保护",
+      "description": "多次登录失败后阻止IP",
+      "enabled": "启用失败登录保护",
+      "maxAttempts": "最大尝试次数",
+      "lockoutDuration": "锁定时间（分钟）"
+    },
+    "twoFactor": {
+      "title": "双因素身份验证",
+      "description": "通过 2FA 提高安全性",
+      "enabled": "启用 2FA",
+      "setup": "设置",
+      "verify": "验证"
+    },
+    "apiTokens": {
+      "title": "API令牌",
+      "description": "管理API访问令牌",
+      "addToken": "添加令牌",
+      "tokenName": "令牌名称",
+      "permissions": "权限",
+      "expiresAt": "到期",
+      "lastUsed": "最后使用",
+      "revoke": "撤销",
+      "revokeConfirm": "撤销这个令牌？"
+    }
+  },
+  "geoip": {
+    "title": "GeoIP 设置",
+    "description": "使用IP地理定位启用基于国家/地区的访问控制",
+    "status": "状态",
+    "active": "活跃",
+    "inactive": "未激活",
+    "notConfigured": "未配置",
+    "maxmind": {
+      "title": "MaxMind GeoIP",
+      "accountId": "账户ID",
+      "accountIdPlaceholder": "MaxMind 账户ID",
+      "licenseKey": "许可证密钥",
+      "licenseKeyPlaceholder": "MaxMind 许可证密钥",
+      "signup": "注册 MaxMind",
+      "description": "需要 MaxMind 帐户才能使用免费的 GeoLite2 数据库"
+    },
+    "database": {
+      "title": "数据库",
+      "countryDb": "国家数据库",
+      "cityDb": "城市数据库",
+      "asnDb": "ASN数据库",
+      "lastUpdated": "最后更新",
+      "update": "更新",
+      "download": "下载"
+    },
+    "test": {
+      "title": "IP测试",
+      "ipAddress": "IP地址",
+      "ipPlaceholder": "8.8.8.8",
+      "testButton": "测试",
+      "result": "结果",
+      "country": "国家/地区",
+      "city": "城市",
+      "isp": "ISP"
+    }
+  },
+  "waf": {
+    "title": "WAF设置",
+    "globalSettings": {
+      "title": "全局设置",
+      "enabled": "启用全局WAF",
+      "description": "将默认的WAF规则应用于所有主机"
+    },
+    "rules": {
+      "title": "规则",
+      "coreRules": "核心规则集",
+      "customRules": "自定义规则",
+      "addRule": "添加规则",
+      "editRule": "编辑规则",
+      "deleteRule": "删除规则"
+    },
+    "exclusions": {
+      "title": "排除项",
+      "description": "从WAF检查中排除的路径或规则",
+      "addExclusion": "添加排除项"
+    },
+    "logs": {
+      "title": "WAF日志",
+      "viewLogs": "查看日志",
+      "clearLogs": "清除日志"
+    }
+  },
+  "system": {
+    "title": "系统设置",
+    "tabs": {
+      "geoip": "地理IP",
+      "acme": "SSL/ACME",
+      "botfilter": "机器人过滤器",
+      "security": "WAF自动禁止",
+      "maintenance": "维护",
+      "logfiles": "日志文件",
+      "systemlogs": "系统日志"
+    },
+    "systemlogs": {
+      "title": "系统日志收集",
+      "description": "配置从系统容器收集哪些日志。降低日志级别可以提高性能。",
+      "enable": {
+        "label": "启用系统日志收集",
+        "description": "从docker容器收集日志"
+      },
+      "levels": {
+        "title": "容器日志级别",
+        "debug": "调试",
+        "info": "信息",
+        "warn": "警告",
+        "error": "错误",
+        "fatal": "致命的"
+      },
+      "exclude": {
+        "label": "排除模式",
+        "count": "{{count}}图案",
+        "detailDescription": "匹配这些模式（正则表达式）的日志消息将被忽略。每行一个图案。",
+        "placeholder": "^/健康HEAD/"
+      },
+      "help": {
+        "levels": "日志级别设置：\n- 调试：详细的调试日志（大容量）\n- 信息：一般信息（推荐）\n- 警告：仅警告\n- 错误：仅错误（低音量）\n\n较高级别会减少收集的日志量。",
+        "exclude": "使用正则表达式 (Regex) 排除特定的日志行。\n示例：\n^/health - 排除以 /health 开头的日志HEAD/ - 排除HEAD请求\n\n每行输入一个模式。"
+      }
+    },
+    "buttons": {
+      "save": "保存更改",
+      "saving": "保存中...",
+      "updateNow": "立即更新",
+      "updating": "更新中...",
+      "view": "查看",
+      "hide": "隐藏",
+      "download": "下载",
+      "delete": "删除",
+      "cancel": "取消",
+      "test": {
+        "label": "测试设置",
+        "testing": "测试中...",
+        "cancel": "取消"
+      },
+      "testing": "测试中...",
+      "rotate": "轮换日志",
+      "rotating": "轮换中..."
+    },
+    "geoip": {
+      "saveSuccess": "GeoIP 设置已成功保存。",
+      "saveFailed": "保存失败：{{error}}",
+      "updateStarted": "GeoIP 数据库更新开始。",
+      "updateFailed": "更新失败：{{error}}",
+      "status": {
+        "title": "GeoIP 状态",
+        "active": "GeoIP 数据库处于活动状态。",
+        "inactive": "GeoIP 未激活。请配置 MaxMind 许可证密钥。",
+        "error": "GeoIP 数据库错误",
+        "updating": "正在更新 GeoIP 数据库...",
+        "lastUpdated": "（更新：{{date}}）",
+        "countryDb": "国家DB",
+        "asnDb": "ASNDB"
+      },
+      "enable": {
+        "label": "启用 GeoIP",
+        "description": "启用 GeoIP 允许基于国家/地区的访问控制和日志中的位置信息。"
+      },
+      "account": {
+        "idLabel": "MaxMind 帐户ID",
+        "idPlaceholder": "输入 MaxMind 账户ID",
+        "keyLabel": "MaxMind 许可证密钥",
+        "keyPlaceholder": "输入 MaxMind 许可证密钥",
+        "createAccount": "创建免费的 MaxMind 帐户 →",
+        "keyHelp": "您可以在 MaxMind 帐户设置中生成许可证密钥。"
+      },
+      "autoUpdate": {
+        "title": "自动更新设置",
+        "enableLabel": "自动更新",
+        "enableDescription": "自动更新 GeoIP 数据库。",
+        "intervalLabel": "更新间隔",
+        "intervals": {
+          "daily": "每天",
+          "weekly": "每周",
+          "monthly": "每月"
+        }
+      },
+      "history": {
+        "title": "更新历史",
+        "date": "日期",
+        "trigger": "触发器",
+        "status": "状态",
+        "duration": "持续时间",
+        "details": "详情",
+        "auto": "自动",
+        "manual": "手动",
+        "success": "成功",
+        "failed": "失败",
+        "running": "运行中",
+        "pending": "待处理",
+        "empty": "还没有更新历史"
+      }
+    },
+    "acme": {
+      "saveSuccess": "SSL/ACME设置已成功保存。",
+      "saveFailed": "保存失败：{{error}}",
+      "status": {
+        "disabled": "ACME已禁用"
+      },
+      "enable": {
+        "label": "启用ACME/ Let's Encrypt",
+        "description": "自动颁发和续订免费的SSL证书。"
+      },
+      "email": {
+        "label": "ACME电子邮件",
+        "placeholder": "admin@example.com",
+        "help": "用于证书过期通知和帐户恢复。 Let's Encrypt 推荐。"
+      },
+      "staging": {
+        "label": "使用临时服务器（测试）",
+        "description": "使用临时服务器来避免测试期间的 Let's Encrypt 速率限制。 **禁用生产。**"
+      },
+      "autoRenew": {
+        "title": "自动续订设置",
+        "enableLabel": "自动续订",
+        "enableDescription": "证书到期前自动续订。",
+        "daysBeforeLabel": "续订前（天）",
+        "daysBeforeHelp": "几天前",
+        "help": "建议：30 天（Let's Encrypt 证书的有效期为 90 天）"
+      },
+      "testButton": "测试ACME设置",
+      "testResult": {
+        "ok": "ACME配置有效。",
+        "disabled": "ACME已禁用。",
+        "pending": "ACME电子邮件未配置。有些证书颁发机构需要电子邮件。"
+      }
+    },
+    "botfilter": {
+      "defaults": {
+        "title": "机器人过滤器默认值",
+        "description": "为新创建的代理主机定义默认机器人过滤器设置。每个代理主机都可以单独配置。"
+      },
+      "enableDefault": {
+        "label": "默认启用机器人过滤器",
+        "description": "将为所有新代理主机自动启用机器人过滤器。"
+      },
+      "options": {
+        "title": "默认机器人过滤器选项",
+        "blockBadBots": {
+          "label": "阻止坏机器人",
+          "description": "阻止已知的恶意机器人，例如抓取工具、垃圾邮件发送者、漏洞扫描程序。"
+        },
+        "blockAiBots": {
+          "label": "阻止AI机器人",
+          "description": "阻止AI爬虫，例如 GPTBot、ChatGPT-User、Claude-Web、Anthropic、CCBot。"
+        },
+        "allowSearchEngines": {
+          "label": "允许搜索引擎",
+          "description": "始终允许搜索引擎抓取工具，例如 Google、Bing、Yahoo、Baidu。对于SEO至关重要。"
+        },
+        "challengeSuspicious": {
+          "label": "质疑可疑请求",
+          "description": "显示可疑请求或缺失用户代理的 JavaScript 质询。"
+        }
+      },
+      "customAgents": {
+        "label": "自定义块用户代理",
+        "description": "要阻止的其他用户代理模式。每行一个。",
+        "placeholder": "示例：\n我的定制机器人\n一些ScraperBot/*\n卷曲/*"
+      },
+      "lists": {
+        "title": "机器人列表管理",
+        "badge": "全局",
+        "description": "下面的列表在所有代理主机上全局使用。每行输入一个用户代理模式。",
+        "badBots": {
+          "label": "坏机器人列表",
+          "description": "不良机器人的阻止模式（抓取工具、垃圾邮件发送者等）",
+          "placeholder": "AhrefsBot\n塞姆拉什机器人\nMJ12机器人\n..."
+        },
+        "aiBots": {
+          "label": "AI机器人列表",
+          "description": "AI爬虫的模式（GPTBot、ClaudeBot 等）",
+          "placeholder": "GPT机器人\nChatGPT-用户\n克劳德·博特\n..."
+        },
+        "searchEngines": {
+          "label": "搜索引擎列表",
+          "description": "搜索引擎机器人的模式始终允许SEO",
+          "placeholder": "谷歌机器人\n冰博特\n鸭鸭机器人\n..."
+        },
+        "suspicious": {
+          "label": "可疑客户名单",
+          "description": "可疑客户挑战的模式",
+          "placeholder": "卷曲\n获取\npython 请求\n..."
+        },
+        "patternCount": "{{count}}图案"
+      },
+      "summary": {
+        "title": "当前默认值摘要",
+        "active": "活跃",
+        "inactive": "未激活",
+        "blocked": "已阻止",
+        "allowed": "已允许"
+      }
+    },
+    "waf": {
+      "title": "WAF自动禁止",
+      "description": "管理自动IP禁止和全局可信IP设置。",
+      "status": {
+        "title": "WAF自动禁止状态",
+        "activeDescription": "WAF基于事件的自动IP禁止已激活。",
+        "inactiveDescription": "WAF自动禁止未激活。",
+        "active": "活跃",
+        "inactive": "未激活"
+      },
+      "enable": {
+        "label": "WAF自动IP禁止",
+        "description": "当WAF事件超过阈值时自动禁止 IP。"
+      },
+      "config": {
+        "title": "自动禁止配置",
+        "threshold": {
+          "label": "禁止阈值（WAF事件）",
+          "description": "如果检测窗口内发生的WAF事件数量超过此数量，则禁止IP。"
+        },
+        "window": {
+          "label": "检测窗口（秒）",
+          "description": "聚合WAF事件的时间窗口。 （默认：300s = 5m）"
+        },
+        "duration": {
+          "label": "禁令持续时间（秒）",
+          "description": "禁止期限为IP。 0表示永久禁止。 （默认：3600 秒 = 1 小时）",
+          "custom": "自定义（秒）",
+          "secondsPlaceholder": "秒，0 = 永久"
+        }
+      },
+      "info": {
+        "title": "它是如何运作的",
+        "description": "如果来自WAF的阻塞请求（SQL注入、XSS等）超过设定阈值，则IP将被自动阻塞。可以在WAF/禁止IP选项卡中管理阻止的 IP。"
+      },
+      "trustedIps": {
+        "title": "全球可信IP",
+        "description": "绕过每个主机外围控制（地理限制、访问列表、机器人过滤器、速率限制）并且永远不会自动禁止的 IP（Fail2ban、WAF自动禁止、IP禁止）。默认情况下，它们会通过NOT绕过WAF规则或利用/扫描器阻止，但下面的选项也可以让您绕过WAF(ModSecurity)。",
+        "help": "添加内部网络范围、监控系统或可信服务 IP。这些地址绕过每个主机的外围控制（地理限制、访问列表、机器人过滤器、速率限制），被排除在自动禁止之外（Fail2ban、WAF自动禁止），并从 nginx 配置中的禁止IP列表中删除。默认情况下，它们仍然通过WAF规则和漏洞利用/扫描程序检测，因此受感染的受信任主机无法将攻击代理到后端。如果需要，下面的选项还会禁用这些 IP 的WAF(ModSecurity) 检查。支持 IPv4、IPv6 和CIDR表示法。",
+        "placeholder": "# 内部网络192.168.1.0/2410.0.0.0/8\n# 监控服务器203.0.113.50",
+        "format": "每行一个IP或CIDR。以 # 开头的行是注释。支持 IPv4、IPv6 和CIDR。保存时会拒绝非IP地址的新行；将域名放入下面的域名字段中。",
+        "bypassWaf": {
+          "label": "受信任的 IP 也会绕过WAF(ModSecurity)",
+          "description": "启用后，来自上述受信任 IP 的请求将完全跳过 ModSecurity /OWASPCRSWAF检查。默认关闭。",
+          "help": "高级选项。启用后，ModSecurity 规则引擎将针对来自上述受信任 IP 的所有请求关闭（跳过完整的WAF）。仅当来自受信任主机的合法流量被WAF误报阻止时才使用此选项。它不会影响 nginx 级别的规则，例如漏洞利用/扫描器阻止 (block_exploits) 或机器人过滤器。",
+          "warning": "这些 IP 的WAF保护已完全禁用。仅添加您真正信任的地址 - 如果此类主机受到威胁，攻击可能会在没有WAF检查的情况下到达您的后端。"
+        }
+      }
+    },
+    "maintenance": {
+      "title": "维护设置",
+      "description": "管理日志保留期和自动备份设置。",
+      "retention": {
+        "title": "日志保留设置",
+        "description": "为每种日志类型设置保留期限。超过此时间段的日志将被自动删除。",
+        "access": "访问日志",
+        "accessDesc": "所有HTTP请求，包括机器人过滤器和漏洞利用阻止事件 · 也适用于质询 (CAPTCHA) 记录",
+        "waf": "WAF活动",
+        "wafDesc": "ModSecurity 阻止/检测事件",
+        "error": "错误日志",
+        "errorDesc": "Nginx 错误和警告",
+        "system": "系统日志",
+        "systemDesc": "系统和 Docker 容器日志",
+        "audit": "管理审核",
+        "auditDesc": "管理员活动审核日志（用于合规性）",
+        "days": "天",
+        "years": "年",
+        "months": "个月"
+      },
+      "presets": {
+        "label": "快速预设：",
+        "default": "默认",
+        "extended": "扩展",
+        "minimal": "最小"
+      },
+      "other": {
+        "title": "其他数据保留",
+        "stats": {
+          "label": "仪表板统计数据保留",
+          "description": "仪表板图表和汇总统计数据"
+        },
+        "backup": {
+          "label": "备份文件保留计数",
+          "description": "当超过计数时，最旧的备份将被删除"
+        },
+        "count": "文件",
+        "backupHint": "可以在“设置”>“备份”选项卡中管理自动备份设置。"
+      },
+      "backup": {
+        "title": "自动备份",
+        "enable": {
+          "label": "启用自动备份",
+          "description": "根据计划自动创建备份。"
+        },
+        "schedule": {
+          "label": "备份计划 (Cron)",
+          "help": "默认值：0 2 * * *（每日 2AM）。格式： 分钟 小时 日 月 DayOfWeek"
+        }
+      },
+      "rawlogs": {
+        "title": "原始日志文件存储",
+        "description": "除了数据库存储之外，还将原始 nginx 日志文件存储在磁盘上。对于安全审计、合规性或外部日志分析工具很有用。",
+        "enable": {
+          "label": "启用原始日志存储",
+          "description": "启用后，将在 /data/logs/ 中创建 access.log 和 error.log 文件。"
+        },
+        "maxSize": {
+          "label": "每个文件的最大大小",
+          "help": "达到此尺寸时自动旋转"
+        },
+        "rotateCount": {
+          "label": "轮换文件计数",
+          "help": "保留为 access.log.1、access.log.2 ..."
+        },
+        "retentionDays": {
+          "label": "轮换保留天数",
+          "help": "早于该时间的旋转文件将被删除"
+        },
+        "compress": {
+          "label": "压缩旋转文件",
+          "help": "使用 gzip 压缩旋转文件以保存磁盘空间"
+        },
+        "estimate": {
+          "title": "估计最大磁盘使用量",
+          "description": "大约。{{size}}MB基于访问+错误日志",
+          "compressed": "（压缩）"
+        }
+      },
+      "rawReclaim": {
+        "title": "旧压缩日志中的原始日志副本",
+        "description": "通过删除保存在压缩日志历史记录中超过两天的访问和错误行的原始副本 (raw_log) 来释放磁盘空间。用于分析的列和WAF事件记录保留。一次处理一天；正在处理的当天的查询可能会等待大约一分钟。",
+        "irreversible": "此操作无法撤消。确认信息列出了删除的内容。",
+        "estimate": "可回收（估计）",
+        "estimateDays": "{{count}}天",
+        "estimating": "测量…",
+        "estimateNone": "没有剩余可删除的原始副本",
+        "modsecKept": "WAF事件记录已保存",
+        "modsecKeptHint": "WAF(ModSecurity) 事件保留其原始记录；规则详细信息视图需要它们",
+        "freeSpace": "数据库磁盘上空闲",
+        "required": "第二天需要{{size}}",
+        "freeUnknownShort": "未知",
+        "progress": "进度",
+        "progressDays": "{{total}}天的{{done}}完成",
+        "reclaimed": "{{size}}已回收",
+        "remaining": "剩余原始副本{{size}}",
+        "skipped": "{{count}}已跳过",
+        "failedDays": "{{count}}失败（再次启动回收时再次尝试）",
+        "current": "正在处理{{day}}",
+        "since": "自{{time}}",
+        "preparing": "正在准备……",
+        "steps": {
+          "waiting_disk": "等待：数据库磁盘很关键，所以先紧急压缩",
+          "waiting_lock": "等待另一个压缩作业完成",
+          "nulling": "删除原始副本",
+          "waiting": "等待早于删除的事务结束",
+          "vacuum": "返回空间（VACUUMFULL）；当天的查询请等待",
+          "pausing": "第二天之前暂停"
+        },
+        "status": {
+          "idle": "空闲",
+          "running": "运行中",
+          "paused": "已暂停",
+          "done": "完成",
+          "failed": "已停止"
+        },
+        "resumeAt": "API重新启动；继续在{{time}}",
+        "lastError": "最后一个错误",
+        "freeUnknown": "无法启动：无法测量数据库磁盘上的可用空间（通过NPG_DISK_GUARD_DISABLED关闭磁盘防护，或未找到数据库容器）。",
+        "needSpace": "可用空间不足：第二天需要{{required}}，而{{free}}是免费的。",
+        "unsupported": "在此数据库中不可用。",
+        "unsupportedReasons": {
+          "timescaledb_missing": "TimescaleDB 未安装。",
+          "catalog_changed": "TimescaleDB的内部目录不符合预期，因此无法安全运行。",
+          "not_hypertable": "日志表不是超表。",
+          "compression_disabled": "未启用日志压缩。",
+          "segmentby_without_log_type": "日志不按日志类型压缩。"
+        },
+        "start": "开始",
+        "resume": "继续",
+        "stop": "暂停",
+        "starting": "开始…",
+        "stopping": "暂停…",
+        "readOnly": "启动或暂停需要设置写入权限。",
+        "confirm": {
+          "title": "永久删除原始副本？",
+          "intro": "这将从数据库中的压缩日志历史记录中删除每个访问和错误行的原始副本 (raw_log)。它无法撤消。",
+          "removedTitle": "只有原始行所包含的内容（没有自己的列）将从数据库副本中丢失：",
+          "removedUser": "基本身份验证用户名 ($remote_user)",
+          "removedTimings": "上游连接和标头计时",
+          "removedAsn": "nginx 记录的ASN值",
+          "removedPrefix": "错误行前缀（时间、级别、过程）",
+          "kept": "保留：用于分析的每一列（时间、主机、IP、URI、状态、国家/地区……）以及WAF事件记录。",
+          "files": "逐字行仅保留在原始日志文件中，以便保留这些文件。",
+          "wait": "一次处理一天；正在处理的当天的查询可能会等待大约一分钟。",
+          "maxChunks": "这次处理的天数",
+          "maxChunksHint": "留空以处理每个符合条件的日期。你可以先试一天。",
+          "confirm": "永久删除并启动"
+        },
+        "errors": {
+          "already_running": "它已经在运行了。",
+          "unsupported": "在此数据库中不可用。",
+          "free_space_unknown": "未启动：无法测量数据库磁盘上的可用空间。",
+          "insufficient_space": "未启动：可用空间不足。请参阅下面所需的空间。",
+          "generic": "请求失败：{{message}}"
+        }
+      }
+    },
+    "logfiles": {
+      "status": {
+        "title": "原始日志文件状态",
+        "active": "原始日志存储处于活动状态。文件总数{{count}}、{{size}}",
+        "inactive": "原始日志存储处于非活动状态。您可以在“维护”选项卡中启用它。"
+      },
+      "list": {
+        "title": "日志文件列表",
+        "compressed": "已压缩",
+        "empty": "没有日志文件",
+        "emptyHelp": "当启用原始日志存储时，文件将出现在此处"
+      },
+      "modal": {
+        "empty": "（空文件）",
+        "delete": {
+          "title": "删除文件",
+          "confirm": "您确定要删除{{filename}}吗？"
+        }
+      }
+    },
+    "nginx": {
+      "title": "nginx",
+      "reload": "重新加载 Nginx",
+      "testConfig": "测试配置",
+      "viewConfig": "查看配置",
+      "status": "状态"
+    },
+    "update": {
+      "title": "更新",
+      "currentVersion": "当前版本",
+      "latestVersion": "最新版本",
+      "checkUpdate": "检查更新",
+      "updateAvailable": "可用更新",
+      "upToDate": "最新",
+      "description": "将您安装的版本与最新版本进行比较。手动应用更新（无自动更新）。",
+      "newVersionAvailable": "新版本{{version}}可用",
+      "releaseNotes": "查看发行说明",
+      "guidance": "要更新，请在您的服务器上运行以下命令：",
+      "checkFailed": "更新检查失败 - 请稍后重试",
+      "checking": "检查中...",
+      "lastChecked": "最后检查"
+    }
+  },
+  "backup": {
+    "title": "备份与恢复",
+    "create": {
+      "title": "创建备份",
+      "description": "将当前配置保存到备份文件",
+      "button": "创建备份",
+      "includeData": "包含数据",
+      "includeLogs": "包括日志",
+      "includeConfig": "包括配置"
+    },
+    "restore": {
+      "title": "恢复",
+      "description": "从备份文件恢复配置",
+      "button": "恢复",
+      "selectFile": "选择文件",
+      "warning": "当前配置将被覆盖"
+    },
+    "history": {
+      "title": "备份历史记录",
+      "date": "日期",
+      "size": "大小",
+      "download": "下载",
+      "restore": "恢复",
+      "delete": "删除"
+    },
+    "schedule": {
+      "title": "自动备份",
+      "enabled": "启用自动备份",
+      "frequency": "频率",
+      "daily": "每天",
+      "weekly": "每周",
+      "monthly": "每月",
+      "retention": "保留期限"
+    }
+  },
+  "captcha": {
+    "title": "CAPTCHA挑战设置",
+    "description": "配置每主机挑战模式使用的CAPTCHA提供程序。启用此功能后，打开每个代理主机的安全→ GeoIP 选项卡并打开“挑战模式”以实际显示CAPTCHA页面。",
+    "enable": {
+      "label": "启用CAPTCHA提供程序",
+      "description": "这仅配置提供程序（Turnstile / reCAPTCHA）。如果代理主机启用了 GeoIP → 挑战模式，则访问者只会看到CAPTCHA。否则，受地理限制的访问者将显示 403 页面。"
+    },
+    "stats": {
+      "title": "挑战统计（24小时）",
+      "total": "总挑战",
+      "passed": "通过",
+      "failed": "失败",
+      "activeTokens": "活跃令牌"
+    },
+    "provider": {
+      "title": "CAPTCHA提供商",
+      "subTitle": "CAPTCHA提供商",
+      "recaptcha_v2": "Google reCAPTCHA v2（复选框）",
+      "recaptcha_v3": "Google reCAPTCHA v3（基于分数）",
+      "turnstile": "Cloudflare 十字转门",
+      "help": {
+        "recaptcha_v3": "reCAPTCHA v3 根据分数检测机器人，无需用户交互。",
+        "turnstile": "Cloudflare Turnstile 是一款免费且保护隐私的CAPTCHA。",
+        "recaptcha_v2": "reCAPTCHA v2 显示“我不是机器人”复选框。"
+      },
+      "links": "获取CAPTCHA密钥："
+    },
+    "keys": {
+      "siteKey": "站点密钥",
+      "siteKeyDesc": "站点密钥由CAPTCHA提供商颁发。",
+      "secretKey": "秘密钥匙",
+      "secretKeyDesc": "由CAPTCHA提供商颁发的密钥。",
+      "secretKeySet": "密钥已设置。输入一个新值来更改它。",
+      "siteKeyPlaceholder": "您的网站密钥",
+      "secretKeyPlaceholder": "你的秘密钥匙"
+    },
+    "recaptcha": {
+      "score": "最低分数（0.0-1.0）",
+      "scoreDesc": "低于此分数的请求被视为机器人。0.5是建议的默认值。"
+    },
+    "tokenValidity": {
+      "label": "令牌有效期（秒）",
+      "desc": "通过CAPTCHA后允许持续时间访问。 （默认值：86400s = 24h）"
+    },
+    "appearance": {
+      "title": "挑战页面外观",
+      "pageTitle": "页面标题",
+      "theme": "主题",
+      "message": "页面留言",
+      "messageDesc": "消息显示在CAPTCHA上方。",
+      "pageTitlePlaceholder": "安全检查",
+      "themeLight": "浅色",
+      "themeDark": "深色",
+      "messagePlaceholder": "请完成安全检查以继续。"
+    },
+    "messages": {
+      "saveSuccess": "CAPTCHA设置已成功保存。"
+    }
+  },
+  "messages": {
+    "saveSuccess": "设置已保存",
+    "saveFailed": "保存设置失败",
+    "testSuccess": "测试成功",
+    "testFailed": "测试失败",
+    "backupSuccess": "已创建备份",
+    "backupFailed": "创建备份失败",
+    "restoreSuccess": "恢复完成",
+    "restoreFailed": "恢复失败"
+  },
+  "global": {
+    "title": "全局设置",
+    "description": "管理 Nginx 全局设置。保存更改后，Nginx 将自动重新加载。",
+    "buttons": {
+      "reset": "重置为默认值",
+      "save": "保存更改",
+      "saving": "保存中...",
+      "resetConfirm": "将所有全局设置重置为默认值？"
+    },
+    "presets": {
+      "title": "快速预设",
+      "current": "当前：",
+      "custom": "自定义",
+      "modified": "（修改的）",
+      "descriptions": {
+        "balanced": {
+          "label": "均衡",
+          "description": "标准平衡配置。适用于大多数情况。"
+        },
+        "performance": {
+          "label": "性能",
+          "description": "高性能配置。针对高流量和快速响应进行了优化。"
+        },
+        "security": {
+          "label": "安全",
+          "description": "安全强化配置。仅使用现代TLS并添加安全标头。"
+        }
+      }
+    },
+    "tabs": {
+      "worker": "工作进程",
+      "http": "HTTP",
+      "performance": "性能",
+      "compression": "压缩",
+      "ssl": "SSL/TLS",
+      "timeout": "超时",
+      "advanced": "高级"
+    },
+    "performance": {
+      "buffer": {
+        "title": "代理缓冲区设置",
+        "description": "配置如何缓冲来自上游服务器的响应。适当的缓冲区大小可以平衡内存使用和性能。",
+        "useNginxDefault": "使用nginx默认（开启）",
+        "bufferingOn": "开（缓冲响应）",
+        "bufferingOff": "关闭（直接串流）",
+        "bufferingOffCacheNote": "关闭此功能后，启用缓存的主机将不存储任何内容。在这些主机上将代理缓冲设置为“打开”。",
+        "requestBufferingOn": "打开（缓冲整个请求）",
+        "requestBufferingOff": "关闭（流至上游）"
+      },
+      "openFileCache": {
+        "title": "打开文件缓存"
+      },
+      "tips": "提示：如果代理缓冲区大小太小，响应将写入临时文件，导致磁盘 I/O。增加缓冲区大小可提高大型响应的性能。 Open File Cache 缓存静态文件的文件描述符以提高性能。"
+    },
+    "fields": {
+      "worker_processes": {
+        "label": "工作进程",
+        "description": "处理请求的工作进程数。 0 = 基于CPU内核自动检测。较高的值可提高并发性。",
+        "placeholder": "0 = 自动"
+      },
+      "worker_connections": {
+        "label": "工人连接",
+        "description": "每个工作进程的最大同时连接数。较高的值允许更多并发连接。"
+      },
+      "worker_shutdown_timeout": {
+        "label": "工作进程关闭超时（秒）",
+        "description": "重新加载后，旧的工作线程最多会持续为其打开的连接（WebSockets、长时间下载）提供服务，然后关闭它们。 0 = 等待每个连接结束。"
+      },
+      "multi_accept": {
+        "label": "多接受",
+        "description": "如果启用，工作人员将立即接受所有新连接。提高高流量下的性能。"
+      },
+      "use_epoll": {
+        "label": "使用epoll",
+        "description": "在Linux上使用高效的事件处理方法（epoll）。提高许多并发连接的性能。"
+      },
+      "keepalive_timeout": {
+        "label": "保活超时（秒）",
+        "description": "是时候保持联系了。允许客户端重复使用多个请求的连接。"
+      },
+      "keepalive_requests": {
+        "label": "保活请求",
+        "description": "通过单个 keepalive 连接可以处理的最大请求数。"
+      },
+      "client_max_body_size": {
+        "label": "最大车身尺寸",
+        "description": "客户端请求正文允许的最大大小（例如，100m、1g）。影响文件上传限制。"
+      },
+      "types_hash_max_size": {
+        "label": "类型 哈希大小",
+        "description": "MIME类型哈希表的最大大小。默认值通常就足够了。"
+      },
+      "sendfile": {
+        "label": "发送文件",
+        "description": "使用sendfile()系统调用直接在内核中传输文件。提高静态文件服务速度。"
+      },
+      "tcp_nopush": {
+        "label": "TCP不推送",
+        "description": "与 sendfile 结合使用。在一个数据包中发送响应标头和文件内容。"
+      },
+      "tcp_nodelay": {
+        "label": "TCP节点布局",
+        "description": "禁用 Nagle 算法。立即发送小数据包。对于实时应用程序很有用。"
+      },
+      "server_tokens": {
+        "label": "服务器令牌",
+        "description": "如果启用，Nginx 版本将显示在响应标头中。为了安全建议禁用。"
+      },
+      "gzip_enabled": {
+        "label": "Gzip 压缩",
+        "description": "使用 Gzip 压缩响应。保存带宽并提高页面加载速度。"
+      },
+      "gzip_comp_level": {
+        "label": "压缩级别 (1-9)",
+        "description": "压缩强度。更高意味着更好的压缩，但更多的CPU使用。推荐：5-6。"
+      },
+      "gzip_min_length": {
+        "label": "最小压缩长度（字节）",
+        "description": "小于此的响应将不会被压缩。压缩小文件的效率可能很低。"
+      },
+      "gzip_types": {
+        "label": "压缩MIME类型",
+        "description": "要压缩的MIME类型列表。对于基于文本的内容有效（HTML、CSS、JS、JSON等）。"
+      },
+      "gzip_vary": {
+        "label": "添加变化标题",
+        "description": "添加“Vary：Accept-Encoding”标头。确保 CDN/缓存提供正确的版本。"
+      },
+      "brotli_enabled": {
+        "label": "布洛特利压缩",
+        "description": "启用 Brotli 压缩。提供比 Gzip 更高的压缩比。现代浏览器支持。"
+      },
+      "brotli_static": {
+        "label": "布罗特利静态",
+        "description": "提供预压缩的 .br 文件（如果有）。减少静态资源的CPU开销。"
+      },
+      "brotli_comp_level": {
+        "label": "布罗特利等级 (1-11)",
+        "description": "Brotli 压缩强度。 1-4：快速，5-9：平衡，10-11：最大（高CPU）。推荐：4-6。"
+      },
+      "brotli_min_length": {
+        "label": "Brotli最小长度",
+        "description": "应用 Brotli 压缩的最小响应大小（字节）。小文件无法从压缩中受益。"
+      },
+      "brotli_types": {
+        "label": "BrotliMIME类型",
+        "description": "要使用 Brotli 压缩的MIME类型列表。对于基于文本的内容最有效。"
+      },
+      "ssl_protocols": {
+        "label": "SSL协议",
+        "description": "允许的TLS协议版本。为了安全起见，建议使用 TLSv1.2 和 TLSv1.3。"
+      },
+      "ssl_ciphers": {
+        "label": "SSL密码",
+        "description": "启用的密码套件列表。安全性和兼容性之间的平衡。"
+      },
+      "ssl_ecdh_curve": {
+        "label": "ECDH曲线",
+        "description": "用于密钥交换的椭圆曲线组。包括 X25519MLKEM768，用于现代浏览器的后量子 (ML-KEM)TLS支持。"
+      },
+      "ssl_session_cache": {
+        "label": "SSL会话缓存",
+        "description": "缓存SSL会话以通过跳过握手来加速重新连接。"
+      },
+      "ssl_session_timeout": {
+        "label": "SSL会话超时",
+        "description": "SSL会话缓存的有效期。例如，1d（1 天）、1h（1 小时）。"
+      },
+      "ssl_prefer_server_ciphers": {
+        "label": "首选服务器密码",
+        "description": "使用服务器的首选密码套件而不是客户端的。推荐用于更强的安全性。"
+      },
+      "ssl_stapling": {
+        "label": "OCSP装订",
+        "description": "在服务器上缓存证书状态以加速客户端连接验证。"
+      },
+      "ssl_stapling_verify": {
+        "label": "装订验证",
+        "description": "验证OCSP响应。与 ssl_stapling 一起使用。"
+      },
+      "ssl_session_tickets": {
+        "label": "会议门票",
+        "description": "启用TLS会话票证以恢复会话。减少服务器负载。"
+      },
+      "client_body_timeout": {
+        "label": "客户端主体超时（秒）",
+        "description": "读取客户端请求正文超时。调整缓慢上传。"
+      },
+      "client_header_timeout": {
+        "label": "客户端标头超时（秒）",
+        "description": "读取客户端请求头超时。防止缓慢的客户端。"
+      },
+      "send_timeout": {
+        "label": "发送超时（秒）",
+        "description": "向客户端传输响应超时。"
+      },
+      "proxy_connect_timeout": {
+        "label": "代理连接超时（秒）",
+        "description": "连接上游服务器超时。"
+      },
+      "proxy_send_timeout": {
+        "label": "代理发送超时（秒）",
+        "description": "向上游服务器发送请求超时。"
+      },
+      "proxy_read_timeout": {
+        "label": "代理读取超时（秒）",
+        "description": "从上游服务器读取响应超时。调整缓慢的API响应。"
+      },
+      "resolver": {
+        "label": "DNS旋转变压器",
+        "description": "DNS解析域名的服务器。例如，8.8.8.88.8.4.4有效=300s"
+      },
+      "error_log_level": {
+        "label": "错误日志级别",
+        "description": "记录详细程度。 “debug”最详细，“crit”最简洁。"
+      },
+      "access_log_enabled": {
+        "label": "还将访问日志打印到 docker log",
+        "description": "将每个请求行也写入 npg-proxy 容器输出（docker 日志）。无论此切换如何，日志查看器、仪表板和安全功能使用的记录（access_raw.log → 数据库）都会保留。在繁忙的服务器上，此副本使 Docker 自己的日志快速轮换，从而将其他消息推送出去。"
+      },
+      "access_log_strip_query": {
+        "label": "从访问日志中删除查询字符串",
+        "description": "仅记录路径，删除查询字符串 (?apiKey=..., ?access_token=...)，因此作为查询参数传递的机密不会出现在 access_raw.log 或旋转存档中。默认关闭（当前行为）。"
+      },
+      "custom_http_config": {
+        "label": "自定义HTTP配置",
+        "description": "直接输入额外的Nginx配置。对于高级用户。"
+      },
+      "proxy_buffer_size": {
+        "label": "代理缓冲区大小",
+        "description": "用于读取上游服务器响应的第一部分（标头）的缓冲区大小。默认值：8k"
+      },
+      "proxy_buffers": {
+        "label": "代理缓冲区",
+        "description": "响应缓冲区的数量和大小。格式：“计数大小”（例如 8 32k）"
+      },
+      "proxy_busy_buffers_size": {
+        "label": "繁忙缓冲区大小",
+        "description": "响应未完全读取时可以发送到客户端的缓冲区大小。"
+      },
+      "proxy_max_temp_file_size": {
+        "label": "最大临时文件大小",
+        "description": "缓冲区已满时用于存储响应的临时文件的最大大小。设置为 0 以禁用临时文件。"
+      },
+      "proxy_temp_file_write_size": {
+        "label": "临时文件写入大小",
+        "description": "一次可以写入临时文件的数据大小。"
+      },
+      "proxy_buffering": {
+        "label": "代理缓冲",
+        "description": "启用后，nginx 在发送到客户端之前缓冲整个响应。关闭大量下载或实时流媒体。"
+      },
+      "proxy_request_buffering": {
+        "label": "代理请求缓冲",
+        "description": "启用后，nginx 在转发之前将整个请求正文缓冲到磁盘。关闭以在上传到达时将其流式传输到上游。在WAF-enabled 主机上，仍会读取正文以进行检查。"
+      },
+      "open_file_cache_enabled": {
+        "label": "启用打开文件缓存",
+        "description": "缓存打开的文件描述符和目录查找。提高了具有许多静态文件的站点的性能。"
+      },
+      "open_file_cache_max": {
+        "label": "最大缓存条目数",
+        "description": "缓存中保留的最大条目数。"
+      },
+      "open_file_cache_inactive": {
+        "label": "不活跃时间",
+        "description": "在此时间内未访问的条目将从缓存中删除。 （例如，20 秒、60 秒）"
+      },
+      "open_file_cache_valid": {
+        "label": "验证间隔",
+        "description": "检查缓存条目是否仍然有效的频率。 （例如，30 秒、60 秒）"
+      },
+      "open_file_cache_min_uses": {
+        "label": "最低使用量",
+        "description": "只有访问了这么多次的文件才会保留在缓存中。"
+      },
+      "open_file_cache_errors": {
+        "label": "缓存错误",
+        "description": "还缓存未找到文件的错误。提高了重复请求不存在文件的性能。"
+      },
+      "reset_timedout_connection": {
+        "label": "重置超时连接",
+        "description": "使用RST而不是FIN关闭超时连接以立即释放套接字。有助于保存服务器资源。"
+      },
+      "resolver_timeout": {
+        "label": "DNS解析器超时",
+        "description": "等待DNS查找响应的最长时间。 （例如，30 秒）"
+      },
+      "custom_stream_config": {
+        "label": "自定义流配置",
+        "description": "TCP/UDP代理的 Nginx 流块配置。对于高级用户。"
+      }
+    },
+    "tips": {
+      "compression": "提示：同时启用 Gzip 和 Brotli 可以让浏览器自动选择最佳方法。 Brotli 的压缩率提高了 20-30%，但旧版浏览器仅支持 Gzip。"
+    },
+    "advanced": {
+      "directIpAccess": {
+        "title": "直接IP访问处理",
+        "description": "配置如何处理通过IP直接访问服务器而无需域的请求。直接IP访问主要来自机器人或扫描仪。",
+        "options": {
+          "allow": {
+            "label": "显示 Nginx Proxy Guard 欢迎页面",
+            "description": "通过服务器IP访问时显示 Nginx Proxy Guard 欢迎页面。对于验证服务器是否正在运行很有用。"
+          },
+          "block403": {
+            "label": "返回 403 禁止",
+            "description": "返回 403 Forbidden 并显示 Nginx Proxy Guard 访问拒绝页面。"
+          },
+          "block444": {
+            "label": "关闭连接 (444)",
+            "description": "关闭连接且无响应——这是对扫描仪最有效的响应。发送到HTTPS端口的格式错误的请求和普通HTTP都会以相同的方式关闭；携带您实际配置的主机名的请求仍然会收到正常错误。"
+          }
+        },
+        "note": {
+          "title": "备注",
+          "description": "无论此设置如何，catch-all 服务器仍会应答运行状况检查 (/health)、ACME质询路径 (/.well-known/acme-challenge/) 和公共API(/api/v1/public/)。 nginx 状态端点 (/nginx_status) 和内部管道金丝雀 (/__npg_canary) 仅响应环回和专用网络客户端。通过HTTPS，SNI与主机不匹配的连接在TLS握手期间会被拒绝，因此它根本不产生HTTP状态。"
+        }
+      },
+      "ipv6": {
+        "title": "IPv6支持",
+        "description": "在 nginx 配置中启用或禁用 IPv6 监听指令。如果您的服务器不支持 IPv6，请禁用此选项。",
+        "enabled": "启用 IPv6",
+        "enabledDescription": "在 nginx 配置中包含监听 [::]: 指令",
+        "warning": "更改此设置将重新生成所有 nginx 配置并重新加载 nginx。"
+      },
+      "instanceName": {
+        "title": "实例名称",
+        "description": "显示在每个页面顶部和浏览器选项卡中的名称，用于区分多个NPG安装。",
+        "label": "名称",
+        "placeholder": "例如家庭实验室",
+        "help": "最多{{max}}个字符。将其留空以不显示任何内容。"
+      },
+      "errorPageLanguage": {
+        "title": "公共错误页面语言",
+        "description": "当触发每主机 GeoIP 挑战模式时，公共错误页面（403 访问被阻止等）和CAPTCHA挑战页面上显示的默认语言。",
+        "label": "默认语言",
+        "help": "自动：遵循访问者的浏览器语言（如果浏览器设置为韩语，则为韩语，否则为英语）。 ko/en：无论访问者的浏览器如何，强制指定的语言。优先级：访问者的显式语言按钮点击 > 此全局默认值 > 浏览器检测。"
+      },
+      "ddos": {
+        "title": "DDoS 防护（全局）",
+        "description": "应用于所有主机的全局 DDoS 防护设置。除了这些设置之外，还应用代理主机特定的速率限制。",
+        "connectionLimit": {
+          "title": "连接限制",
+          "description": "限制每个IP的最大同时连接数。",
+          "perIp": "每个IP的最大连接数",
+          "zoneSize": "区域大小"
+        },
+        "requestLimit": {
+          "title": "请求速率限制",
+          "description": "限制每秒IP的请求。",
+          "rate": "每秒请求数 (r/s)",
+          "burst": "突发（允许超出）",
+          "zoneSize": "区域大小"
+        },
+        "responseLimit": {
+          "title": "响应率限制（带宽）",
+          "description": "限制对客户的响应速度。 0 = 无限制",
+          "rate": "速率限制（字节/秒，0=无限制）",
+          "ratePlaceholder": "例如，102400（100KB/秒）",
+          "after": "尺寸确定后涂抹",
+          "afterPlaceholder": "e.g., 500k, 1m"
+        },
+        "bandwidthLimit": {
+          "title": "带宽限制",
+          "description": "限制客户端下载速度。 0 = 无限制",
+          "rate": "速率限制（字节/秒）",
+          "after": "尺寸确定后涂抹"
+        },
+        "connectionReset": {
+          "title": "超时连接重置",
+          "description": "立即重置超时连接以释放资源。"
+        },
+        "info": {
+          "title": "与代理主机速率限制的区别",
+          "description": "这些设置**默认应用于所有主机**。代理主机中配置的速率限制**另外应用**，作为对该特定主机的更精细的控制。"
+        }
+      },
+      "nginxConfNote": {
+        "title": "注：nginx.conf级别设置",
+        "description": "以下设置（重置超时连接、解析器超时、自定义流配置）适用于 nginx.conf 中的 http/stream 块。需要重新启动 nginx 才能使更改生效。"
+      },
+      "errorLogLevels": {
+        "debug": "调试 - 所有信息（开发）",
+        "info": "信息 - 一般信息",
+        "notice": "通知 - 值得注意的事件",
+        "warn": "warn - 警告（推荐）",
+        "error": "错误 - 仅错误",
+        "crit": "Crit - 仅严重错误"
+      },
+      "customConfigPlaceholder": "# 在此输入额外的 nginx http 配置",
+      "customStreamConfigPlaceholder": "# 在此输入额外的 nginx 流配置"
+    },
+    "preset": {
+      "applyPerformance": "应用推荐设置",
+      "applying": "应用中...",
+      "tooltipPerformance": "应用推荐的 nginx 调整值（worker_connections 8192、keepalive 30s/1000req 等）",
+      "confirmPerformance": "应用性能预设？所有当前值都将被推荐的默认值覆盖，并且 nginx 将立即重新加载。",
+      "applied": "应用性能预设。",
+      "failed": "无法应用预设"
+    }
+  },
+  "apiTokens": {
+    "title": "API令牌",
+    "subtitle": "管理用于编程API访问的令牌。",
+    "apiDocs": "API文档",
+    "createToken": "创建令牌",
+    "createNew": "创建新令牌",
+    "form": {
+      "tokenName": "令牌名称",
+      "tokenNamePlaceholder": "我的API令牌",
+      "createTitle": "创建新的API令牌",
+      "permissionGroups": "权限组",
+      "individualPermissions": "个人权限",
+      "allowedIps": "允许的 IP（可选）",
+      "allowedIpsEdit": "允许的 IP",
+      "allowedIpsPlaceholder": "192.168.1.1, 10.0.0.0/8",
+      "allowedIpsHelp": "逗号分隔，留空以允许所有 IP",
+      "commaSeparated": "逗号分隔",
+      "rateLimit": "速率限制（请求/小时）",
+      "expiresIn": "到期时间"
+    },
+    "expiration": {
+      "7days": "7天",
+      "30days": "30天",
+      "90days": "90 天",
+      "1year": "1年",
+      "never": "从不"
+    },
+    "table": {
+      "name": "名称",
+      "token": "令牌",
+      "permissions": "权限",
+      "lastUsed": "最后使用",
+      "status": "状态",
+      "actions": "操作",
+      "empty": "尚未创建API令牌。"
+    },
+    "status": {
+      "active": "活跃",
+      "revoked": "已撤销",
+      "expired": "已过期",
+      "never": "从未使用过"
+    },
+    "buttons": {
+      "edit": "编辑",
+      "revoke": "撤销",
+      "delete": "删除",
+      "save": "保存",
+      "cancel": "取消",
+      "copy": "复制",
+      "close": "关闭",
+      "creating": "创建..."
+    },
+    "modal": {
+      "created": "API令牌已创建",
+      "tokenWarning": "该令牌将不会再次显示。将其复制到安全的地方。"
+    },
+    "confirm": {
+      "revoke": "您确定要撤销此令牌吗？",
+      "delete": "您确定要永久删除此令牌吗？"
+    },
+    "usage": {
+      "title": "如何使用API",
+      "description": "发出API请求时，将令牌包含在 Authorization 标头中："
+    },
+    "more": "更多",
+    "permissionGroups": {
+      "read_only": {
+        "label": "只读",
+        "description": "可以查看所有资源，但无法进行更改。"
+      },
+      "operator": {
+        "label": "操作员",
+        "description": "可以管理代理主机、证书、WAF等。"
+      },
+      "admin": {
+        "label": "完全访问权限",
+        "description": "拥有所有权限。"
+      }
+    },
+    "permissions": {
+      "*": "所有权限",
+      "proxy:read": "代理主机（读取）",
+      "proxy:write": "代理主机（写入）",
+      "proxy:delete": "代理主机（删除）",
+      "certificate:read": "证书（阅读）",
+      "certificate:write": "证书（写）",
+      "certificate:delete": "证书（删除）",
+      "waf:read": "WAF（读）",
+      "waf:write": "WAF（写入）",
+      "logs:read": "日志（读取）",
+      "settings:read": "设置（读取）",
+      "settings:write": "设置（写入）",
+      "backup:read": "备份（读取）",
+      "backup:create": "备份（创建）",
+      "backup:restore": "备份（恢复）",
+      "user:read": "用户（阅读）"
+    }
+  },
+  "backupManager": {
+    "title": "备份与恢复",
+    "uploadRestore": "上传和恢复",
+    "createBackup": "创建备份",
+    "stats": {
+      "totalBackups": "总备份数",
+      "totalSize": "总尺寸",
+      "lastBackup": "上次备份",
+      "retention": "保留期限",
+      "never": "从不",
+      "days": "天"
+    },
+    "autoBackup": {
+      "title": "自动备份设置",
+      "enable": "启用自动备份",
+      "enableDescription": "根据计划自动创建备份",
+      "schedule": "备份计划 (Cron)",
+      "scheduleHelp": "默认值：{{default}}（每日 2AM）。格式： 分钟 小时 日 月 DayOfWeek",
+      "retentionCount": "备份保留计数",
+      "retentionHelp": "当超过计数时，最旧的备份将被删除",
+      "count": "文件"
+    },
+    "history": {
+      "title": "备份历史记录",
+      "empty": "还没有备份。创建您的第一个备份以开始。"
+    },
+    "status": {
+      "completed": "已完成",
+      "inProgress": "进行中",
+      "failed": "失败"
+    },
+    "labels": {
+      "config": "配置",
+      "certs": "证书",
+      "database": "数据库"
+    },
+    "buttons": {
+      "download": "下载",
+      "restore": "恢复",
+      "delete": "删除",
+      "saveChanges": "保存更改",
+      "saving": "保存中...",
+      "cancel": "取消",
+      "creating": "创建...",
+      "restoring": "恢复中...",
+      "close": "关闭"
+    },
+    "createModal": {
+      "title": "创建备份",
+      "includeConfig": "包含配置文件",
+      "includeCerts": "包括SSL证书",
+      "includeDatabase": "包括数据库",
+      "description": "说明（可选）",
+      "descriptionPlaceholder": "备份说明..."
+    },
+    "uploadModal": {
+      "title": "上传和恢复备份",
+      "warning": "警告：这将从上传的备份文件中恢复所有配置。当前配置将被覆盖。",
+      "selectFile": "备份文件 (.tar.gz)",
+      "clickToSelect": "单击选择备份文件",
+      "dragAndDrop": "或拖放到此处",
+      "restoreInfo": "恢复将导入：",
+      "items": {
+        "proxyHosts": "代理主机及其安全设置",
+        "redirectHosts": "重定向主机",
+        "accessLists": "访问控制列表",
+        "certificates": "SSL证书",
+        "wafConfig": "WAF配置",
+        "globalSettings": "全局设置"
+      }
+    },
+    "confirm": {
+      "delete": "您确定要删除此备份吗？",
+      "restore": "您确定要从“{{filename}}”恢复吗？这将覆盖当前配置。",
+      "uploadRestore": "您确定要上传并恢复此备份吗？这将覆盖当前配置。"
+    },
+    "messages": {
+      "saveSuccess": "已保存自动备份设置。",
+      "saveFailed": "保存失败：{{error}}",
+      "restoreSuccess": "恢复成功完成！请刷新页面以查看更新的配置。",
+      "restoreFailed": "恢复失败：{{error}}",
+      "uploadSuccess": "备份已上传并成功恢复！请刷新页面以查看更新的配置。",
+      "uploadFailed": "上传和恢复失败：{{error}}",
+      "invalidFormat": "文件格式无效。请选择 .tar.gz 备份文件。",
+      "uploadTooLarge": "备份存档大于上传限制（约100MB）。通过将存档放置在备份卷中来恢复它，或者拆分数据并分部分恢复。"
+    },
+    "progress": {
+      "title": "创建备份",
+      "titleComplete": "备份完成",
+      "titleFailed": "备份失败",
+      "initializing": "正在初始化备份...",
+      "exportingDatabase": "正在导出数据库...",
+      "exportingConfig": "正在导出配置文件...",
+      "exportingCerts": "正在导出SSL证书...",
+      "creatingArchive": "正在创建存档...",
+      "complete": "已完成！",
+      "completedAt": "完成于",
+      "pleaseWait": "请稍等..."
+    }
+  },
+  "cloudflareTunnel": {
+    "title": "Cloudflare 隧道",
+    "description": "通过 Cloudflare 隧道公开您的代理主机 - 无需端口转发。",
+    "enable": "启用隧道",
+    "enableDescription": "启用后，内置的 cloudflared 连接器会建立与 Cloudflare 的出站连接。无需在路由器上打开端口 80/443。",
+    "token": "连接器令牌",
+    "tokenDescription": "Cloudflare 零信任仪表板中颁发的隧道连接器令牌。保存后显示为隐藏状态。",
+    "tokenPlaceholder": "粘贴您的连接器令牌（例如 eyJh...）",
+    "tokenPasteHint": "粘贴完整的安装命令 - 令牌会自动提取。",
+    "replaceToken": "替换",
+    "cancelReplace": "取消",
+    "mode": {
+      "title": "运行模式",
+      "tokenOnly": "仅令牌",
+      "tokenOnlyDesc": "入口和公共主机名在 Cloudflare 仪表板中进行管理。NPG仅运行连接器。",
+      "managed": "已管理",
+      "managedDesc": "NPG另外还通过 CloudflareAPI维护隧道的包罗万象的规则，因此未注册为公共主机名的主机名仍然可以到达NPG并通过主机标头进行路由 - 添加代理主机和CNAME，仅此而已。",
+      "apiToken": "CloudflareAPI令牌",
+      "apiTokenDesc": "具有单一权限帐户/Cloudflare 隧道/编辑的单独API令牌。这不是上面的连接器令牌。",
+      "apiTokenPlaceholder": "粘贴您的 CloudflareAPI令牌",
+      "replaceApiToken": "替换",
+      "catchall": "Catch-all：将不匹配的主机名路由到 NginxProxyGuard",
+      "catchallDesc": "将隧道的最后一个入口规则设置为NPG。只有默认的 http_status:404 规则或NPG本身编写的规则才会被替换——其他地方管理的包罗万象的规则保持不变并报告为冲突。",
+      "catchallState": {
+        "applied": "全面活跃",
+        "not_applied": "未设置全部捕获",
+        "conflict": "冲突",
+        "invalid_remote": "远程配置无效",
+        "unreachable": "Cloudflare 无法访问"
+      }
+    },
+    "save": "保存",
+    "saving": "保存中...",
+    "status": {
+      "disabled": "已禁用",
+      "starting": "启动中",
+      "connected": "已连接",
+      "error": "错误"
+    },
+    "guide": {
+      "title": "设置指南",
+      "step1": "在 Cloudflare 零信任仪表板中，转至网络 → 隧道 → 创建隧道并使用 Cloudflare 连接器创建隧道。",
+      "step2": "复制创建隧道后显示的连接器令牌 - 它是“cloudflared service install<TOKEN>”安装命令的<TOKEN>部分。",
+      "step3": "将令牌粘贴到上面的字段中，启用隧道并保存。",
+      "step4": "将公共主机名添加到隧道，每个域使用通配符（例如 *.example.com），将服务指向{{originUrl}}，然后在TLS设置中将ON设置为“无TLS验证”。",
+      "redirectLoopWarning": "将服务指向http://localhost:80会导致启用强制HTTPS的主机上出现重定向循环。始终使用{{originUrl}}。",
+      "wildcardPriorityWarning": "Cloudflare 从上到下匹配公共主机名（第一个匹配获胜）。单个通配符 (*.example.com) 就足够了 -NPG通过其主机标头将每个请求路由到正确的代理主机。如果您还添加了特定的主机名，请将它们放在ABOVE通配符中，否则通配符将隐藏它们并将流量发送到错误的来源。",
+      "httpOnlyNote": "对于通过普通HTTP（禁用SSL）提供服务的代理主机，请将该主机名的服务指向{{originUrlHttp}}— 上面的 https 来源适用于启用SSL-的主机。",
+      "step5": "（可选）清理您移至隧道的域的旧 A 记录和路由器端口转发规则。"
+    }
+  },
+  "help": {
+    "cloudflareTunnel": {
+      "enable": "Cloudflare Tunnel 仅使用从您的服务器到 Cloudflare 的出站连接，因此无需端口转发或打开防火墙即可暴露代理主机。启用后最多可能需要一分钟才能建立连接。",
+      "token": "您在 Cloudflare 零信任中创建隧道时颁发的连接器令牌。它仅存储在服务器上，并在保存后显示为掩码（前 4 个字符）。单击替换以存储新令牌。"
+    },
+    "global": {
+      "worker_processes": "Nginx 工作进程的数量。设置为“自动”以匹配CPU核心。对于高流量，建议匹配核心数量。",
+      "worker_connections": "每个工作人员的最大同时连接数。值太低可能会导致连接错误。 （默认值：1024）",
+      "worker_shutdown_timeout": "限制旧工作人员在每次配置更改后停留的时间。如果没有限制，长期连接会使它们保持运行并堆积起来。如果 nginx 经常重新加载，则降低它；如果长时间下载被中断，请提高它。 （默认值：240）",
+      "multi_accept": "如果启用，工作人员会立即接受多个连接。可以在非常高的流量下提高性能。",
+      "use_epoll": "使用Linux上的高性能事件处理方法epoll。对于处理许多并发连接至关重要。",
+      "keepalive_timeout": "是时候保持连接了。太长会浪费内存，太短会导致重新连接开销。",
+      "keepalive_requests": "每个保活连接的最大请求数。超过此限制后连接将关闭。",
+      "client_max_body_size": "限制最大上传文件大小。如果您需要上传大文件，请增加此值。",
+      "types_hash_max_size": "MIME类型的哈希表的大小。默认值通常就足够了。",
+      "sendfile": "通过在内核级别传输文件来最大限度地提高性能。对于静态内容至关重要。",
+      "tcp_nopush": "与 sendfile 一起使用可减少数据包数量并提高网络效率。",
+      "tcp_nodelay": "立即发送小数据包以提高响应速度。有利于实时应用程序。",
+      "server_tokens": "为了安全起见，建议隐藏 Nginx 版本信息。",
+      "gzip_enabled": "压缩文本数据（HTML、CSS、JS）以减少传输大小。大大提高了速度。",
+      "gzip_comp_level": "压缩级别。 5-6 提供了CPU使用和效率之间的最佳平衡。",
+      "gzip_min_length": "非常小的文件不会被压缩，因为它没有任何好处。",
+      "gzip_types": "要压缩的文件类型。图像/视频已经被压缩，因此最好将其排除。",
+      "gzip_vary": "添加 Vary 标头，以便缓存服务器区分压缩版本和未压缩版本。",
+      "brotli_enabled": "使用 Google 的 Brotli 压缩。比 Gzip 更高的压缩比。",
+      "brotli_comp_level": "Brotli 压缩强度。推荐4-6。",
+      "brotli_types": "使用 Brotli 压缩的内容类型。",
+      "ssl_protocols": "避免使用旧协议（SSLv3、TLSv1.0、TLSv1.1），因为它们存在安全漏洞。",
+      "ssl_ciphers": "加密算法列表。保持更新以获得强大的安全性。",
+      "ssl_ecdh_curve": "关键交换曲线组。 X25519MLKEM768 为现代浏览器（Chrome、Edge、Safari）启用后量子TLS。",
+      "ssl_session_cache": "缓存SSL握手信息以加快重新连接速度。",
+      "ssl_session_timeout": "保留SSL会话缓存的持续时间。",
+      "ssl_prefer_server_ciphers": "优先考虑服务器的密码套件优先于客户端的密码套件。",
+      "ssl_stapling": "加快证书验证速度以减少连接延迟。",
+      "ssl_stapling_verify": "服务器验证OCSP响应的有效性。",
+      "ssl_session_tickets": "使用会话票证快速恢复SSL会话。",
+      "client_body_timeout": "如果客户端发送数据太慢，则关闭连接。",
+      "client_header_timeout": "如果客户端发送标头太慢，则关闭连接。",
+      "send_timeout": "向客户端发送数据超时。",
+      "proxy_connect_timeout": "连接后端服务器超时。",
+      "proxy_send_timeout": "向后端服务器发送数据超时。",
+      "proxy_read_timeout": "等待后端响应的时间。如果您有缓慢的API端点，则增加。",
+      "resolver": "DNS用于将域名解析为 IP 的服务器。",
+      "error_log_level": "错误日志的详细级别。除非进行调试，否则建议使用“警告”或“错误”。",
+      "access_log_enabled": "仅打开或关闭 docker 日志副本。无论哪种方式，NPG都会不断收集访问日志。",
+      "custom_http_config": "输入自定义配置以添加到 Nginx http 块。",
+      "proxy_buffer_size": "用于读取上游服务器响应的第一部分（标头）的缓冲区大小。",
+      "proxy_buffers": "用于缓冲响应的缓冲区的数量和大小。格式：'计数大小'",
+      "proxy_busy_buffers_size": "上游仍在发送时向客户端发送部分响应的缓冲区大小。",
+      "proxy_max_temp_file_size": "缓冲区已满时用于存储响应的临时文件的最大大小。设置为 0 以禁用临时文件。",
+      "proxy_temp_file_write_size": "一次写入临时文件的数据大小。",
+      "proxy_buffering": "启用后，nginx 在发送到客户端之前缓冲整个上游响应。关闭SSE、大量下载或实时流媒体以避免临时文件。",
+      "proxy_request_buffering": "启用后，nginx 将整个请求正文缓冲到磁盘，然后再转发到上游。关闭以在上传到达时将其流式传输到上游。在WAF-启用的主机上，ModSecurity 仍然读取整个主体以进行检查。",
+      "open_file_cache_enabled": "缓存静态文件的文件描述符和元数据。提高了具有许多静态文件的站点的性能。",
+      "open_file_cache_max": "缓存中存储的最大条目数。",
+      "open_file_cache_inactive": "在此时间内未访问的缓存条目将被删除。",
+      "open_file_cache_valid": "检查缓存条目是否仍然有效的频率。",
+      "open_file_cache_min_uses": "只有在非活动时间内访问了这么多次的文件才会保留在缓存中。",
+      "open_file_cache_errors": "还缓存文件未找到和类似的错误。",
+      "reset_timedout_connection": "关闭与RST数据包的超时连接。快速释放socket资源，提高服务器性能。",
+      "resolver_timeout": "等待DNS查找响应的最长时间。",
+      "custom_stream_config": "用于TCP/UDP负载平衡的 Nginx 流块配置。",
+      "ddos": {
+        "connectionLimit": "限制来自同一IP的并发连接以保护服务器资源。",
+        "requestLimit": "限制来自同一IP的每秒请求以阻止过多的请求。",
+        "responseLimit": "限制下载速度以防止带宽垄断。",
+        "connectionReset": "超时立即终止连接。",
+        "bandwidthLimit": "限制客户端下载速度以公平分配带宽。"
+      }
+    },
+    "geoip": {
+      "enable": "启用 GeoIP 允许您根据国家/地区阻止或允许流量。需要一个免费的 MaxMind 帐户。",
+      "account": "您需要 MaxMind 帐户ID和许可证密钥才能下载 GeoLite2 数据库。",
+      "accountId": "从您的 MaxMind 帐户设置中发出的 6 位数字ID。",
+      "licenseKey": "从您的 MaxMind 帐户生成的许可证密钥。",
+      "updateInterval": "自动更新 GeoIP 数据库的频率。"
+    },
+    "acme": {
+      "enable": "自动颁发和续订 Let's Encrypt 的免费SSL证书。",
+      "email": "用于证书过期通知和帐户恢复。",
+      "staging": "使用分段进行测试以避免速率限制。证书是NOT可信的。禁止用于生产。",
+      "renewBefore": "在到期前许多天更新证书。建议使用默认值 (30)。"
+    },
+    "botFilter": {
+      "defaults": "这些设置仅作为NEW代理主机的默认设置应用。现有主机不受影响。",
+      "lists": "管理所有代理主机共享的用户代理阻止和允许列表。",
+      "badBots": "阻止已知的恶意机器人，例如网络爬虫和垃圾邮件发送者。",
+      "aiBots": "阻止AI数据抓取工具，例如 GPTBot 和 ClaudeBot。",
+      "searchEngines": "始终允许搜索引擎爬虫（Google、Bing）保护SEO。",
+      "suspicious": "使用 JavaScript 挑战来挑战可疑客户端（curl、python 请求）。"
+    },
+    "botfilter": {
+      "defaults": "这些设置仅作为NEW代理主机的默认设置应用。现有主机不受影响。",
+      "lists": "管理所有代理主机共享的用户代理阻止和允许列表。",
+      "badBots": "阻止已知的恶意机器人，例如网络爬虫和垃圾邮件发送者。",
+      "aiBots": "阻止AI数据抓取工具，例如 GPTBot 和 ClaudeBot。",
+      "searchEngines": "始终允许搜索引擎爬虫（Google、Bing）保护SEO。",
+      "suspicious": "使用 JavaScript 挑战来挑战可疑客户端（curl、python 请求）。"
+    },
+    "waf": {
+      "autoBan": "自动禁止短时间内频繁生成WAF警报（例如SQL注入）的 IP。",
+      "threshold": "如果检测计数在窗口内超过此数量，则禁止IP。",
+      "window": "对事件进行计数的时间窗口。",
+      "duration": "禁止期限为IP。 0表示永久禁止。"
+    },
+    "maintenance": {
+      "logRetention": "较旧的日志会自动删除以保存磁盘空间。 （每天午夜或系统重新启动时运行）",
+      "rawLogs": "将原始 Nginx 访问/错误日志保存到磁盘以供外部分析或合规性。",
+      "access": "所有HTTP请求记录，包括机器人过滤器和漏洞利用阻止事件。用于流量分析。",
+      "waf": "ModSecurity 阻止/检测事件。",
+      "error": "Nginx 错误和警告。",
+      "system": "系统和 Docker 容器日志。",
+      "audit": "管理员活动审核日志。",
+      "stats": "仪表板图表和统计数据的保留期限。"
+    },
+    "backup": {
+      "enable": "在预定时间自动备份整个配置。",
+      "schedule": "Cron 格式的备份计划（例如，0 2 * * * = 每天 2AM）。",
+      "retention": "要保留的备份文件的最大数量。超过时，最旧的备份将被删除。"
+    }
+  },
+  "roles": {
+    "title": "角色",
+    "subtitle": "授予每个菜单区域的读/写权限并向用户分配角色。",
+    "add": "添加角色",
+    "empty": "没有角色",
+    "area": "菜单区",
+    "superuser": "完全访问权限",
+    "builtinBadge": "内置",
+    "allPermissions": "所有权限",
+    "permissionCount": "{{count}}权限",
+    "userCount": "{{count}}用户",
+    "duplicate": "复制成新角色",
+    "builtinLocked": "内置角色无法删除",
+    "viewOnly": "查看内置角色",
+    "name": "角色名称",
+    "description": "描述",
+    "createTitle": "创建角色",
+    "editTitle": "编辑角色",
+    "viewTitle": "角色详情",
+    "builtinHint": "无法编辑内置角色。如果您需要类似的东西，请复制一份。",
+    "superuserHint": "管理员角色涉及每个区域，包括未来版本中添加的区域。",
+    "deleteTitle": "删除角色",
+    "deleteMessage": "删除角色“{{name}}”。",
+    "deleteBlocked": "{{count}}用户仍保留此角色。首先将他们转移到另一个角色。",
+    "verbs": {
+      "read": "读取",
+      "write": "写入",
+      "delete": "删除",
+      "create": "创建",
+      "restore": "恢复"
+    },
+    "builtin": {
+      "administrator": "管理员",
+      "operator": "操作员",
+      "viewer": "查看者"
+    },
+    "areas": {
+      "dashboard": "仪表板",
+      "proxy": "代理主机",
+      "redirect": "重定向",
+      "waf": "WAF/ 阻塞",
+      "access": "访问控制",
+      "authprovider": "身份验证提供商",
+      "certificate": "证书",
+      "dnsprovider": "DNS提供商",
+      "ddns": "DDNS记录",
+      "logs": "日志",
+      "audit": "审核日志",
+      "settings": "设置",
+      "backup": "备份",
+      "apitoken": "API令牌",
+      "user": "用户",
+      "role": "角色"
+    }
+  },
+  "users": {
+    "title": "用户",
+    "subtitle": "创建管理面板帐户并分配角色。",
+    "add": "添加用户",
+    "empty": "没有用户",
+    "you": "您",
+    "mustChangePassword": "需要更改密码",
+    "apiTokens": "{{count}}API令牌",
+    "resetPassword": "重置密码",
+    "cannotDeleteSelf": "您无法删除自己的帐户",
+    "createTitle": "创建用户",
+    "username": "用户名",
+    "password": "密码",
+    "role": "角色",
+    "passwordHint": "至少10个字符，包含大小写、数字和符号。首次登录时需要更改。",
+    "resetTitle": "重置密码",
+    "resetMessage": "为“{{username}}”设置新密码。",
+    "resetHint": "重置会结束该帐户的每个会话，并需要在下次登录时进行更改。",
+    "deleteTitle": "删除用户",
+    "deleteMessage": "删除帐户“{{username}}”。",
+    "deleteTokenWarning": "{{count}}API该用户发行的令牌将随之删除并立即停止工作。",
+    "detailTitle": "用户详细信息",
+    "openDetail": "查看用户详细信息",
+    "sectionAccount": "账户",
+    "sectionSignIn": "登录",
+    "sectionPermissions": "有效权限",
+    "sectionTokens": "API令牌",
+    "twoFactor": "双因素认证",
+    "enabled": "已启用",
+    "disabled": "已禁用",
+    "mustChangePasswordLabel": "需要更改密码",
+    "yes": "是",
+    "no": "否",
+    "created": "已创建",
+    "lastLogin": "上次登录",
+    "lastLoginIP": "上次登录IP",
+    "activeSessions": "活跃会话",
+    "effectiveHint": "帐户实际达到的范围，而不是角色存储的行。",
+    "noPermissions": "无权限",
+    "noTokens": "没有发行API令牌",
+    "tokenRevoked": "已撤销",
+    "tokenInactive": "未激活",
+    "tokenLastUsed": "最后使用{{when}}",
+    "tokenUseCount": "{{count}}用途",
+    "tokenExpires": "过期{{when}}",
+    "tokenAllowedIPs": "允许的 IP",
+    "lastLoginAt": "上次登录{{when}}",
+    "neverLoggedIn": "从未登录过",
+    "email": "电子邮件",
+    "emailPlaceholder": "用户@example.com",
+    "emailPlaceholderBadge": "没有SSO",
+    "emailPlaceholderHint": "地址NPG组成，因此它永远无法与身份提供者匹配。设置一个真实的帐户，让该帐户链接SSO登录。",
+    "emailSaveFailed": "无法保存电子邮件地址。"
+  },
+  "sso": {
+    "title": "SSO（OpenID 连接）",
+    "subtitle": "使用标准OIDC提供商（Google、Authentik、Authelia、Keycloak 等）登录管理面板。",
+    "add": "添加提供商",
+    "addTitle": "添加SSO提供商",
+    "editTitle": "编辑SSO提供商",
+    "empty": "还没有提供者。添加一个会在登录屏幕上添加一个按钮。",
+    "disabled": "已禁用",
+    "jitOn": "创建帐户",
+    "linkedUsers": "{{count}}关联帐户",
+    "callbackURL": "回调URL",
+    "callbackHint": "在提供商处注册该准确值。单个字符差异导致登录失败。",
+    "copy": "复制",
+    "copied": "已复制",
+    "localLoginNote": "密码登录始终可用。NPG通常是您配置的提供程序前面的反向代理，因此SSO-only 面板会将您锁定在修复它所需的工具之外。",
+    "noPermission": "您没有权限",
+    "provisioning": "帐户创建和角色",
+    "provisioningHint": "已认证未授权。像谷歌这样的公共提供商会对地球上的每个帐户进行身份验证，因此只有在您说出允许的帐户后才会启用自动创建。",
+    "jitNeedsAllowlist": "首先设置允许的域、允许的电子邮件或所需的组。",
+    "mappingsAuthoritative": "设置映射后，每次登录时都会重新计算角色 - 在提供商处删除组会在下次登录时生效。",
+    "mappingsNone": "如果没有映射，角色会在创建帐户时设置一次，并且从那时起NPG就拥有该帐户。",
+    "deleteTitle": "删除提供商",
+    "deleteBody": "删除“{{name}}”。其{{count}}关联帐户已取消关联，但未删除。",
+    "fields": {
+      "name": "显示名称",
+      "slug": "标识符",
+      "slugHint": "用于URL。小写字母、数字和连字符。",
+      "issuer": "发行人URL",
+      "issuerHint": "提供商的发现基础，例如https://accounts.google.com",
+      "clientId": "客户ID",
+      "clientSecret": "客户秘密",
+      "secretKeepHint": "保持不变以保持存储的秘密。",
+      "scopes": "范围",
+      "callbackBase": "回调基URL",
+      "callbackBaseHint": "当NPG位于另一个代理后面时固定公共源。当空时从请求派生。",
+      "enabled": "使用该提供商",
+      "allowedDomains": "允许的电子邮件域",
+      "allowedEmails": "允许的电子邮件",
+      "listHint": "用逗号或空格分隔",
+      "groupClaim": "团体索赔名称",
+      "requiredGroup": "所需组别",
+      "requiredGroupHint": "设置后，只有该组的成员可以登录。",
+      "allowJit": "当有人第一次登录时创建一个帐户",
+      "defaultRole": "默认角色",
+      "defaultRoleHint": "新创建帐户的角色以及指定组与映射不匹配时的后备。如果没有之一，当没有映射匹配时，非JIT登录将被拒绝。",
+      "noRole": "无",
+      "groupMappings": "组到角色的映射",
+      "addMapping": "添加映射",
+      "groupPlaceholder": "提供商处的组名称",
+      "trustProviderEmail": "信任该提供商的电子邮件地址",
+      "trustProviderEmailHint": "即使提供商未将地址标记为已验证，也可以链接到现有帐户。 Authentik2025.10将其默认值更改为未验证，这会阻止链接。"
+    },
+    "steps": {
+      "provider": "哪个提供商？",
+      "connection": "连接",
+      "access": "谁可以登录，以什么身份登录？"
+    },
+    "presets": {
+      "generic": "手动输入",
+      "googleHint": "针对每个 Google 帐户进行了修复 - 保持原样，没有尾部斜杠。",
+      "authentikHint": "https://<your-authentik-domain>/application/o/<application-slug>/— slug 是您创建应用程序时 authentik 填写的内容。",
+      "autheliaHint": "您到达 Authelia 的根URL— 仅方案和主机，没有路径，没有尾部斜杠。",
+      "keycloakHint": "https://<keycloak-host>/realms/<realm-name>— 领域URL本身，而不是发现路径。",
+      "genericHint": "提供商的发现基础 — /.well-known/openid-configuration 之前的所有内容"
+    },
+    "test": "测试连接",
+    "testing": "检查…",
+    "testOk": "已连接。该提供商可以使用。",
+    "testPkceOk": "PKCE(S256) 已确认",
+    "testPkceUnknown": "提供商不宣传PKCE支持。它通常仍然有效。",
+    "testMissingScopes": "提供商不宣传的范围：{{scopes}}- 它可能仍然有效，但请检查。",
+    "testFailed": "无法连接。检查地址，NPG是否可以到达。",
+    "callbackNeedsSlug": "首先输入一个标识符",
+    "advanced": "高级",
+    "linkedIdentities": "链接的登录提供商",
+    "noLinkedIdentities": "无SSO链接（密码帐户）",
+    "identityLinkedAt": "已链接{{when}}",
+    "groupsScopeMissing": "设置了组规则，但请求的范围不包括“组”。大多数提供商都会在没有这些信息的情况下保留群组信息，因此每次登录都会因为不允许而被拒绝。",
+    "addGroupsScope": "添加群组",
+    "guides": {
+      "google": {
+        "steps": [
+          "在 Google Cloud Console 中，选择或创建一个项目来容纳客户端。",
+          "注册应用程序并将受众设置为外部（如果有人使用个人 Gmail 帐户登录）或内部（如果每个人都在您的 Workspace 组织中）。",
+          "创建一个应用程序类型设置为 Web 应用程序的客户端 - 这是颁发客户端密钥的类型。",
+          "将{{callback}}添加到授权重定向 URI。 Google 会完全匹配它并拒绝纯 http、裸IP地址和通配符。",
+          "将客户端ID和密钥直接复制到以下字段中：Google 仅显示完整密钥一次，但您可以稍后轮换它。",
+          "如果您的受众群体是外部的，并且应用程序仍处于测试阶段，请将每个人添加到测试用户列表中，否则 Google 会阻止他们。"
+        ],
+        "groups": "Google 不会通过OIDC发送群组信息，因此请在此处为每个帐户分配角色。要限制登录到一个工作区组织，请将受众设置为内部，而不是寻找组设置。",
+        "requires": "开始之前：此面板必须可通过 https 在真实域上访问，并且 Google 无法按组分配角色 - 您可以在此处设置每个帐户的角色。"
+      },
+      "authentik": {
+        "steps": [
+          "在 authentik 中，打开应用程序 → 应用程序并创建一个新应用程序，该应用程序在同一过程中设置其提供程序。",
+          "请注意填写的 Slug authentik — 它出现在上面的发行人URL中。",
+          "选择 OAuth2/OIDC作为提供程序类型，并将客户端类型保留为机密，以便生成客户端密钥。",
+          "在“重定向 URI”下，添加{{callback}}，并将模式设置为“严格”。",
+          "设置签名密钥，例如内置的自签名证书 - 将其留空会破坏令牌签名。",
+          "创建它，然后重新打开提供程序以复制客户端ID和客户端密钥。"
+        ],
+        "groups": "authentik 的默认配置文件范围已经发出组声明，因此将组声明名称保留为“groups”就足够了 - 不需要自定义映射。"
+      },
+      "authelia": {
+        "steps": [
+          "Authelia 没有管理界面 - 打开configuration.yml 并查找或创建identity_providers.oidc。",
+          "使用 authelia crypto 命令生成客户端ID和散列密钥，并保留以下字段的明文密钥。",
+          "在 Identity_providers.oidc.clients 下添加客户端，并保留“public”未设置，以保持机密。",
+          "将范围保留为 openid、个人资料、电子邮件和组，并添加{{callback}}作为重定向URI。",
+          "在 Authelia4.39及更新版本上，添加一个声明策略，将电子邮件、preferred_username 和组放入ID令牌中 - 否则它们仅从 UserInfo 端点返回。",
+          "重新启动 Authelia；它不会自行重新加载其配置。"
+        ],
+        "groups": "groups 已经在 Authelia 的默认范围内。在4.39及更新版本上，索赔政策实际上将其放置在ID令牌中，这是NPG读取它的地方。"
+      },
+      "keycloak": {
+        "steps": [
+          "切换到用户实际登录的领域 - 主领域中的客户端无法对他们进行身份验证。",
+          "创建一个客户端，并将客户端类型设置为 OpenID Connect。",
+          "打开客户端身份验证。默认情况下它是关闭的，这会生成一个没有秘密的公共客户端供NPG使用。",
+          "将有效重定向 URI 设置为{{callback}}，不带通配符，然后保存。",
+          "打开客户端的“凭据”选项卡并将客户端密钥复制到下面的字段中。"
+        ],
+        "groups": "在您添加之前，Keycloak 不会发送组信息：在客户端的专用范围上，添加组成员映射器，将令牌声明名称设置为组并关闭完整组路径。"
+      }
+    },
+    "guideTitle": "在{{provider}}，执行此操作",
+    "googleCallbackHttp": "Google 将拒绝此回调URL：它仅接受 https（本地主机除外）。在设置 Google 之前，请使用有效证书在真实域上访问此面板。",
+    "googleCallbackIP": "Google 将拒绝此回调URL：它不接受IP地址。在设置 Google 之前，请使用有效证书访问真实域名的此面板。",
+    "existingAccountLinking": "现有帐户不需要手动链接。如果提供商报告的**已验证**电子邮件与该电子邮件完全匹配，则登录会自动链接该帐户 - 其历史记录、角色和密码登录均会保留。下面的“自动创建帐户”选项仅适用于根本没有帐户的人。",
+    "trustProviderEmailWarning": "仅当您控制提供商以及用户如何注册时才启用此功能。任何能够在其上设置任意电子邮件地址的人都可以以持有该地址的NPG帐户身份登录。"
+  },
+  "notifications": {
+    "title": "通知",
+    "subtitle": "将安全事件和每日摘要发送到 Discord、Telegram 或 webhook — ntfy、Gotify、Home Assistant 等。",
+    "quietByDesign": "设计安静。持续的故障会在启动和恢复时宣布，而不是在两者之间，并且诸如IP禁令之类的突发会合并为一条消息。",
+    "add": "添加频道",
+    "addTitle": "添加通知渠道",
+    "editTitle": "编辑通知渠道",
+    "empty": "还没有频道。添加一个，其警报将发送到该频道。",
+    "disabled": "已禁用",
+    "batched": "批量处理",
+    "digestBadge": "每天{{hour}}:00",
+    "eventCount": "{{count}}立即数",
+    "noEvents": "未选择任何事件（仅摘要）",
+    "failing": "{{count}}连续失败 — 通道在 10 时自行关闭",
+    "test": "发送测试",
+    "testSent": "发送。检查频道是否到达。",
+    "history": "发货日志",
+    "historyTitle": "{{name}}交货日志",
+    "noHistory": "还没有交付任何东西。",
+    "attempts": "{{count}}尝试",
+    "deleteTitle": "删除频道",
+    "deleteBody": "删除“{{name}}”。发送至此处的通知将停止。",
+    "noPermission": "您没有权限",
+    "whatToSend": "发送什么",
+    "whatToSendHint": "对于每个警报：关闭、在发生时立即发送或仅在每日摘要中提及。保存频道后，您可以预览其中的任何频道。",
+    "placeholders": "可用占位符",
+    "piiNote": "请求标头、cookie、用户代理、请求URL和原始日志数据故意不可用：它们携带凭据，并且通知会离开您的网络。",
+    "types": {
+      "webhook": "Webhook（任意URL）"
+    },
+    "fields": {
+      "name": "名称",
+      "type": "类型",
+      "enabled": "使用此频道",
+      "webhookUrl": "接收器URL",
+      "webhookUrlHint": "您的 ntfy、Gotify、Apprise 或 Home Assistant 实例为您提供的地址",
+      "discordUrl": "Discord WebhookURL",
+      "discordUrlHint": "通道设置 → 集成 → Webhooks。URL本身就是凭证。",
+      "botToken": "机器人令牌",
+      "botTokenHint": "使用 @BotFather 创建一个机器人，它会给你一个。",
+      "chatId": "聊天ID",
+      "chatIdHint": "机器人无法开始对话。首先向机器人发送消息或将其添加到您的群组，然后找到聊天 ID。",
+      "authHeader": "授权标头",
+      "authHeaderHint": "仅当您的接收器需要时，例如承载者 tk_xxx",
+      "allowPrivate": "允许私人接收者",
+      "allowPrivateHint": "仅在您自己的网络上访问 ntfy 或 Gotify 时才打开此选项。默认情况下，NPG不会发送到私有地址或容器名称。",
+      "digest": "发送每日摘要",
+      "digestHour": "发送至 ({{zone}})",
+      "template": "消息格式（可选）",
+      "templateHint": "对于默认格式，将其留空。",
+      "secretKeepHint": "保持不变以保留存储的值。",
+      "richFormat": "使用平台自己的格式",
+      "richFormatHint": {
+        "discord": "发送带有标题、严重性颜色栏和作为列的字段的嵌入。 Off 发送一个普通块。",
+        "telegram": "发送带有粗体标题和突出显示的值的 MarkdownV2。 Off 发送纯文本。",
+        "webhook": "JSON主体始终是结构化的；这只影响人类可读的文本行。"
+      },
+      "language": "留言语言",
+      "languageHint": "发送到此通道的警报语言，按通道选择，且与主机本身的语言无关。",
+      "dashboardUrl": "仪表板地址",
+      "dashboardUrlHint": "作为链接附加到每日摘要中。使用阅读此频道的人实际到达面板的地址。空表示没有链接。",
+      "payloadFormat": "正文格式",
+      "payloadFormatHint": "为URL包含主题的接收者选择纯文本，例如 ntfy — 向他们发送JSON，手机会显示原始JSON。 Gotify、Apprise、Home Assistant 和您自己的接收器需要JSON。",
+      "digestHourZoneMismatch": "该服务器在{{server}}上运行，而您的浏览器在{{browser}}上运行，因此两个时钟不同 - 输入服务器时间中的小时，而不是您的本地时间。 （在 docker compose 文件中设置TZ以更改服务器使用的内容。）"
+    },
+    "guides": {
+      "webhook": {
+        "title": "在您的接收器处",
+        "steps": [
+          "在任何会显示通知的地方创建一个接收地址 - ntfy、Gotify、Apprise、Home Assistant。",
+          "将其粘贴到下面的接收器URL中。如果接收方需要身份验证，请将令牌放入 Authorization 标头字段中。",
+          "保存，然后按发送测试并确认它确实到达。"
+        ]
+      },
+      "discord": {
+        "title": "不和谐",
+        "steps": [
+          "在应接收警报的通道中：编辑通道 → 集成 → Webhooks → 新 Webhook。",
+          "按复制 WebhookURL。URL本身就是凭证 - 任何持有它的人都可以发布到频道。",
+          "将其粘贴到下面的 Discord webhookURL中，保存并按发送测试。"
+        ]
+      },
+      "telegram": {
+        "title": "在电报中",
+        "steps": [
+          "向@BotFather发送消息并发送/newbot。给它一个名称和用户名，它就会给你一个看起来像 123456:ABC-DEF的机器人令牌。将其粘贴到下面。",
+          "机器人无法首先向您发送消息。要私下接收，请打开与新机器人的聊天并向其发送任何内容。要在群组中接收，请将机器人添加到群组并在那里发送消息。要在频道中接收，请将机器人添加为频道管理员并发布一次。",
+          "按下面的“检测聊天 ID”，NPG会列出机器人可以看到的对话。单击您想要的聊天 ID，然后填写聊天 ID。",
+          "保存，然后按“发送测试”——一条真实的消息应该到达。"
+        ]
+      }
+    },
+    "detect": "检测聊天ID",
+    "detecting": "寻找……",
+    "detectEmpty": "机器人还看不到任何对话。直接发消息，将其添加到群组并在那里发布，或者将其添加为频道管理员并发布一次 - 然后重试。",
+    "detectPick": "选择要发送到的对话：",
+    "events": {
+      "cert.renewal_failed": {
+        "label": "证书续订失败",
+        "desc": "Let's Encrypt 续订失败。如果放任不管，证书就会过期并且网站会停止加载。"
+      },
+      "cert.renewed": {
+        "label": "证书更新",
+        "desc": "仅当失败的续订再次有效时才发送。"
+      },
+      "ddns.sync_failed": {
+        "label": "DDNS更新失败",
+        "desc": "您的公共IP已更改，但DNS未更新，因此您可能会失去外部访问权限。"
+      },
+      "ddns.recovered": {
+        "label": "DDNS再次更新",
+        "desc": "仅当失败的DDNS记录再次开始工作时发送。"
+      },
+      "backup.failed": {
+        "label": "计划备份失败",
+        "desc": "计划的备份已运行但失败。您没有新的还原点。"
+      },
+      "nginx.reload_failed": {
+        "label": "nginx 重新加载失败",
+        "desc": "每次重试都无法应用配置。 nginx 继续提供旧配置，因此IP禁令等更改不会生效。"
+      },
+      "auth.login_failed": {
+        "label": "管理员登录被锁定",
+        "desc": "登录失败达到锁定阈值。通常是暴力尝试。锁定期间每 5 分钟合并为一条消息。"
+      },
+      "ip.banned": {
+        "label": "IP被禁止",
+        "desc": "fail2ban 或WAF自动禁止阻止了地址。这些数据是突发性到达的，因此每五分钟就会合并一次。"
+      },
+      "ip.detected": {
+        "label": "检测到IP（未禁止）",
+        "desc": "设置为“仅通知”的fail2ban 规则已达到其阈值。该地址已被禁止NOT- 这是行动承诺的警报。每五分钟合并一次。"
+      },
+      "sso.login_refused": {
+        "label": "SSO登录被拒绝",
+        "desc": "您的许可名单之外的身份尝试登录 - 配置错误或有人尝试登录。"
+      },
+      "disk.space_low": {
+        "label": "磁盘空间不足",
+        "desc": "磁盘NPG写入（数据库、日志、备份）已超过其警告线，默认情况下已满 85%。发送一次，包含可用空间、每日增长以及大致何时填满。"
+      },
+      "disk.space_critical": {
+        "label": "磁盘空间至关重要",
+        "desc": "通过了临界线，默认为 90%。在数据库的磁盘上，NPG立即压缩较旧的日志块以释放空间，而不删除任何内容，并且该消息表明这是否足够。一旦数据库磁盘已满，日志记录、登录和警报都会停止。"
+      },
+      "disk.space_recovered": {
+        "label": "磁盘空间恢复正常",
+        "desc": "仅当运行速度较低的磁盘回落到其恢复线（默认情况下为 80%）以下时才发送。"
+      },
+      "dns_entry.review": {
+        "label": "域名进入需要审核",
+        "desc": "访问列表中的域更改了其CNAME目标，返回空后从未有过的地址，或者一天内更改过于频繁。NPG不允许其任何地址，除非您在访问列表中确认它。每个域一条消息，确认后再发送一条消息。"
+      },
+      "dns_entry.apply_failed": {
+        "label": "域条目更改未应用",
+        "desc": "nginx 没有更改域条目。删除的地址会在第一次失败时报告，因为 nginx 仍然允许它们； 15 分钟后添加地址。修复文件的消息名称，或在“设置”→“安全”→“域条目”(DDNS) 中按“立即应用”。"
+      }
+    },
+    "modes": {
+      "off": "关闭",
+      "immediate": "立即",
+      "digest": "仅摘要"
+    },
+    "severity": {
+      "error": "问题",
+      "warning": "通知",
+      "info": "信息"
+    },
+    "testShort": "立即发送",
+    "testThisEvent": "立即发送此警报。它使用已保存的通道，因此不包括未保存的语言、格式或模板更改。",
+    "previewDigest": "预览摘要（立即发送）",
+    "payloadFormats": {
+      "json": "JSON（Gotify、Apprise、Home Assistant、您自己的接收器）",
+      "text": "纯文本 (ntfy)"
+    },
+    "errors": {
+      "invalid_name": "输入 1 到 64 个字符之间的名称。",
+      "invalid_type": "选择通道类型。",
+      "invalid_url": "该接收器URL无效。它必须以 http:// 或https://,开头，并且发送到专用网络地址需要打开“允许专用接收器”。",
+      "invalid_bot_token": "输入机器人令牌——@BotFather 给你的“digits:letters”字符串。",
+      "invalid_chat_id": "输入聊天ID。向机器人发送消息，或将其添加到群组或频道并发布一次，然后按检测聊天 ID 进行填写。",
+      "invalid_events": "至少选择一个警报，或打开每日摘要。",
+      "invalid_event": "其中包括此版本不知道的警报。重新加载页面并重试。",
+      "invalid_dashboard_url": "仪表板地址必须以 http:// 或https://.开头",
+      "invalid_digest_hour": "发送时间必须介于 0 到 23 之间。",
+      "invalid_language": "消息语言必须是韩语或英语。",
+      "invalid_config": "设置具有前导或尾随空格 - 删除粘贴时出现的空格。"
+    },
+    "digestEventCount": "{{count}}仅摘要",
+    "lastDelivery": "最后交付{{when}}",
+    "previewUsesSaved": "使用保存的设置发送预览。首先保存以查看您刚刚所做的更改。"
+  },
+  "trustedProxies": {
+    "title": "可信代理",
+    "intro": "当CDN（例如 Cloudflare 或其他反向代理）位于NPG前面时，为请求记录的地址是代理的地址，而不是访问者的地址。在这里命名您信任的代理可以恢复真实的客户端地址。",
+    "safetyWarning": "该列表改变了每个安全功能的判断。国家限制、访问列表、禁止 IP、fail2ban、速率限制和WAF都读取此处决定的地址。仅列出您操作或信任的代理：过于广泛的信任会让访问者伪造自己的地址并同时浏览所有地址。",
+    "envVarNote": "这适用于**代理流量** — GeoIP、访问列表、禁止的 IP、fail2ban 和速率限制。它与“TRUSTED_PROXY_CIDR”环境变量分开，后者管理NPG自己的管理面板（登录锁定和API-tokenIP限制）。",
+    "preset": "预设",
+    "presetHelp": "一步添加著名的CDN的已发布范围。可以与下面您自己的条目相结合。",
+    "presetNone": "无",
+    "presetCloudflare": "Cloudflare 代理背后（橙色云）",
+    "cloudflareRanges": "包括{{count}}Cloudflare 系列（截至{{date}}）。此后添加的任何内容都可以粘贴在下面。",
+    "cloudflareRangesPending": "保存时将应用 Cloudflare 发布的范围（截至{{date}}）。",
+    "tunnelNote": "Cloudflare Tunnel (cloudflared) 不需要 — 隧道已经正确传送真实的客户端地址。",
+    "header": "真实IP标头",
+    "headerHelp": "在通过可信代理到达的请求上读取访问者地址的标头。",
+    "headerDefaultSuffix": "默认",
+    "headerSwitchWarning": "注意：对于非默认标头，不携带该标头的请求将保留代理的地址。如果NPG前面还有其他东西（路由器、HAProxy、NAS、另一个 nginx），则该流量将使用私有地址记录，并且可以根据国家/地区规则批量阻止。仅当前面只有 Cloudflare 时才更改此设置。",
+    "custom": "自定义条目",
+    "customHelp": "每行一个IP或CIDR。 # 之后的任何内容都是注释。",
+    "customPlaceholder": "203.0.113.0/24198.51.100.7# 办公室代理",
+    "builtins": "始终值得信赖",
+    "builtinsHelp": "专用网络和环回网络。 Docker自身的流量和LAN代理依赖于这些，因此无法删除它们。",
+    "savedApplying": "已保存。适用于 nginx 配置。"
+  },
+  "errorPages": {
+    "title": "错误页面",
+    "description": "将显示的页面NPG、阻止页面 (403) 和后端错误页面 (502、503、504) 替换为您自己的HTML。它们适用于每个代理主机以及NPG不知道的域的访问。",
+    "noScripts": "为了安全起见，脚本不在这些页面上运行：它们出现在每个站点自己的地址上，脚本可以在其中读取该站点的 cookie。样式、图像和字体都有效。",
+    "loading": "加载中...",
+    "builtIn": "内置页面",
+    "custom": "自定义页面",
+    "status": {
+      "403": "已阻止",
+      "502": "坏网关",
+      "503": "暂停服务",
+      "504": "网关超时"
+    },
+    "htmlLabel": "{{status}}页面的HTML",
+    "placeholder": "空使用内置页面。 “从模板开始”为您提供了一个起点。",
+    "useTemplate": "从模板开始",
+    "preview": "预览",
+    "hidePreview": "隐藏预览",
+    "previewTitle": "{{status}}页面预览",
+    "save": "保存",
+    "reset": "返回内置页面",
+    "saved": "已保存。它立即适用。",
+    "resetDone": "返回内置页面。",
+    "saveError": "无法保存。"
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "title": "仪表板",
+  "errors": {
+    "loadFailed": "无法加载仪表板"
+  },
+  "actions": {
+    "selfCheck": "自助检查",
+    "refresh": "刷新"
+  },
+  "status": {
+    "systemStatus": "系统状态：{{status}}",
+    "healthy": "健康",
+    "unhealthy": "不健康"
+  },
+  "hostResources": {
+    "title": "主机系统资源",
+    "memory": "记忆",
+    "disk": "磁盘",
+    "uptime": "运行时间",
+    "network": "网络输入/输出",
+    "networkIn": "下载",
+    "networkOut": "上传",
+    "history": "资源历史记录（过去 1 小时）",
+    "networkHistory": "网络 I/O 历史记录（过去 1 小时）",
+    "showCharts": "图表",
+    "hideCharts": "隐藏",
+    "noData": "尚无可用的历史数据。每 30 秒收集一次数据。",
+    "timeRange": "时间范围"
+  },
+  "containers": {
+    "title": "Docker容器",
+    "running": "{{healthy}}/{{total}}运行",
+    "cpu": "CPU",
+    "memory": "记忆",
+    "networkIo": "网络输入/输出",
+    "blockIo": "块I/O",
+    "totalCpu": "总计CPU",
+    "totalMemory": "总内存",
+    "cloudflareTunnel": "Cloudflare 隧道"
+  },
+  "stats": {
+    "blockedRequests": "被阻止的请求",
+    "customBlocked": "自定义规则被阻止",
+    "blockedIps": "被阻止的唯一 IP",
+    "last24h": "过去 24 小时",
+    "requests": "请求数",
+    "bandwidth": "带宽",
+    "avgResponseTime": "平均响应时间",
+    "errorRate": "错误率"
+  },
+  "security": {
+    "title": "保安（24小时）",
+    "wafBlocked": "WAF已阻止",
+    "rateLimited": "价格有限",
+    "botsBlocked": "机器人被阻止",
+    "bannedIps": "被禁止的IP"
+  },
+  "hosts": {
+    "title": "主机概览",
+    "proxyHosts": "代理主机",
+    "redirectHosts": "重定向主机",
+    "certificates": "证书",
+    "expiringSoon": "即将到期"
+  },
+  "topLists": {
+    "hostsTitle": "顶级主持人（24 小时）",
+    "ipsTitle": "热门 IP（24 小时）",
+    "showLocalIPs": "显示本地",
+    "localBadge": "本地",
+    "userAgentsTitle": "顶级用户代理（24 小时）",
+    "noData": "还没有流量数据"
+  },
+  "geo": {
+    "title": "全球流量（24小时）",
+    "subtitle": "各地区流量",
+    "topCountries": "热门国家/地区（24 小时）",
+    "total": "总计：{{count}}请求",
+    "totalRequests": "总计：{{count}}请求",
+    "unknownTraffic": "LAN/ 未知",
+    "showLogs": "显示来自{{country}}的访问日志"
+  },
+  "storage": {
+    "banner": {
+      "low": "磁盘空间不足",
+      "critical": "磁盘空间至关重要",
+      "usage": "已使用 {{percent}}% — 磁盘剩余 {{free}}，包含 {{roles}}，总容量 {{total}}",
+      "forecast": "一天增长约{{growth}}；按照这个速度，大约{{days}}天就满了。",
+      "hint": "日志会占用家庭服务器的存储空间。请在数据库磁盘空间不足前缩短日志保留时间或增加磁盘空间。",
+      "retentionLink": "日志保留",
+      "alertsLink": "磁盘警报"
+    },
+    "emergency": {
+      "running": "压缩较旧的日志块以释放空间（不会删除任何内容）：{{done}}/{{total}}",
+      "done": "压缩{{count}}旧日志块并释放{{freed}}。什么都没有被删除。",
+      "dryRun": "试运行：{{count}}较旧的日志块可以被压缩。没有任何改变（NPG_DISK_EMERGENCY_COMPRESS=dryrun）。",
+      "off": "紧急压缩关闭（NPG_DISK_EMERGENCY_COMPRESS=关闭）。手动释放一些空间。",
+      "blocked": {
+        "insufficient_space": "可用空间太少，无法安全压缩较旧的日志。手动释放一些空间。",
+        "nothing_to_compress": "较旧的日志已经被压缩。手动释放一些空间。",
+        "policy_running": "计划的日志压缩正在运行；请稍后再试。",
+        "another_pass_running": "现在的另一项工作是重写日志块；请稍后再试。",
+        "chunks_busy": "较旧的日志块正忙于另一项工作；请稍后再试。",
+        "db_disk_unmeasured": "无法测量数据库磁盘，因此未压缩任何内容。",
+        "compress_failed": "压缩旧日志失败。请参阅API容器日志。",
+        "error": "紧急按压停止。请参阅API容器日志。"
+      }
+    },
+    "roles": {
+      "db": "数据库",
+      "nginx_logs": "nginx 日志",
+      "archive": "原始日志存档",
+      "backups": "备份",
+      "docker": "Docker 镜像和容器日志"
+    },
+    "dbNotMeasured": "未测量数据库磁盘：{{reason}}",
+    "dbReason": {
+      "db_container_not_found": "将NPG_DB_CONTAINER设置为数据库容器的名称",
+      "db_external": "数据库不在该主机上",
+      "db_exec_failed": "在数据库容器中运行 stat 失败",
+      "docker_unavailable": "无法从API访问 Docker"
+    },
+    "stalled": "没有回答，所以没有测量（挂起的网络安装？）：{{disks}}"
+  }
+}

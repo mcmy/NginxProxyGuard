@@ -1,0 +1,82 @@
+{
+  "title": "身份验证提供商 (ForwardAuth)",
+  "actions": {
+    "add": "添加身份验证提供商",
+    "edit": "编辑",
+    "delete": "删除",
+    "cancel": "取消",
+    "update": "更新",
+    "create": "创建",
+    "save": "保存中..."
+  },
+  "form": {
+    "newTitle": "新的身份验证提供商",
+    "editTitle": "编辑身份验证提供者",
+    "name": "名称",
+    "namePlaceholder": "例如，Home Authelia",
+    "type": "类型",
+    "providerUrl": "授权服务URL",
+    "providerUrlPlaceholder": "http://127.0.0.1:9091",
+    "pickContainer": "从 Docker 中选择",
+    "unbindContainer": "解除绑定",
+    "verifyPath": "验证路径",
+    "signinMode": "登录重定向",
+    "signinRedirect": "登录重定向URL",
+    "signinModeLocationHeader": "Location header（验证者提供重定向）",
+    "signinModeRedirectTemplate": "重定向模板（自定义URL）",
+    "cookiePassthrough": "转发设置-Cookie",
+    "largeBuffers": "大标头缓冲区",
+    "bypassPaths": "旁路路径（每条线一个）",
+    "bypassPathsInvalid": "无效路径：{{paths}}— 必须以“/”开头且不包含空格或 ;{}# 字符",
+    "typeAuthelia": "Authelia",
+    "typeAuthentik": "正宗",
+    "typeCustom": "自定义（ForwardAuth）"
+  },
+  "usage": {
+    "title": "如何使用",
+    "step1": "在此处创建一个身份验证提供程序（Authelia、Authentik 或自定义）。",
+    "step2": "将其应用到代理主机→编辑→安全选项卡→“身份验证提供程序”中的主机。每个主机的旁路路径也在那里设置。",
+    "note": "受保护的主机必须使用HTTPS— Authelia/Authentik 拒绝 http 目标。"
+  },
+  "hosts": {
+    "manage": "主机",
+    "applied": "应用到主机",
+    "noneApplied": "尚无主机使用此提供商。",
+    "attachTitle": "连接主机",
+    "selectHost": "选择主机...",
+    "attach": "关联",
+    "detach": "解除关联",
+    "noAttachable": "没有可连接的主机（此处只能连接未分配的HTTP主机）。",
+    "attachHint": "仅列出未分配的HTTP主机。具有质询模式或自定义“位置/”的主机将被拒绝 - 从主机的“安全”选项卡中进行设置。",
+    "attachError": "连接主机失败",
+    "detachError": "无法分离主机"
+  },
+  "list": {
+    "title": "身份验证提供商",
+    "name": "名称",
+    "type": "类型",
+    "url": "URL",
+    "actions": "操作",
+    "empty": "没有授权提供者。创建一个使用 Authelia/Authentik 来保护主机。",
+    "none": "未使用"
+  },
+  "messages": {
+    "deleteConfirm": "删除此身份验证提供者？使用它的主机将失去保护。",
+    "deleteConfirmWithHosts": "此身份验证提供程序保护{{count}}主机。删除它会删除其身份验证保护。继续？",
+    "loadError": "加载身份验证提供程序时出错",
+    "saveError": "无法保存身份验证提供者"
+  },
+  "reconcile": {
+    "down": "容器无法访问",
+    "synced": "已同步",
+    "syncedTitle": "容器IP自动同步"
+  },
+  "help": {
+    "authelia": "Authelia ≥4.37。会话 cookie 域必须是每个受保护主机和门户的父域。",
+    "authentik": "使用前哨站URL（嵌入式前哨站 = authentik 服务器主机：9000）。",
+    "custom": "为任何 auth_request 兼容的验证程序（例如 oauth2-proxy）提供验证路径和登录重定向。",
+    "providerUrl": "使用可从代理容器访问的地址（主机网络安装：主机IP：端口；桥接网络：服务名称）。",
+    "containerUrl": "从容器的当前IP自动填充。如果容器IP发生变化，则会重新解析并自动更新。",
+    "challengeConflict": "禁用CAPTCHA/geo 质询模式以使用 ForwardAuth 提供程序。"
+  }
+}

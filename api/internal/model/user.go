@@ -145,7 +145,7 @@ type AccountInfo struct {
 
 // Language settings
 type LanguageRequest struct {
-	Language string `json:"language" validate:"required,oneof=ko en"`
+	Language string `json:"language" validate:"required,oneof=ko en zh-CN"`
 }
 
 type LanguageResponse struct {

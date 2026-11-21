@@ -125,7 +125,7 @@ export function Login({ onLogin }: LoginProps) {
             <img src="/favicon.ico" alt="NPG Logo" className="w-20 h-20 rounded-2xl" />
           </div>
           <h1 className="text-3xl font-bold text-white">Nginx Proxy Guard</h1>
-          <p className="text-slate-400 mt-2">Secure Reverse Proxy Manager by Svrforum</p>
+          <p className="text-slate-400 mt-2">{t('login.brandSubtitle')}</p>
         </div>
 
         {/* Login Form */}

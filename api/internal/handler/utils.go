@@ -31,10 +31,11 @@ const (
 	// Supported values
 	LanguageKorean  = "ko"
 	LanguageEnglish = "en"
+	LanguageChinese = "zh-CN"
 )
 
 // SupportedLanguages defines all supported language codes
-var SupportedLanguages = []string{LanguageKorean, LanguageEnglish}
+var SupportedLanguages = []string{LanguageKorean, LanguageEnglish, LanguageChinese}
 
 // domainRegex validates domain name format (RFC 1035)
 var domainRegex = regexp.MustCompile(`^(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)*[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$`)

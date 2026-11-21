@@ -1,0 +1,297 @@
+{
+  "status": {
+    "pending": "解析中...",
+    "ok": "已允许",
+    "stale": "保留（查找失败）",
+    "expired": "已过期",
+    "rejected": "地址被拒绝",
+    "not_found": "未找到",
+    "needs_review": "需要审查",
+    "unknown": "尚未检查",
+    "disabled": "功能关闭",
+    "disabledHelp": "域条目已关闭，因此该域在再次打开之前不允许任何人进入。",
+    "revokePending": "删除后，nginx仍然允许",
+    "revokePendingHelp": "NPG删除了该域的一个地址，但 nginx 尚未加载更改。该地址的客户仍然可以进入。"
+  },
+  "review": {
+    "cname_changed": "CNAME目标从{{from}}更改为{{to}}。",
+    "reappeared": "它带着一个之前从未有过的地址回来了。",
+    "unstable": "它的地址在 24 小时内变化过于频繁。"
+  },
+  "warnings": {
+    "self_ip": "该服务器的IP",
+    "banned": "现已禁止",
+    "cgnat": "CGNAT范围",
+    "partial_rejected": "部分地址被拒绝",
+    "ipv6_listen": "IPv6 未覆盖",
+    "duplicate": "共享地址"
+  },
+  "warningHelp": {
+    "self_ip": "该域指向该服务器自己的公共IP。在发夹NAT后面，每个内部用户都可以显示为这个地址。",
+    "banned": "该地址已被有效禁止。禁止获胜，因此该客户端保持被阻止状态。",
+    "cgnat": "100.64.0.0/10（Tailscale，运营商级NAT）。允许，但许多设备可以共享一个地址。",
+    "partial_rejected": "答案中的某些地址是私有地址、保留地址或CDN地址，因此被排除在外。",
+    "ipv6_listen": "该服务器接受 IPv6 连接，但该域没有可用的 IPv6 地址。通过 IPv6 连接的客户端会收到 403。",
+    "duplicate": "同一列表中的另一个域允许相同的地址。"
+  },
+  "families": {
+    "ipv4": "IPv4",
+    "ipv6": "IPv6"
+  },
+  "familyState": {
+    "ok": "OK",
+    "not_found": "没有记录",
+    "transient": "查找失败",
+    "rejected": "已拒绝",
+    "unknown": "未检查"
+  },
+  "errorCodes": {
+    "timeout": "超时",
+    "servfail": "DNS服务器故障",
+    "refused": "被DNS服务器拒绝",
+    "network": "网络错误",
+    "not_found": "没有这样的记录",
+    "reserved": "保留地址",
+    "loopback": "环回地址",
+    "private": "私人地址",
+    "link_local": "链路本地地址",
+    "multicast": "组播地址",
+    "cdn": "CDN地址",
+    "too_many": "地址太多",
+    "cname_failed": "CNAME查找失败",
+    "cname_indeterminate": "CNAME目标不明"
+  },
+  "blocked": {
+    "blocked": "nginx -t 由于另一个配置文件而失败",
+    "failed": "nginx 重新加载失败",
+    "rejected": "nginx 拒绝重新加载",
+    "not_up": "nginx 尚未运行",
+    "file": "({{file}})"
+  },
+  "list": {
+    "noAddresses": "不允许使用地址",
+    "more": "+{{count}}",
+    "pending": "等待申请：{{addresses}}",
+    "pendingAt": "适用于{{time}}：{{addresses}}",
+    "notApplied": "nginx 尚未加载最新地址",
+    "notAppliedBecause": "尚未应用：{{reason}}",
+    "checkedAt": "已检查{{time}}",
+    "neverChecked": "尚未检查",
+    "staleUntil": "保留至{{time}}",
+    "canonical": "CNAME→{{name}}",
+    "family": "{{family}}:{{state}}",
+    "familyWithCode": "{{family}}:{{state}}({{code}})",
+    "lastError": "最后错误：{{code}}"
+  },
+  "actions": {
+    "confirm": "再次允许"
+  },
+  "confirm": {
+    "title": "再次允许{{name}}吗？",
+    "observed": "该服务器现在解析的地址",
+    "noObserved": "尚未解决任何可用的问题。等待下一次检查并重试。",
+    "canonical": "CNAME目标：{{name}}",
+    "pinned": "之前批准：{{name}}",
+    "serverDecides": "仅允许服务器在您确认后解析的内容。如果答案在此期间发生变化，系统会再次询问您。",
+    "submit": "再次允许",
+    "submitting": "检查中...",
+    "lookupUnavailable": "刚才服务器无法解析这个域名，所以什么都不允许。请稍后重试。",
+    "observationChanged": "DNS答案改变了，所以什么都不允许。上面的地址现在显示了新的答案：检查它们并再次确认。",
+    "notInReview": "该域名不再需要审核。",
+    "failed": "无法再次允许该域。"
+  },
+  "loginBypass": {
+    "title": "域名可以跳过登录",
+    "list": "该列表包含域条目和满足任何。在这些具有登录名（ForwardAuth、auth_request 或 auth_basic）的主机上，域地址的客户端无需登录即可进入：",
+    "count": "这适用于使用此列表登录的{{count}}主机。",
+    "host": "该主机具有登录名，并且其访问列表具有满足任意的域条目。这些域地址之一的客户端无需登录即可进入。关闭满足列表中的任何一个即可同时要求两者。",
+    "more": "+{{count}}更多"
+  },
+  "nameErrors": {
+    "empty": "输入域名。",
+    "too_long": "域名最多可以包含 253 个字符。",
+    "label": "点之间的每个部分必须是 1-63 个字母、数字或连字符。",
+    "hyphen": "点之间的部分不能以连字符开头或结尾。",
+    "single_label": "输入带点的完整域名，例如partner.example.com。",
+    "tld": "最后一部分必须是字母（或 xn-- 名称）。",
+    "looks_like_ip": "这看起来像IP地址，但不是有效地址。",
+    "wildcard": "不支持通配符 (*)。",
+    "underscore": "域名中不允许使用下划线 (_)。",
+    "url_or_port": "仅输入域名，不输入方案、端口、路径、% 或 @。",
+    "whitespace": "不允许使用空格和不可见字符。",
+    "non_ascii": "如果不更改此名称，则无法将其转换为其 xn-- 形式。",
+    "internal_suffix": "本地名称（.local、.lan、.internal...）无法在 Internet 上解析。"
+  },
+  "guide": {
+    "common": "按计划再次查找域（默认情况下每分钟一次）。更改后的地址在记录的TTL、检查间隔和最小应用间隙后生效；消失的地址会立即被阻止。控制此域的DNS（DDNS帐户所有者）的人控制此例外。",
+    "ipv6": "路由器的DDNSAAAA记录通常是路由器自己的地址，因此它与 IPv6 上对方的PC不匹配。让另一端通过 IPv4 连接，或在该设备上使用更新其自身地址的DDNS客户端。该服务器还接受 IPv6 连接。",
+    "review": "该域现在指向其他地方（更改的CNAME、它从未有过的地址或太多更改）。它可能已被接管，因此在您确认之前不会让任何人进入。"
+  },
+  "settings": {
+    "title": "域条目 (DDNS)",
+    "description": "访问列表、URI阻止例外、优先级允许、速率限制例外以及全局可信 IP 可以在 IP 旁边使用域名（例如DDNS名称）。NPG按计划查找名称，并让 nginx 仅允许它找到的地址。下面的设置设置了频率和仔细程度。",
+    "loadError": "无法加载域条目设置：{{error}}",
+    "cardTitle": "设置",
+    "groups": {
+      "lookup": "查找名字",
+      "apply": "应用新地址",
+      "limits": "限制"
+    },
+    "fields": {
+      "enabled": {
+        "label": "使用域条目",
+        "desc": "关闭后，没有人可以通过域进入。保留审查状态和批准的CNAME目标。",
+        "help": "关闭此功能会立即清空每个域的 nginx 文件。当您再次打开它时，经过常规检查后，将允许使用以前拥有的地址返回的域；带有新地址的人需要首先进行审查。"
+      },
+      "check_interval_seconds": {
+        "label": "检查间隔（秒）",
+        "desc": "再次查找每个正在使用的域的频率。",
+        "help": "较短的时间间隔会更快地注意到地址更改，但会发送更多的DNS查询。消失的地址将在下次检查时被阻止；新的也等待最小应用间隙。"
+      },
+      "min_reload_gap_seconds": {
+        "label": "最小应用间隙（秒）",
+        "desc": "添加DNS地址的两次 nginx 重新加载之间的最短时间。",
+        "help": "仅当相同的答案连续两次出现并且至少在最后一次DNS重新加载后这么长时间后，才允许使用新地址。删除地址永远不会等待它。"
+      },
+      "stale_grace_hours": {
+        "label": "查找错误的宽限期（小时）",
+        "desc": "查找失败时域保留其最后地址的时间。",
+        "help": "在超时和DNS服务器故障时，最后的地址分别针对 IPv4 和 IPv6 保留这么长时间。之后，该族被清空，直到查找再次成功。"
+      },
+      "not_found_checks": {
+        "label": "删除前回答“无记录”",
+        "desc": "在家庭地址被删除之前，连续回答“没有记录”。",
+        "help": "一个错误的答案不会删除地址：它们只会在连续的许多“无记录”答案之后进行。"
+      },
+      "max_changes_per_day": {
+        "label": "地址每天变化",
+        "desc": "在需要审核之前的 24 小时内应用了一个域的更改。",
+        "help": "替换（旧地址输出，新地址输入）计数一次。更改频繁的域被标记为不稳定，并且在您再次允许之前不允许任何人进入。"
+      },
+      "max_per_list": {
+        "label": "每个列表的域",
+        "desc": "一个访问列表可以容纳多少个域。",
+        "help": "降低它不会移除任何东西。只要不添加域，超出限制的列表仍然可以保存。"
+      },
+      "max_total": {
+        "label": "域名总数",
+        "desc": "所有列表一起可以使用多少个不同的域。",
+        "help": "降低它不会移除任何东西。当使用的域数量超过限制时，添加域的保存将被拒绝。"
+      },
+      "max_addresses_per_family": {
+        "label": "每个家庭的地址",
+        "desc": "一个域可以拥有大多数 IPv4 地址和大多数 IPv6 地址。",
+        "help": "对于整个系列，包含比此数量更多地址的答案将被拒绝，因此CDN或通配符记录无法打开包含多个地址的列表。"
+      }
+    },
+    "defaultValue": "默认值：{{value}}",
+    "rangeHint": "输入从{{min}}到{{max}}的整数。",
+    "inUse": "现在使用：{{count}}",
+    "overLimit": "正在使用的域数量超出了此限制。添加域的保存被拒绝；列表中已有的域将保留。",
+    "envDisabled": "由NPG_DNS_ENTRIES_DISABLED环境变量关闭。一旦删除变量并重新创建API容器（docker compose up -d），就会使用此处的值。",
+    "envInterval": "通过NPG_DNS_ENTRIES_INTERVAL环境变量设置为{{seconds}}秒。一旦删除变量并重新创建API容器（docker compose up -d），就会使用此处的值。",
+    "turningOff": "保存会立即关闭每个域条目：在您再次打开它们之前，没有人可以通过域进入。",
+    "turningOn": "保存后，在进行常规检查后，允许使用之前的地址返回的域名；一个有新地址的需要审查。",
+    "saved": "已保存域条目设置。",
+    "saveFailed": "无法保存域条目设置：{{error}}",
+    "disabledBanner": "域条目已关闭：除非您在下面将其打开，否则没有人可以通过域进入。",
+    "envDisabledBanner": "域条目由NPG_DNS_ENTRIES_DISABLED环境变量关闭：在您删除域并重新创建API容器（docker compose up -d）之前，没有人可以通过域进入。"
+  },
+  "overview": {
+    "title": "正在使用的域名",
+    "description": "列表使用的每个域、nginx 现在允许的地址以及仍在等待的地址。您可能看不到的地方仅显示为计数。",
+    "loadError": "无法加载域条目：{{error}}",
+    "empty": "尚无列表使用域。将诸如partner.example.com之类的域添加到访问列表或例外列表中，它会在此处显示。",
+    "total": "{{count}}最多{{max}}域",
+    "needsReview_one": "{{count}}需要审查",
+    "needsReview_other": "{{count}}需要审核",
+    "columns": {
+      "name": "域名",
+      "uses": "使用者",
+      "status": "状态",
+      "addresses": "允许的地址",
+      "warnings": "警告",
+      "actions": "操作"
+    },
+    "useKinds": {
+      "access_list": "访问列表",
+      "uri_block": "URI块异常",
+      "priority_allow": "优先允许",
+      "rate_limit": "速率限制例外",
+      "trusted": "全局信任"
+    },
+    "use": "{{kind}}:{{name}}",
+    "useGlobal": "{{kind}}（全局）",
+    "hiddenUses": "{{count}}其他地方",
+    "hiddenUsesHelp": "用于您的角色可能不会阅读的地方。",
+    "noUses": "不再使用。在应用更改之前，nginx 可能仍然允许它。",
+    "loginBypass": "跳过{{count}}主机上的登录",
+    "loginBypassHelp": "A 满足具有此域的任何访问列表由具有登录名（ForwardAuth、auth_request 或 auth_basic）的主机使用。在这些主机上，位于该域地址的客户端无需登录即可进入。关闭满足列表中的任何一项即可同时要求两者。",
+    "confirmed": "再次允许{{name}}。",
+    "confirmReloadRejected": "{{name}}再次被允许，但 nginx 不接受新配置。请检查以下原因。",
+    "apply": {
+      "lastReload": "最后DNS 应用：{{time}}",
+      "noReload": "自API启动以来，没有DNS适用",
+      "pendingAdditions": "添加等待：{{count}}",
+      "revokePending": "nginx 仍然允许删除：{{count}}",
+      "revokePendingHelp": "地址NPG从正在运行的 nginx 仍然允许的域中删除。他们会在下一次成功重新加载时继续；如果失败，则会向订阅“域条目更改未应用”的频道发出警报。",
+      "blockedTitle": "上次应用失败：{{reason}}",
+      "blockingFile": "阻止文件：{{file}}",
+      "nextRetry": "下次尝试：{{time}}",
+      "button": "立即应用",
+      "applying": "应用中...",
+      "buttonHelp": "立即运行 nginx -t 并重新加载，而不是等待下一次尝试。它不会改变信任。如果另一个配置文件阻止它，请先修复该文件。"
+    },
+    "applyResult": {
+      "accepted": "nginx 加载域入口文件。",
+      "signalled": "nginx 被告知重新加载域条目文件。",
+      "unconfirmed": "nginx 被告知重新加载，但尚未确认它是否已获取文件。下一页检查再次查看。",
+      "skipped": "nginx 测试已关闭（NGINX_SKIP_TEST），因此文件被记录为已应用而无需重新加载。",
+      "blocked": "nginx -t 由于另一个配置文件而失败，因此没有应用任何内容。",
+      "failed": "nginx 重新加载失败。系统会自动再次尝试。",
+      "not_up": "nginx 尚未运行。文件一旦启动就会应用。",
+      "rejected": "nginx 拒绝重新加载并保留其当前配置。请检查以下原因。",
+      "other": "应用完成：{{outcome}}",
+      "error": "无法申请：{{error}}"
+    }
+  },
+  "field": {
+    "title": "域名",
+    "help": "添加地址发生变化的域，例如DDNS名称：NPG按计划查找它并使用它找到的地址（例如此列表中的 IP）。",
+    "readOnly": "您的角色可能不会更改这些域。",
+    "confirmReloadRejected": "再次允许，但是nginx不接受新的配置。请检查以下原因。"
+  },
+  "input": {
+    "placeholder": "合作伙伴.example.com",
+    "add": "添加",
+    "remove": "删除{{name}}",
+    "typed": "类型：{{raw}}",
+    "savedAs": "另存为{{name}}",
+    "ipInNameField": "在IP字段中输入IP地址，而不是在此处。",
+    "duplicate": "该域名已在列表中。",
+    "empty": "没有域名。"
+  },
+  "listErrors": {
+    "limit": "域名太多：{{detail}}",
+    "hostname_in_ip_field": "将域放在域字段中，而不是IP字段中。",
+    "duplicate_hostname": "该域名已在列表中。",
+    "saveFailed": "无法保存域名：{{detail}}",
+    "reloadRejected": "已保存，但nginx不接受新配置。请检查以下原因。"
+  },
+  "ipField": {
+    "domainHint": "域名位于下面的域名字段中，而不是此处：{{entries}}"
+  },
+  "ignored": {
+    "title": "未应用的条目",
+    "help": "不是IP地址或CIDR范围，因此 nginx 不使用它们（由旧版本保存）。可以将域移动到域。它们会保持原样，直到您移动或删除它们，并且更改会在您保存时生效。",
+    "move": "移至域",
+    "remove": "删除条目"
+  },
+  "notes": {
+    "uriBlock": "域例外只允许请求通过被阻止的路径。WAF、禁令和其他保护措施仍然适用。",
+    "uriBlockSkipped": "该主机的高级配置要求登录（auth_basic 或 auth_request），因此不应用其域例外。其例外 IP 仍然适用。",
+    "priorityAllow": "优先允许域仅绕过地理、云提供商和机器人阻止。与IP条目不同，它不会关闭WAF。",
+    "rateLimit": "来自该域地址的请求不受速率限制。WAF和禁令仍然适用。",
+    "trusted": "受信任的域不会绕过禁令，过滤器订阅的IP块或WAF，并且fail2ban 和WAF自动禁止仍然可以禁止它。它不会传递具有登录名的主机的访问列表（ForwardAuth 等），也不会传递访问列表完全拒绝的地址。在启用机器人过滤器的主机上，它会绕过过滤器订阅的用户代理块，就像受信任的IP一样。LAN上的设备可以在 X-Forwarded-For 中声明此域的地址（任何人都可以查找），并在每个主机上受到信任。"
+  }
+}
