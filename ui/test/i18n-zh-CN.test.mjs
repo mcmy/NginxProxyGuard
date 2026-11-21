@@ -84,12 +84,32 @@ test('certificate algorithms, sort directions, and HTTPS switches use consistent
 
   assert.equal(certificates.form.keyType, '密钥类型')
   assert.deepEqual(certificates.keyTypes, load('en', 'certificates').keyTypes)
-  assert.equal(certificates.list.sort.domainAsc, '域名升序')
-  assert.equal(certificates.list.sort.domainDesc, '域名降序')
-  assert.equal(proxyHost.list.sort.nameAsc, '名称升序')
-  assert.equal(proxyHost.list.sort.nameDesc, '名称降序')
+  assert.equal(certificates.list.sort.domainAsc, '域名（A-Z）')
+  assert.equal(certificates.list.sort.domainDesc, '域名（Z-A）')
+  assert.equal(proxyHost.list.sort.nameAsc, '名称（A-Z）')
+  assert.equal(proxyHost.list.sort.nameDesc, '名称（Z-A）')
+  assert.equal(proxyHost.list.sort.createdAsc, '最早创建')
+  assert.equal(certificates.list.sort.createdAsc, proxyHost.list.sort.createdAsc)
+  assert.equal(proxyHost.list.sort.updatedAsc, '最早更新')
   assert.equal(proxyHost.form.ssl.forceHttps, '强制 HTTPS')
   assert.equal(redirectHost.form.forceHttps, proxyHost.form.ssl.forceHttps)
+})
+
+test('Chinese Nginx controls describe connection scope, request bodies, and unmatched hosts', () => {
+  const settings = load('zh-CN', 'settings')
+  const proxyHost = load('zh-CN', 'proxyHost')
+  const { worker_connections, multi_accept, client_max_body_size } = settings.global.fields
+  const directIp = settings.global.advanced.directIpAccess
+
+  assert.match(worker_connections.description, /客户端连接.*上游服务器的连接/)
+  assert.equal(multi_accept.label, '批量接收新连接')
+  assert.equal(client_max_body_size.label, '请求体大小上限')
+  assert.equal(proxyHost.form.performance.proxySettings.clientMaxBodySize, client_max_body_size.label)
+  assert.equal(proxyHost.help.performance.clientMaxBodySize, settings.help.global.client_max_body_size)
+  assert.match(settings.help.global.client_max_body_size, /413.*0 可停用 Nginx 的请求体大小检查/)
+  assert.match(directIp.description, /服务器 IP 地址或未配置的域名/)
+  assert.match(directIp.options.block444.description, /客户端收不到 HTTP 响应/)
+  assert.match(directIp.note.description, /SNI.*握手拒绝/)
 })
 
 test('rule labels localize known IDs and preserve descriptions for unknown ones', () => {

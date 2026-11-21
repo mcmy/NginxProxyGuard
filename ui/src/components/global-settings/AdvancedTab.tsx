@@ -316,7 +316,7 @@ export default function AdvancedTab({ getStringValue, getNumberValue, getBoolVal
                 value={getNumberValue('limit_rate', 0)}
                 onChange={(e) => handleChange('limit_rate', parseInt(e.target.value) || 0)}
                 className={inputClass}
-                placeholder="0 (unlimited)"
+                placeholder={t('global.advanced.ddos.bandwidthLimit.ratePlaceholder')}
               />
             </div>
             <div>

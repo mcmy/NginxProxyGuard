@@ -736,6 +736,7 @@
     },
     "performance": {
       "buffer": {
+        "badge": "버퍼",
         "title": "프록시 버퍼 설정",
         "description": "업스트림 서버로부터의 응답을 버퍼링하는 방식을 설정합니다. 적절한 버퍼 크기는 메모리 사용량과 성능 사이의 균형을 맞춥니다.",
         "useNginxDefault": "nginx 기본값 사용 (on)",
@@ -746,6 +747,7 @@
         "requestBufferingOff": "끄기 (업스트림으로 스트리밍)"
       },
       "openFileCache": {
+        "badge": "캐시",
         "title": "Open File Cache"
       },
       "tips": "Tip: 프록시 버퍼 크기가 너무 작으면 응답이 임시 파일에 기록되어 디스크 I/O가 발생합니다. 대용량 응답이 많은 경우 버퍼 크기를 늘리면 성능이 향상됩니다. Open File Cache는 정적 파일이 많은 경우 파일 디스크립터를 캐시하여 성능을 향상시킵니다."
@@ -1064,7 +1066,8 @@
           "title": "대역폭 제한",
           "description": "클라이언트 다운로드 속도를 제한합니다. 0 = 무제한",
           "rate": "속도 제한 (bytes/s)",
-          "after": "적용 시작 크기"
+          "after": "적용 시작 크기",
+          "ratePlaceholder": "0 (제한 없음)"
         },
         "connectionReset": {
           "title": "타임아웃 연결 리셋",
@@ -1373,7 +1376,9 @@
       "gzip_types": "압축할 파일 형식을 지정합니다. 이미지나 비디오는 이미 압축되어 있어 제외하는 것이 좋습니다.",
       "gzip_vary": "캐시 서버가 압축된 버전과 안 된 버전을 구분할 수 있도록 Vary 헤더를 추가합니다.",
       "brotli_enabled": "Google이 개발한 Brotli 압축을 사용합니다. Gzip보다 압축률이 더 높습니다.",
+      "brotli_static": "brotli_static에 해당합니다. 클라이언트가 Brotli를 지원하면 기존 .br 파일을 전송합니다.",
       "brotli_comp_level": "Brotli 압축 강도입니다. 4~6 정도를 권장합니다.",
+      "brotli_min_length": "brotli_min_length에 해당합니다. Content-Length 헤더를 기준으로 최소 응답 크기를 확인합니다.",
       "brotli_types": "Brotli로 압축할 콘텐츠 타입을 지정합니다.",
       "ssl_protocols": "보안 취약점이 있는 구버전 프로토콜(SSLv3, TLSv1.0, TLSv1.1)은 사용하지 않는 것이 안전합니다.",
       "ssl_ciphers": "사용할 암호화 알고리즘 목록입니다. 강력한 보안을 위해 최신 설정을 유지하세요.",
@@ -1393,6 +1398,7 @@
       "resolver": "도메인 이름을 IP로 변환할 때 사용할 DNS 서버입니다.",
       "error_log_level": "로그에 기록할 에러의 상세 수준입니다. 디버깅 목적이 아니면 'warn'이나 'error'를 권장합니다.",
       "access_log_enabled": "docker logs 사본만 켜고 끕니다. 꺼도 NPG의 접속 로그 수집은 멈추지 않습니다.",
+      "access_log_strip_query": "활성화하면 자격 증명 등이 포함될 수 있는 URL 쿼리 매개변수를 액세스 로그에 기록하지 않습니다.",
       "custom_http_config": "Nginx http 블록에 추가할 사용자 정의 설정을 입력합니다.",
       "proxy_buffer_size": "업스트림 서버에서 응답의 첫 부분(헤더)을 읽을 때 사용하는 버퍼 크기입니다.",
       "proxy_buffers": "응답을 버퍼링하는 데 사용할 버퍼의 수와 크기입니다. 형식: '개수 크기'",

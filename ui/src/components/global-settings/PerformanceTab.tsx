@@ -10,7 +10,7 @@ export default function PerformanceTab({ getStringValue, getNumberValue, getBool
       {/* Proxy Buffer Section */}
       <div>
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-          <span className="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs rounded">Buffer</span>
+          <span className="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs rounded">{t('global.performance.buffer.badge')}</span>
           {t('global.performance.buffer.title')}
         </h3>
         <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
@@ -95,7 +95,7 @@ export default function PerformanceTab({ getStringValue, getNumberValue, getBool
       {/* Open File Cache Section */}
       <div className="border-t border-slate-200 dark:border-slate-700 pt-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-          <span className="px-2 py-1 bg-cyan-100 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-300 text-xs rounded">Cache</span>
+          <span className="px-2 py-1 bg-cyan-100 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-300 text-xs rounded">{t('global.performance.openFileCache.badge')}</span>
           {t('global.performance.openFileCache.title')}
         </h3>
         <CheckboxField

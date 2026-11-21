@@ -27,13 +27,13 @@
   "security": {
     "title": "安全设置",
     "globalDdosProtection": {
-      "title": "全球 DDoS 防护",
+      "title": "全局 DDoS 防护",
       "description": "为所有主机启用 DDoS 防护",
-      "enabled": "启用全球 DDoS 防护"
+      "enabled": "启用全局 DDoS 防护"
     },
     "directIpAccess": {
-      "title": "直接 IP 访问",
-      "description": "处理通过 IP 而不是域访问的请求",
+      "title": "通过 IP 地址访问",
+      "description": "设置如何处理直接使用 IP 地址访问服务器的请求。",
       "mode": "模式",
       "allow": "允许",
       "block": "阻止",
@@ -352,13 +352,13 @@
       },
       "enable": {
         "label": "根据 WAF 事件自动封禁 IP",
-        "description": "同一 IP 触发的 WAF 事件数超过阈值时，自动封禁该 IP。"
+        "description": "同一 IP 触发的 WAF 事件数达到阈值时，自动封禁该 IP。"
       },
       "config": {
         "title": "自动封禁配置",
         "threshold": {
           "label": "封禁阈值（WAF 事件数）",
-          "description": "同一 IP 在统计窗口内触发的 WAF 事件数超过该阈值时，将被自动封禁。"
+          "description": "同一 IP 在统计窗口内触发的 WAF 事件数达到此值时，将被自动封禁。"
         },
         "window": {
           "label": "统计窗口（秒）",
@@ -373,7 +373,7 @@
       },
       "info": {
         "title": "自动封禁机制",
-        "description": "同一 IP 因 SQL 注入、XSS 等原因被 WAF 拦截的请求数超过阈值时，将被自动封禁。可在「WAF / 拦截 → IP 封禁管理」中查看和处理。"
+        "description": "WAF 处于拦截模式时，同一 IP 触发的 WAF 事件数达到阈值便会自动封禁。可在「WAF / 拦截 → IP 封禁管理」中查看和处理。"
       },
       "trustedIps": {
         "title": "全局可信 IP",
@@ -736,298 +736,300 @@
     },
     "performance": {
       "buffer": {
-        "title": "代理缓冲区设置",
-        "description": "配置如何缓冲来自上游服务器的响应。适当的缓冲区大小可以平衡内存使用和性能。",
-        "useNginxDefault": "使用nginx默认（开启）",
-        "bufferingOn": "开（缓冲响应）",
-        "bufferingOff": "关闭（直接串流）",
-        "bufferingOffCacheNote": "关闭此功能后，启用缓存的主机将不存储任何内容。在这些主机上将代理缓冲设置为“打开”。",
-        "requestBufferingOn": "打开（缓冲整个请求）",
-        "requestBufferingOff": "关闭（流至上游）"
+        "badge": "缓冲",
+        "title": "代理缓冲",
+        "description": "配置 Nginx 如何缓冲客户端请求和上游响应。",
+        "useNginxDefault": "使用 Nginx 默认值（开启）",
+        "bufferingOn": "开启（缓冲响应）",
+        "bufferingOff": "关闭（边接收边转发）",
+        "bufferingOffCacheNote": "要在某个主机上使用缓存，请在该主机上开启代理响应缓冲。",
+        "requestBufferingOn": "开启（先读取完整请求体）",
+        "requestBufferingOff": "关闭（边接收边转发）"
       },
       "openFileCache": {
-        "title": "打开文件缓存"
+        "badge": "缓存",
+        "title": "文件描述符缓存"
       },
-      "tips": "提示：如果代理缓冲区大小太小，响应将写入临时文件，导致磁盘 I/O。增加缓冲区大小可提高大型响应的性能。 Open File Cache 缓存静态文件的文件描述符以提高性能。"
+      "tips": "开启响应缓冲时，超出内存缓冲空间的响应可以写入临时文件。文件描述符缓存可以减少反复打开文件的开销。"
     },
     "fields": {
       "worker_processes": {
-        "label": "工作进程",
-        "description": "处理请求的工作进程数。 0 = 基于CPU内核自动检测。较高的值可提高并发性。",
+        "label": "工作进程数",
+        "description": "设置处理请求的 Nginx 工作进程数。设为 0 时，Nginx 根据可用的 CPU 核心数自动设置。",
         "placeholder": "0 = 自动"
       },
       "worker_connections": {
-        "label": "工人连接",
-        "description": "每个工作进程的最大同时连接数。较高的值允许更多并发连接。"
+        "label": "每个工作进程的连接数上限",
+        "description": "限制单个工作进程同时打开的连接数，包括客户端连接和到上游服务器的连接。"
       },
       "worker_shutdown_timeout": {
-        "label": "工作进程关闭超时（秒）",
-        "description": "重新加载后，旧的工作线程最多会持续为其打开的连接（WebSockets、长时间下载）提供服务，然后关闭它们。 0 = 等待每个连接结束。"
+        "label": "工作进程退出超时（秒）",
+        "description": "重新加载配置后，旧工作进程最多在此时限内继续处理已有连接，例如 WebSocket 或进行中的下载。设为 0 表示等待已有连接结束。"
       },
       "multi_accept": {
-        "label": "多接受",
-        "description": "如果启用，工作人员将立即接受所有新连接。提高高流量下的性能。"
+        "label": "批量接收新连接",
+        "description": "开启后，工作进程每次收到通知时会接收所有等待中的新连接。关闭时，每次只接收一个。"
       },
       "use_epoll": {
-        "label": "使用epoll",
-        "description": "在Linux上使用高效的事件处理方法（epoll）。提高许多并发连接的性能。"
+        "label": "使用 epoll",
+        "description": "在 Linux 上使用 epoll 监听连接和 I/O 事件。"
       },
       "keepalive_timeout": {
-        "label": "保活超时（秒）",
-        "description": "是时候保持联系了。允许客户端重复使用多个请求的连接。"
+        "label": "长连接空闲超时（秒）",
+        "description": "客户端 HTTP 连接在两次请求之间可以空闲多久。设为 0 时，关闭客户端 HTTP 长连接。"
       },
       "keepalive_requests": {
-        "label": "保活请求",
-        "description": "通过单个 keepalive 连接可以处理的最大请求数。"
+        "label": "每条长连接的请求数上限",
+        "description": "同一条客户端 HTTP 长连接处理完指定数量的请求后，Nginx 会关闭连接。"
       },
       "client_max_body_size": {
-        "label": "最大车身尺寸",
-        "description": "客户端请求正文允许的最大大小（例如，100m、1g）。影响文件上传限制。"
+        "label": "请求体大小上限",
+        "description": "限制单个 HTTP 请求的请求体大小，包括文件上传和 API 提交的数据。超出上限时返回 413。可填写 100m、1g 等值，填 0 可停用 Nginx 的请求体大小检查。"
       },
       "types_hash_max_size": {
-        "label": "类型 哈希大小",
-        "description": "MIME类型哈希表的最大大小。默认值通常就足够了。"
+        "label": "MIME 类型哈希表大小上限",
+        "description": "限制 Nginx 用于查找文件扩展名对应 MIME 类型的哈希表大小。"
       },
       "sendfile": {
-        "label": "发送文件",
-        "description": "使用sendfile()系统调用直接在内核中传输文件。提高静态文件服务速度。"
+        "label": "启用 sendfile",
+        "description": "使用 sendfile 系统调用传输静态文件，减少数据复制。"
       },
       "tcp_nopush": {
-        "label": "TCP不推送",
-        "description": "与 sendfile 结合使用。在一个数据包中发送响应头和文件内容。"
+        "label": "合并发送响应头和文件数据（tcp_nopush）",
+        "description": "启用 sendfile 时，尝试在同一个数据包中发送 HTTP 响应头和文件的开头，并尽量用满数据包发送文件。"
       },
       "tcp_nodelay": {
-        "label": "TCP节点布局",
-        "description": "禁用 Nagle 算法。立即发送小数据包。对于实时应用程序很有用。"
+        "label": "禁用 Nagle 算法（tcp_nodelay）",
+        "description": "允许 HTTP 长连接等提前发送小块数据，减少等待合并数据的延迟。"
       },
       "server_tokens": {
-        "label": "服务器令牌",
-        "description": "如果启用，Nginx 版本将显示在响应头中。为了安全建议禁用。"
+        "label": "显示 Nginx 版本",
+        "description": "在 Server 响应头和 Nginx 内置错误页中显示版本号。"
       },
       "gzip_enabled": {
         "label": "Gzip 压缩",
-        "description": "使用 Gzip 压缩响应。保存带宽并提高页面加载速度。"
+        "description": "使用 Gzip 压缩符合条件的响应，以减少传输量。"
       },
       "gzip_comp_level": {
-        "label": "压缩级别 (1-9)",
-        "description": "压缩强度。更高意味着更好的压缩，但更多的 CPU 使用。推荐：5-6。"
+        "label": "Gzip 压缩级别（1–9）",
+        "description": "级别越高，压缩通常越充分，所需的 CPU 时间也越多。"
       },
       "gzip_min_length": {
-        "label": "最小压缩长度（字节）",
-        "description": "小于此的响应将不会被压缩。压缩小文件的效率可能很低。"
+        "label": "Gzip 最小响应大小（字节）",
+        "description": "设置启用 Gzip 压缩所需的最小响应大小，以响应头中的 Content-Length 为准。"
       },
       "gzip_types": {
-        "label": "压缩MIME类型",
-        "description": "要压缩的MIME类型列表。对于基于文本的内容有效（HTML、CSS、JS、JSON等）。"
+        "label": "Gzip 压缩的 MIME 类型",
+        "description": "指定可用 Gzip 压缩的响应 MIME 类型，通常包括 CSS、JavaScript 和 JSON。"
       },
       "gzip_vary": {
-        "label": "添加变化标题",
-        "description": "添加“Vary：Accept-Encoding”标头。确保 CDN/缓存提供正确的版本。"
+        "label": "添加 Vary 响应头",
+        "description": "在适用的响应中添加 Vary: Accept-Encoding，让缓存按客户端支持的压缩格式区分响应。"
       },
       "brotli_enabled": {
         "label": "Brotli 压缩",
-        "description": "启用 Brotli 压缩。提供比 Gzip 更高的压缩比。现代浏览器支持。"
+        "description": "在客户端支持 Brotli 时，压缩符合条件的响应。"
       },
       "brotli_static": {
-        "label": "预压缩 Brotli 文件",
-        "description": "提供预压缩的 .br 文件（如果有）。减少静态资源的 CPU 开销。"
+        "label": "使用预压缩的 Brotli 文件",
+        "description": "客户端支持 Brotli 且存在对应的 .br 文件时，直接发送预压缩文件。"
       },
       "brotli_comp_level": {
         "label": "Brotli 压缩级别（1–11）",
-        "description": "Brotli 压缩强度。 1-4：快速，5-9：平衡，10-11：最大（高 CPU）。推荐：4-6。"
+        "description": "级别越高，压缩通常越充分，所需的 CPU 时间也越多。"
       },
       "brotli_min_length": {
-        "label": "Brotli最小长度",
-        "description": "应用 Brotli 压缩的最小响应大小（字节）。小文件无法从压缩中受益。"
+        "label": "Brotli 最小响应大小（字节）",
+        "description": "设置启用 Brotli 压缩所需的最小响应大小，以响应头中的 Content-Length 为准。"
       },
       "brotli_types": {
-        "label": "BrotliMIME类型",
-        "description": "要使用 Brotli 压缩的MIME类型列表。对于基于文本的内容最有效。"
+        "label": "Brotli 压缩的 MIME 类型",
+        "description": "指定可用 Brotli 压缩的响应 MIME 类型。"
       },
       "ssl_protocols": {
-        "label": "SSL 协议",
-        "description": "允许的 TLS 协议版本。为了安全起见，建议使用 TLSv1.2 和 TLSv1.3。"
+        "label": "TLS 协议版本",
+        "description": "指定客户端可用于建立 HTTPS 连接的 TLS 版本，例如 TLS 1.2 和 TLS 1.3。"
       },
       "ssl_ciphers": {
-        "label": "SSL 密码",
-        "description": "启用的密码套件列表。安全性和兼容性之间的平衡。"
+        "label": "TLS 密码套件",
+        "description": "指定 TLS 1.2 及更早版本可协商的密码套件。"
       },
       "ssl_ecdh_curve": {
-        "label": "ECDH曲线",
-        "description": "用于密钥交换的椭圆曲线组。包括 X25519MLKEM768，用于现代浏览器的后量子 (ML-KEM)TLS 支持。"
+        "label": "ECDH 曲线与密钥交换组",
+        "description": "指定 TLS 握手可用的密钥交换组。X25519MLKEM768 是一种支持后量子密钥交换的混合组。"
       },
       "ssl_session_cache": {
-        "label": "SSL 会话缓存",
-        "description": "缓存 SSL 会话以通过跳过握手来加速重新连接。"
+        "label": "TLS 会话缓存",
+        "description": "缓存 TLS 会话信息，供客户端重新连接时复用。"
       },
       "ssl_session_timeout": {
-        "label": "SSL 会话超时",
-        "description": "SSL 会话缓存的有效期。例如，1d（1 天）、1h（1 小时）。"
+        "label": "TLS 会话复用有效期",
+        "description": "指定客户端可以复用 TLS 会话的时长，例如 1h 或 1d。"
       },
       "ssl_prefer_server_ciphers": {
-        "label": "首选服务器密码",
-        "description": "使用服务器的首选密码套件而不是客户端的。推荐用于更强的安全性。"
+        "label": "优先使用服务端密码套件",
+        "description": "协商密码套件时，优先采用服务端配置的顺序。"
       },
       "ssl_stapling": {
-        "label": "OCSP装订",
-        "description": "在服务器上缓存证书状态以加速客户端连接验证。"
+        "label": "启用 OCSP Stapling",
+        "description": "在 TLS 握手中附上证书的 OCSP 状态响应，供客户端验证。"
       },
       "ssl_stapling_verify": {
-        "label": "装订验证",
-        "description": "验证OCSP响应。与 ssl_stapling 一起使用。"
+        "label": "验证 OCSP 响应",
+        "description": "启用 OCSP Stapling 时，由 Nginx 验证收到的 OCSP 响应。"
       },
       "ssl_session_tickets": {
-        "label": "会议门票",
-        "description": "启用 TLS 会话票证以恢复会话。减少服务器负载。"
+        "label": "TLS 会话票据",
+        "description": "允许客户端使用会话票据恢复之前的 TLS 会话。"
       },
       "client_body_timeout": {
-        "label": "客户端主体超时（秒）",
-        "description": "读取客户端请求正文超时。调整缓慢上传。"
+        "label": "读取客户端请求体超时（秒）",
+        "description": "限制两次读取请求体之间的等待时间。客户端在时限内未发送更多数据时，返回 408。"
       },
       "client_header_timeout": {
-        "label": "客户端标头超时（秒）",
-        "description": "读取客户端请求头超时。防止缓慢的客户端。"
+        "label": "读取客户端请求头超时（秒）",
+        "description": "限制读取完整客户端请求头的时间。超时返回 408。"
       },
       "send_timeout": {
-        "label": "发送超时（秒）",
-        "description": "向客户端传输响应超时。"
+        "label": "向客户端发送响应超时（秒）",
+        "description": "限制向客户端连续两次写入响应数据之间的等待时间。"
       },
       "proxy_connect_timeout": {
-        "label": "代理连接超时（秒）",
-        "description": "连接上游服务器超时。"
+        "label": "连接上游服务器超时（秒）",
+        "description": "限制 Nginx 建立到上游服务器的连接所能等待的时间。"
       },
       "proxy_send_timeout": {
-        "label": "代理发送超时（秒）",
-        "description": "向上游服务器发送请求超时。"
+        "label": "向上游发送请求超时（秒）",
+        "description": "限制向上游服务器连续两次写入请求数据之间的等待时间。"
       },
       "proxy_read_timeout": {
-        "label": "代理读取超时（秒）",
-        "description": "从上游服务器读取响应超时。调整缓慢的 API 响应。"
+        "label": "读取上游响应超时（秒）",
+        "description": "限制从上游服务器连续两次读取响应数据之间的等待时间。"
       },
       "resolver": {
         "label": "DNS 解析器",
-        "description": "用于解析域名的 DNS 服务器。例如 8.8.8.8 8.8.4.4 valid=300s"
+        "description": "指定 Nginx 用于解析域名的 DNS 服务器，例如 8.8.8.8 8.8.4.4 valid=300s。"
       },
       "error_log_level": {
         "label": "错误日志级别",
-        "description": "记录详细程度。 “debug”最详细，“crit”最简洁。"
+        "description": "记录所选级别及更严重的事件。debug 记录最详细，crit 只记录严重及以上级别的事件。"
       },
       "access_log_enabled": {
-        "label": "还将访问日志打印到 docker log",
-        "description": "将每个请求行也写入 npg-proxy 容器输出（docker 日志）。无论此切换如何，日志查看器、仪表板和安全功能使用的记录（access_raw.log → 数据库）都会保留。在繁忙的服务器上，此副本使 Docker 自己的日志快速轮换，从而将其他消息推送出去。"
+        "label": "同时写入 Docker 容器日志",
+        "description": "将访问日志同时写入 npg-proxy 容器输出，可用 docker logs 查看。界面和安全功能仍通过 access_raw.log 收集日志。访问量较大时，Docker 日志可能更快轮转。"
       },
       "access_log_strip_query": {
-        "label": "从访问日志中删除查询字符串",
-        "description": "访问日志仅记录路径，省略查询字符串（?apiKey=…、?access_token=…），避免查询参数中的凭据写入 access_raw.log 或轮转归档。默认关闭。"
+        "label": "访问日志省略查询字符串",
+        "description": "开启后，仅记录 URL 路径，省略 ?apiKey=… 等查询字符串，避免将其中的凭据记录到访问日志。"
       },
       "custom_http_config": {
         "label": "自定义 HTTP 配置",
-        "description": "直接输入额外的 Nginx 配置。对于高级用户。"
+        "description": "将额外的 Nginx 指令写入 http 配置块。"
       },
       "proxy_buffer_size": {
-        "label": "代理缓冲区大小",
-        "description": "用于读取上游服务器响应的第一部分（标头）的缓冲区大小。默认值：8k"
+        "label": "上游响应头缓冲区大小",
+        "description": "读取上游响应第一部分的缓冲区大小，这部分通常包含响应头。"
       },
       "proxy_buffers": {
-        "label": "代理缓冲区",
-        "description": "响应缓冲区的数量和大小。格式：“计数大小”（例如 8 32k）"
+        "label": "响应缓冲区数量和大小",
+        "description": "为单个上游响应分配的缓冲区。填写数量和每个缓冲区的大小，例如 8 32k。"
       },
       "proxy_busy_buffers_size": {
-        "label": "繁忙缓冲区大小",
-        "description": "响应未完全读取时可以发送到客户端的缓冲区大小。"
+        "label": "发送中的响应缓冲区大小上限",
+        "description": "尚未读完上游响应时，限制其中正在向客户端发送数据的缓冲区总大小。"
       },
       "proxy_max_temp_file_size": {
-        "label": "最大临时文件大小",
-        "description": "缓冲区已满时用于存储响应的临时文件的最大大小。设置为 0 以禁用临时文件。"
+        "label": "响应缓冲临时文件大小上限",
+        "description": "上游响应超出内存缓冲空间时，限制响应缓冲所用临时文件的大小。设为 0 可关闭响应缓冲写入临时文件。"
       },
       "proxy_temp_file_write_size": {
-        "label": "临时文件写入大小",
-        "description": "一次可以写入临时文件的数据大小。"
+        "label": "临时文件单次写入大小上限",
+        "description": "限制每次向响应缓冲临时文件写入的数据量。"
       },
       "proxy_buffering": {
-        "label": "代理缓冲",
-        "description": "启用后，nginx 在发送到客户端之前缓冲整个响应。关闭大量下载或实时流媒体。"
+        "label": "代理响应缓冲",
+        "description": "开启后，Nginx 会缓冲从上游读到的响应，超出内存缓冲空间时可使用临时文件。关闭后，收到数据就转发给客户端。"
       },
       "proxy_request_buffering": {
         "label": "代理请求缓冲",
-        "description": "启用后，nginx 在转发之前将整个请求正文缓冲到磁盘。关闭以在上传到达时将其流式传输到上游。在 WAF-enabled 主机上，仍会读取正文以进行检查。"
+        "description": "开启后，Nginx 先读取完整的请求体，再转发给上游。关闭后，可边接收边转发。启用 WAF 时，ModSecurity 仍可能读取请求体进行检查。"
       },
       "open_file_cache_enabled": {
-        "label": "启用打开文件缓存",
-        "description": "缓存打开的文件描述符和目录查找。提高了具有许多静态文件的站点的性能。"
+        "label": "启用文件描述符缓存",
+        "description": "缓存打开的文件描述符、文件大小和修改时间，以及目录是否存在等信息。"
       },
       "open_file_cache_max": {
-        "label": "最大缓存条目数",
-        "description": "缓存中保留的最大条目数。"
+        "label": "缓存条目数上限",
+        "description": "设置文件描述符缓存可保留的最大条目数。"
       },
       "open_file_cache_inactive": {
-        "label": "不活跃时间",
-        "description": "在此时间内未访问的条目将从缓存中删除。 （例如，20 秒、60 秒）"
+        "label": "未访问条目保留时间",
+        "description": "缓存条目在指定时间内未被访问时会移除，例如 20s 或 60s。"
       },
       "open_file_cache_valid": {
-        "label": "验证间隔",
-        "description": "检查缓存条目是否仍然有效的频率。 （例如，30 秒、60 秒）"
+        "label": "缓存校验间隔",
+        "description": "设置多久检查一次已缓存的信息是否仍然有效，例如 30s 或 60s。"
       },
       "open_file_cache_min_uses": {
-        "label": "最低使用量",
-        "description": "只有访问了这么多次的文件才会保留在缓存中。"
+        "label": "保持文件打开的最低访问次数",
+        "description": "文件在上述保留时间内达到此访问次数时，才继续保持文件描述符打开。"
       },
       "open_file_cache_errors": {
-        "label": "缓存错误",
-        "description": "还缓存未找到文件的错误。提高了重复请求不存在文件的性能。"
+        "label": "缓存文件查找错误",
+        "description": "缓存找不到文件、权限不足等文件查找错误。"
       },
       "reset_timedout_connection": {
         "label": "重置超时连接",
-        "description": "使用RST而不是FIN关闭超时连接以立即释放套接字。有助于保存服务器资源。"
+        "description": "向发生超时的连接发送 TCP RST，尽快释放套接字资源。"
       },
       "resolver_timeout": {
-        "label": "DNS 解析器超时",
-        "description": "等待 DNS 查找响应的最长时间。 （例如，30 秒）"
+        "label": "DNS 解析超时",
+        "description": "限制等待 DNS 查询完成的时间，例如 30s。"
       },
       "custom_stream_config": {
-        "label": "自定义流配置",
-        "description": "TCP/UDP代理的 Nginx 流块配置。对于高级用户。"
+        "label": "自定义 TCP/UDP 配置",
+        "description": "将额外的 Nginx 指令写入处理 TCP/UDP 代理的 stream 配置块。"
       }
     },
     "tips": {
-      "compression": "提示：同时启用 Gzip 和 Brotli 可以让浏览器自动选择最佳方法。 Brotli 的压缩率提高了 20-30%，但旧版浏览器仅支持 Gzip。"
+      "compression": "可同时启用 Gzip 和 Brotli，Nginx 会根据客户端声明支持的压缩格式处理响应。"
     },
     "advanced": {
       "directIpAccess": {
-        "title": "直接 IP 访问处理",
-        "description": "配置如何处理通过 IP 直接访问服务器而无需域的请求。直接 IP 访问主要来自机器人或扫描器。",
+        "title": "未匹配主机的请求",
+        "description": "设置默认站点如何响应未匹配主机的 HTTP 请求，例如使用服务器 IP 地址或未配置的域名访问。",
         "options": {
           "allow": {
-            "label": "显示 Nginx Proxy Guard 欢迎页面",
-            "description": "通过服务器 IP 访问时显示 Nginx Proxy Guard 欢迎页面。对于验证服务器是否正在运行很有用。"
+            "label": "显示 Nginx Proxy Guard 欢迎页",
+            "description": "访问默认站点的根路径时显示欢迎页，可用来确认 Nginx Proxy Guard 已运行。"
           },
           "block403": {
-            "label": "返回 403 禁止",
-            "description": "返回 403 Forbidden 并显示 Nginx Proxy Guard 访问拒绝页面。"
+            "label": "返回 403",
+            "description": "返回 403，并显示 Nginx Proxy Guard 的访问拒绝页面。"
           },
           "block444": {
-            "label": "关闭连接 (444)",
-            "description": "关闭连接且无响应——这是对扫描器最有效的响应。发送到 HTTPS 端口的格式错误的请求和普通 HTTP 都会以相同的方式关闭；携带您实际配置的主机名的请求仍然会收到正常错误。"
+            "label": "关闭连接（444）",
+            "description": "直接关闭连接，客户端收不到 HTTP 响应。默认站点的 HTTPS 端口收到明文 HTTP 请求时，也会直接关闭连接。"
           }
         },
         "note": {
-          "title": "备注",
-          "description": "无论此设置如何，catch-all 服务器仍会应答运行状况检查 (/health)、ACME 验证路径 (/.well-known/acme-challenge/) 和公共 API(/api/v1/public/)。 nginx 状态端点 (/nginx_status) 和内部管道金丝雀 (/__npg_canary) 仅响应环回和专用网络客户端。通过 HTTPS，SNI与主机不匹配的连接在 TLS 握手期间会被拒绝，因此它根本不产生 HTTP 状态。"
+          "title": "默认站点的其他请求",
+          "description": "HTTP 健康检查（/health）、ACME 验证（/.well-known/acme-challenge/）和公开 API（/api/v1/public/）由默认站点单独处理。默认站点还提供 Nginx 状态（/nginx_status）和内部日志探测（/__npg_canary）。HTTPS 握手时，无法匹配的服务器名称（SNI）会触发握手拒绝。"
         }
       },
       "ipv6": {
         "title": "IPv6 支持",
-        "description": "在 nginx 配置中启用或禁用 IPv6 监听指令。如果您的服务器不支持 IPv6，请禁用此选项。",
+        "description": "控制 Nginx 是否监听 IPv6 地址。服务器不支持 IPv6 时可关闭。",
         "enabled": "启用 IPv6",
-        "enabledDescription": "在 nginx 配置中包含监听 [::]: 指令",
-        "warning": "更改此设置将重新生成所有 nginx 配置并重新加载 nginx。"
+        "enabledDescription": "在 Nginx 配置中添加 IPv6 监听指令（[::]）。",
+        "warning": "更改后会重新生成 Nginx 配置并重新加载。"
       },
       "instanceName": {
         "title": "实例名称",
-        "description": "显示在每个页面顶部和浏览器选项卡中的名称，用于区分多个NPG安装。",
+        "description": "显示在页面顶部和浏览器标签页中，用于区分多个 Nginx Proxy Guard 实例。",
         "label": "名称",
-        "placeholder": "例如家庭实验室",
-        "help": "最多{{max}}个字符。将其留空以不显示任何内容。"
+        "placeholder": "例如 家庭实验室",
+        "help": "最多 {{max}} 个字符。留空时隐藏实例名称。"
       },
       "errorPageLanguage": {
         "title": "公开错误页语言",
@@ -1038,33 +1040,34 @@
       },
       "ddos": {
         "title": "DDoS 防护（全局）",
-        "description": "应用于所有主机的全局 DDoS 防护设置。除了这些设置之外，还应用代理主机特定的速率限制。",
+        "description": "设置所有代理主机的默认防护限制。单个主机还可配置自己的速率限制。",
         "connectionLimit": {
           "title": "连接限制",
-          "description": "限制每个 IP 的最大同时连接数。",
+          "description": "限制每个 IP 地址的并发连接数。",
           "perIp": "每个 IP 的最大连接数",
-          "zoneSize": "区域大小"
+          "zoneSize": "共享内存区大小"
         },
         "requestLimit": {
           "title": "请求速率限制",
-          "description": "限制每秒 IP 的请求。",
-          "rate": "每秒请求数 (r/s)",
-          "burst": "突发（允许超出）",
-          "zoneSize": "区域大小"
+          "description": "限制每个 IP 地址的请求速率。",
+          "rate": "每秒请求数（r/s）",
+          "burst": "允许的突发请求数",
+          "zoneSize": "共享内存区大小"
         },
         "responseLimit": {
-          "title": "响应率限制（带宽）",
-          "description": "限制对客户的响应速度。 0 = 无限制",
-          "rate": "速率限制（字节/秒，0=无限制）",
-          "ratePlaceholder": "例如，102400（100KB/秒）",
-          "after": "尺寸确定后涂抹",
-          "afterPlaceholder": "e.g., 500k, 1m"
+          "title": "响应带宽限制",
+          "description": "限制单个响应发送给客户端的速率。填 0 可关闭此限制。",
+          "rate": "速率上限（字节/秒，0 为不限速）",
+          "ratePlaceholder": "例如 102400（100 KiB/秒）",
+          "after": "开始限速前可发送的数据量",
+          "afterPlaceholder": "例如 500k、1m"
         },
         "bandwidthLimit": {
           "title": "带宽限制",
-          "description": "限制客户端下载速度。 0 = 无限制",
-          "rate": "速率限制（字节/秒）",
-          "after": "尺寸确定后涂抹"
+          "description": "限制单个响应发送给客户端的速率。填 0 可关闭此限制。",
+          "rate": "速率上限（字节/秒）",
+          "after": "开始限速前可发送的数据量",
+          "ratePlaceholder": "0（不限速）"
         },
         "connectionReset": {
           "title": "超时连接重置",
@@ -1072,23 +1075,23 @@
         },
         "info": {
           "title": "与代理主机速率限制的区别",
-          "description": "这些设置**默认应用于所有主机**。代理主机中配置的速率限制**另外应用**，作为对该特定主机的更精细的控制。"
+          "description": "全局限制默认适用于所有主机。也可以在单个代理主机的设置中配置该主机的速率限制。"
         }
       },
       "nginxConfNote": {
-        "title": "注意：这些设置位于 nginx.conf 层",
-        "description": "以下设置（重置超时连接、解析器超时、自定义流配置）适用于 nginx.conf 中的 http/stream 块。需要重新启动 nginx 才能使更改生效。"
+        "title": "写入 nginx.conf 的设置",
+        "description": "连接重置与 DNS 解析超时写入 http 配置块，自定义 TCP/UDP 配置写入 stream 配置块。保存后随 Nginx 重新加载生效。"
       },
       "errorLogLevels": {
-        "debug": "调试 - 所有信息（开发）",
-        "info": "信息 - 一般信息",
-        "notice": "通知 - 值得注意的事件",
-        "warn": "warn - 警告（推荐）",
-        "error": "错误 - 仅错误",
-        "crit": "Crit - 仅严重错误"
+        "debug": "debug（调试）",
+        "info": "info（信息）",
+        "notice": "notice（通知）",
+        "warn": "warn（警告，推荐）",
+        "error": "error（错误）",
+        "crit": "crit（严重）"
       },
-      "customConfigPlaceholder": "# 在此输入额外的 nginx http 配置",
-      "customStreamConfigPlaceholder": "# 在此输入额外的 nginx 流配置"
+      "customConfigPlaceholder": "# 在此输入额外的 Nginx http 配置",
+      "customStreamConfigPlaceholder": "# 在此输入额外的 Nginx stream 配置"
     },
     "preset": {
       "applyPerformance": "应用推荐设置",
@@ -1110,7 +1113,7 @@
       "tokenNamePlaceholder": "我的 API 令牌",
       "createTitle": "创建新的 API 令牌",
       "permissionGroups": "权限组",
-      "individualPermissions": "个人权限",
+      "individualPermissions": "按项选择权限",
       "allowedIps": "允许的 IP（可选）",
       "allowedIpsEdit": "允许的 IP",
       "allowedIpsPlaceholder": "192.168.1.1, 10.0.0.0/8",
@@ -1124,7 +1127,7 @@
       "30days": "30天",
       "90days": "90 天",
       "1year": "1年",
-      "never": "从不"
+      "never": "永不过期"
     },
     "table": {
       "name": "名称",
@@ -1183,10 +1186,10 @@
       "proxy:read": "代理主机（读取）",
       "proxy:write": "代理主机（写入）",
       "proxy:delete": "代理主机（删除）",
-      "certificate:read": "证书（阅读）",
-      "certificate:write": "证书（写）",
+      "certificate:read": "证书（读取）",
+      "certificate:write": "证书（写入）",
       "certificate:delete": "证书（删除）",
-      "waf:read": "WAF（读）",
+      "waf:read": "WAF（读取）",
       "waf:write": "WAF（写入）",
       "logs:read": "日志（读取）",
       "settings:read": "设置（读取）",
@@ -1194,7 +1197,7 @@
       "backup:read": "备份（读取）",
       "backup:create": "备份（创建）",
       "backup:restore": "备份（恢复）",
-      "user:read": "用户（阅读）"
+      "user:read": "用户（读取）"
     }
   },
   "backupManager": {
@@ -1203,7 +1206,7 @@
     "createBackup": "创建备份",
     "stats": {
       "totalBackups": "总备份数",
-      "totalSize": "总尺寸",
+      "totalSize": "备份总大小",
       "lastBackup": "上次备份",
       "retention": "保留期限",
       "never": "从不",
@@ -1215,8 +1218,8 @@
       "enableDescription": "根据计划自动创建备份",
       "schedule": "备份计划 (Cron)",
       "scheduleHelp": "默认值：{{default}}（每日 2AM）。格式： 分钟 小时 日 月 DayOfWeek",
-      "retentionCount": "备份保留计数",
-      "retentionHelp": "当超过计数时，最旧的备份将被删除",
+      "retentionCount": "最多保留的备份数",
+      "retentionHelp": "备份数量超过上限时，会删除最早的备份。",
       "count": "文件"
     },
     "history": {
@@ -1354,68 +1357,71 @@
       "token": "您在 Cloudflare 零信任中创建隧道时颁发的连接器令牌。它仅存储在服务器上，并在保存后显示为掩码（前 4 个字符）。单击替换以存储新令牌。"
     },
     "global": {
-      "worker_processes": "Nginx 工作进程的数量。设置为“自动”以匹配 CPU 核心。对于高流量，建议匹配核心数量。",
-      "worker_connections": "每个工作人员的最大同时连接数。值太低可能会导致连接错误。 （默认值：1024）",
-      "worker_shutdown_timeout": "限制旧工作人员在每次配置更改后停留的时间。如果没有限制，长期连接会使它们保持运行并堆积起来。如果 nginx 经常重新加载，则降低它；如果长时间下载被中断，请提高它。 （默认值：240）",
-      "multi_accept": "如果启用，工作人员会立即接受多个连接。可以在非常高的流量下提高性能。",
-      "use_epoll": "使用Linux上的高性能事件处理方法epoll。对于处理许多并发连接至关重要。",
-      "keepalive_timeout": "是时候保持连接了。太长会浪费内存，太短会导致重新连接开销。",
-      "keepalive_requests": "每个保活连接的最大请求数。超过此限制后连接将关闭。",
-      "client_max_body_size": "限制最大上传文件大小。如果您需要上传大文件，请增加此值。",
-      "types_hash_max_size": "MIME类型的哈希表的大小。默认值通常就足够了。",
-      "sendfile": "通过在内核级别传输文件来最大限度地提高性能。对于静态内容至关重要。",
-      "tcp_nopush": "与 sendfile 一起使用可减少数据包数量并提高网络效率。",
-      "tcp_nodelay": "立即发送小数据包以提高响应速度。有利于实时应用程序。",
-      "server_tokens": "为了安全起见，建议隐藏 Nginx 版本信息。",
-      "gzip_enabled": "压缩文本数据（HTML、CSS、JS）以减少传输大小。大大提高了速度。",
-      "gzip_comp_level": "压缩级别。 5-6 提供了 CPU 使用和效率之间的最佳平衡。",
-      "gzip_min_length": "非常小的文件不会被压缩，因为它没有任何好处。",
-      "gzip_types": "要压缩的文件类型。图像/视频已经被压缩，因此最好将其排除。",
-      "gzip_vary": "添加 Vary 标头，以便缓存服务器区分压缩版本和未压缩版本。",
-      "brotli_enabled": "使用 Google 的 Brotli 压缩。比 Gzip 更高的压缩比。",
-      "brotli_comp_level": "Brotli 压缩强度。推荐4-6。",
-      "brotli_types": "使用 Brotli 压缩的内容类型。",
-      "ssl_protocols": "避免使用旧协议（SSLv3、TLSv1.0、TLSv1.1），因为它们存在安全漏洞。",
-      "ssl_ciphers": "加密算法列表。保持更新以获得强大的安全性。",
-      "ssl_ecdh_curve": "关键交换曲线组。 X25519MLKEM768 为现代浏览器（Chrome、Edge、Safari）启用后量子 TLS。",
-      "ssl_session_cache": "缓存 SSL 握手信息以加快重新连接速度。",
-      "ssl_session_timeout": "保留 SSL 会话缓存的持续时间。",
-      "ssl_prefer_server_ciphers": "优先考虑服务器的密码套件优先于客户端的密码套件。",
-      "ssl_stapling": "加快证书验证速度以减少连接延迟。",
-      "ssl_stapling_verify": "服务器验证OCSP响应的有效性。",
-      "ssl_session_tickets": "使用会话票证快速恢复 SSL 会话。",
-      "client_body_timeout": "如果客户端发送数据太慢，则关闭连接。",
-      "client_header_timeout": "如果客户端发送标头太慢，则关闭连接。",
-      "send_timeout": "向客户端发送数据超时。",
-      "proxy_connect_timeout": "连接后端服务器超时。",
-      "proxy_send_timeout": "向后端服务器发送数据超时。",
-      "proxy_read_timeout": "等待后端响应的时间。如果您有缓慢的 API 端点，则增加。",
-      "resolver": "DNS 用于将域名解析为 IP 的服务器。",
-      "error_log_level": "错误日志的详细级别。除非进行调试，否则建议使用“警告”或“错误”。",
-      "access_log_enabled": "仅打开或关闭 docker 日志副本。无论哪种方式，NPG都会不断收集访问日志。",
-      "custom_http_config": "输入自定义配置以添加到 Nginx http 块。",
-      "proxy_buffer_size": "用于读取上游服务器响应的第一部分（标头）的缓冲区大小。",
-      "proxy_buffers": "用于缓冲响应的缓冲区的数量和大小。格式：'计数大小'",
-      "proxy_busy_buffers_size": "上游仍在发送时向客户端发送部分响应的缓冲区大小。",
-      "proxy_max_temp_file_size": "缓冲区已满时用于存储响应的临时文件的最大大小。设置为 0 以禁用临时文件。",
-      "proxy_temp_file_write_size": "一次写入临时文件的数据大小。",
-      "proxy_buffering": "启用后，nginx 在发送到客户端之前缓冲整个上游响应。关闭SSE、大量下载或实时流媒体以避免临时文件。",
-      "proxy_request_buffering": "启用后，nginx 将整个请求正文缓冲到磁盘，然后再转发到上游。关闭以在上传到达时将其流式传输到上游。在 WAF-启用的主机上，ModSecurity 仍然读取整个主体以进行检查。",
-      "open_file_cache_enabled": "缓存静态文件的文件描述符和元数据。提高了具有许多静态文件的站点的性能。",
-      "open_file_cache_max": "缓存中存储的最大条目数。",
-      "open_file_cache_inactive": "在此时间内未访问的缓存条目将被删除。",
-      "open_file_cache_valid": "检查缓存条目是否仍然有效的频率。",
-      "open_file_cache_min_uses": "只有在非活动时间内访问了这么多次的文件才会保留在缓存中。",
-      "open_file_cache_errors": "还缓存文件未找到和类似的错误。",
-      "reset_timedout_connection": "关闭与RST数据包的超时连接。快速释放socket资源，提高服务器性能。",
-      "resolver_timeout": "等待 DNS 查找响应的最长时间。",
-      "custom_stream_config": "用于TCP/UDP负载平衡的 Nginx 流块配置。",
+      "worker_processes": "对应 worker_processes。设置为 0 时，生成的配置会使用 auto，由 Nginx 自动决定工作进程数。",
+      "worker_connections": "对应 worker_connections。这是单个进程同时打开的连接总数，包含代理转发时连接上游服务器所占用的连接。",
+      "worker_shutdown_timeout": "重新加载配置后，旧工作进程最多在此时限内继续处理已有连接，例如 WebSocket 或进行中的下载。设为 0 表示等待已有连接结束。",
+      "multi_accept": "对应 multi_accept。开启后，每次新连接事件都会接收当时正在等待的所有新连接。",
+      "use_epoll": "在 Linux 上使用 epoll 监听连接和 I/O 事件。",
+      "keepalive_timeout": "客户端 HTTP 连接在两次请求之间可以空闲多久。设为 0 时，关闭客户端 HTTP 长连接。",
+      "keepalive_requests": "同一条客户端 HTTP 长连接处理完指定数量的请求后，Nginx 会关闭连接。",
+      "client_max_body_size": "对应 client_max_body_size。文件上传和 API 请求都计入请求体大小。超过上限会收到 413。支持 100m、1g 等值，填 0 可停用 Nginx 的请求体大小检查。",
+      "types_hash_max_size": "限制 Nginx 用于查找文件扩展名对应 MIME 类型的哈希表大小。",
+      "sendfile": "使用 sendfile 系统调用传输静态文件，减少数据复制。",
+      "tcp_nopush": "启用 sendfile 时，尝试在同一个数据包中发送 HTTP 响应头和文件的开头，并尽量用满数据包发送文件。",
+      "tcp_nodelay": "允许 HTTP 长连接等提前发送小块数据，减少等待合并数据的延迟。",
+      "server_tokens": "在 Server 响应头和 Nginx 内置错误页中显示版本号。",
+      "gzip_enabled": "使用 Gzip 压缩符合条件的响应，以减少传输量。",
+      "gzip_comp_level": "级别越高，压缩通常越充分，所需的 CPU 时间也越多。",
+      "gzip_min_length": "对应 gzip_min_length。Nginx 根据响应的 Content-Length 判断是否达到此阈值。",
+      "gzip_types": "指定可用 Gzip 压缩的响应 MIME 类型，通常包括 CSS、JavaScript 和 JSON。",
+      "gzip_vary": "在适用的响应中添加 Vary: Accept-Encoding，让缓存按客户端支持的压缩格式区分响应。",
+      "brotli_enabled": "在客户端支持 Brotli 时，压缩符合条件的响应。",
+      "brotli_static": "对应 brotli_static。适用于提前生成 .br 文件的静态资源，Nginx 可直接发送该文件。",
+      "brotli_comp_level": "级别越高，压缩通常越充分，所需的 CPU 时间也越多。",
+      "brotli_min_length": "对应 brotli_min_length。Nginx 根据响应的 Content-Length 判断是否达到此阈值。",
+      "brotli_types": "指定可用 Brotli 压缩的响应 MIME 类型。",
+      "ssl_protocols": "指定客户端可用于建立 HTTPS 连接的 TLS 版本，例如 TLS 1.2 和 TLS 1.3。",
+      "ssl_ciphers": "指定 TLS 1.2 及更早版本可协商的密码套件。",
+      "ssl_ecdh_curve": "指定 TLS 握手可用的密钥交换组。X25519MLKEM768 是一种支持后量子密钥交换的混合组。",
+      "ssl_session_cache": "缓存 TLS 会话信息，供客户端重新连接时复用。",
+      "ssl_session_timeout": "指定客户端可以复用 TLS 会话的时长，例如 1h 或 1d。",
+      "ssl_prefer_server_ciphers": "协商密码套件时，优先采用服务端配置的顺序。",
+      "ssl_stapling": "在 TLS 握手中附上证书的 OCSP 状态响应，供客户端验证。",
+      "ssl_stapling_verify": "启用 OCSP Stapling 时，由 Nginx 验证收到的 OCSP 响应。",
+      "ssl_session_tickets": "允许客户端使用会话票据恢复之前的 TLS 会话。",
+      "client_body_timeout": "限制两次读取请求体之间的等待时间。客户端在时限内未发送更多数据时，返回 408。",
+      "client_header_timeout": "限制读取完整客户端请求头的时间。超时返回 408。",
+      "send_timeout": "限制向客户端连续两次写入响应数据之间的等待时间。",
+      "proxy_connect_timeout": "限制 Nginx 建立到上游服务器的连接所能等待的时间。",
+      "proxy_send_timeout": "限制向上游服务器连续两次写入请求数据之间的等待时间。",
+      "proxy_read_timeout": "限制从上游服务器连续两次读取响应数据之间的等待时间。",
+      "resolver": "指定 Nginx 用于解析域名的 DNS 服务器，例如 8.8.8.8 8.8.4.4 valid=300s。",
+      "error_log_level": "记录所选级别及更严重的事件。debug 记录最详细，crit 只记录严重及以上级别的事件。",
+      "access_log_enabled": "将访问日志同时写入 npg-proxy 容器输出，可用 docker logs 查看。界面和安全功能仍通过 access_raw.log 收集日志。访问量较大时，Docker 日志可能更快轮转。",
+      "access_log_strip_query": "开启后，Nginx 访问日志只记录 URL 路径，查询参数中的 API 密钥和令牌也不会随 URL 写入访问日志。",
+      "custom_http_config": "将额外的 Nginx 指令写入 http 配置块。",
+      "proxy_buffer_size": "读取上游响应第一部分的缓冲区大小，这部分通常包含响应头。",
+      "proxy_buffers": "为单个上游响应分配的缓冲区。填写数量和每个缓冲区的大小，例如 8 32k。",
+      "proxy_busy_buffers_size": "尚未读完上游响应时，限制其中正在向客户端发送数据的缓冲区总大小。",
+      "proxy_max_temp_file_size": "上游响应超出内存缓冲空间时，限制响应缓冲所用临时文件的大小。设为 0 可关闭响应缓冲写入临时文件。",
+      "proxy_temp_file_write_size": "限制每次向响应缓冲临时文件写入的数据量。",
+      "proxy_buffering": "对应 proxy_buffering。开启后可将内存缓冲区容纳不下的响应数据写入临时文件。对于 SSE 等流式响应，可关闭缓冲让数据及时发给客户端。",
+      "proxy_request_buffering": "对应 proxy_request_buffering。开启后先读完整个请求体，小请求可留在内存，需要时会使用临时文件。关闭后可边接收边转发，启用 WAF 的主机仍可能读取请求体进行检查。",
+      "open_file_cache_enabled": "缓存打开的文件描述符、文件大小和修改时间，以及目录是否存在等信息。",
+      "open_file_cache_max": "设置文件描述符缓存可保留的最大条目数。",
+      "open_file_cache_inactive": "缓存条目在指定时间内未被访问时会移除，例如 20s 或 60s。",
+      "open_file_cache_valid": "设置多久检查一次已缓存的信息是否仍然有效，例如 30s 或 60s。",
+      "open_file_cache_min_uses": "文件在上述保留时间内达到此访问次数时，才继续保持文件描述符打开。",
+      "open_file_cache_errors": "缓存找不到文件、权限不足等文件查找错误。",
+      "reset_timedout_connection": "向发生超时的连接发送 TCP RST，尽快释放套接字资源。",
+      "resolver_timeout": "限制等待 DNS 查询完成的时间，例如 30s。",
+      "custom_stream_config": "将额外的 Nginx 指令写入处理 TCP/UDP 代理的 stream 配置块。",
       "ddos": {
         "connectionLimit": "限制来自同一 IP 的并发连接以保护服务器资源。",
         "requestLimit": "限制来自同一 IP 的每秒请求以阻止过多的请求。",
-        "responseLimit": "限制下载速度以防止带宽垄断。",
+        "responseLimit": "限制单个响应发送给客户端的速率。可指定先以不限速方式发送多少数据，再开始限速。",
         "connectionReset": "超时立即终止连接。",
-        "bandwidthLimit": "限制客户端下载速度以公平分配带宽。"
+        "bandwidthLimit": "限制单个响应发送给客户端的速率。可指定先以不限速方式发送多少数据，再开始限速。"
       }
     },
     "geoip": {
@@ -1449,9 +1455,9 @@
     },
     "waf": {
       "autoBan": "自动封禁短时间内频繁生成 WAF 警报（例如 SQL 注入）的 IP。",
-      "threshold": "如果检测计数在窗口内超过此数量，则禁止 IP。",
-      "window": "对事件进行计数的时间窗口。",
-      "duration": "禁止期限为 IP。 0表示永久封禁。"
+      "threshold": "同一 IP 在统计窗口内触发的 WAF 事件数达到此值时，将自动封禁。",
+      "window": "统计同一 IP 触发的 WAF 事件数的时间范围。",
+      "duration": "IP 被封禁的时长。设为 0 表示永久封禁。"
     },
     "maintenance": {
       "logRetention": "较旧的日志会自动删除以保存磁盘空间。 （每天午夜或系统重新启动时运行）",
@@ -1466,7 +1472,7 @@
     "backup": {
       "enable": "在预定时间自动备份整个配置。",
       "schedule": "Cron 格式的备份计划（例如，0 2 * * * = 每天 2AM）。",
-      "retention": "要保留的备份文件的最大数量。超过时，最旧的备份将被删除。"
+      "retention": "备份数量超过上限时，会删除最早的备份。"
     }
   },
   "roles": {

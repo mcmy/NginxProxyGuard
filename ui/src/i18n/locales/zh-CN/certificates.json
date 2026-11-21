@@ -43,12 +43,12 @@
     "searchClear": "清除搜索",
     "bulkDeleteErrors": "删除所有错误证书",
     "sort": {
-      "createdDesc": "最新的优先",
-      "createdAsc": "最老的在前",
+      "createdDesc": "最近创建",
+      "createdAsc": "最早创建",
       "expiresAsc": "即将到期",
-      "expiresDesc": "稍后到期",
-      "domainAsc": "域名升序",
-      "domainDesc": "域名降序"
+      "expiresDesc": "最晚到期",
+      "domainAsc": "域名（A-Z）",
+      "domainDesc": "域名（Z-A）"
     },
     "filter": {
       "allStatus": "所有状态",

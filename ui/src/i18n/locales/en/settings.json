@@ -736,6 +736,7 @@
     },
     "performance": {
       "buffer": {
+        "badge": "Buffer",
         "title": "Proxy Buffer Settings",
         "description": "Configure how responses from upstream servers are buffered. Proper buffer sizing balances memory usage and performance.",
         "useNginxDefault": "Use nginx default (on)",
@@ -746,6 +747,7 @@
         "requestBufferingOff": "Off (stream to upstream)"
       },
       "openFileCache": {
+        "badge": "Cache",
         "title": "Open File Cache"
       },
       "tips": "Tip: If proxy buffer size is too small, responses will be written to temporary files, causing disk I/O. Increasing buffer size improves performance for large responses. Open File Cache caches file descriptors for static files to improve performance."
@@ -1064,7 +1066,8 @@
           "title": "Bandwidth Limit",
           "description": "Limit client download speed. 0 = unlimited",
           "rate": "Rate limit (bytes/s)",
-          "after": "Apply after size"
+          "after": "Apply after size",
+          "ratePlaceholder": "0 (unlimited)"
         },
         "connectionReset": {
           "title": "Timeout Connection Reset",
@@ -1373,7 +1376,9 @@
       "gzip_types": "File types to compress. Images/videos are already compressed so better to exclude them.",
       "gzip_vary": "Adds Vary header so cache servers distinguish compressed vs uncompressed versions.",
       "brotli_enabled": "Uses Google's Brotli compression. Higher compression ratio than Gzip.",
+      "brotli_static": "Corresponds to brotli_static. Serves an existing .br file when the client supports Brotli.",
       "brotli_comp_level": "Brotli compression strength. 4-6 is recommended.",
+      "brotli_min_length": "Corresponds to brotli_min_length. The minimum response size is checked using the Content-Length header.",
       "brotli_types": "Content types to compress with Brotli.",
       "ssl_protocols": "Avoid using old protocols (SSLv3, TLSv1.0, TLSv1.1) as they have security vulnerabilities.",
       "ssl_ciphers": "List of encryption algorithms. Keep updated for strong security.",
@@ -1393,6 +1398,7 @@
       "resolver": "DNS server used to resolve domain names to IPs.",
       "error_log_level": "Detail level of error logs. 'warn' or 'error' recommended unless debugging.",
       "access_log_enabled": "Turns only the docker logs copy on or off. NPG keeps collecting access logs either way.",
+      "access_log_strip_query": "When enabled, access logs omit URL query parameters, including any credentials in those parameters.",
       "custom_http_config": "Enter custom configuration to add to Nginx http block.",
       "proxy_buffer_size": "Buffer size for reading the first part (header) of upstream server response.",
       "proxy_buffers": "Number and size of buffers for buffering responses. Format: 'count size'",
