@@ -36,7 +36,9 @@
     "blockIo": "Block I/O",
     "totalCpu": "Total CPU",
     "totalMemory": "Total Memory",
-    "cloudflareTunnel": "Cloudflare Tunnel"
+    "cloudflareTunnel": "Cloudflare Tunnel",
+    "storage": "Storage",
+    "totalStorage": "Total storage"
   },
   "stats": {
     "blockedRequests": "Blocked Requests",

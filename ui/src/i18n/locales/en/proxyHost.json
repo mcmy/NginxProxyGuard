@@ -201,7 +201,15 @@
       "creatingCertificate": "Creating certificate...",
       "certificateSuccess": "Certificate created",
       "certificateFailed": "Failed to create certificate",
-      "disabledHint": "Enable SSL to configure HTTPS settings"
+      "disabledHint": "Enable SSL to configure HTTPS settings",
+      "certificateDomains": "Domains (from above)",
+      "certificateValidityDays": "Validity (days)",
+      "domainValidationProgress": "Let's Encrypt is validating your domain. This usually takes 10–30 seconds.",
+      "selfSignedProgress": "Generating the self-signed certificate…",
+      "certificateElapsed": "Elapsed: {{seconds}}s (timeout: 120s)",
+      "issueCertificateHint": "The Let’s Encrypt certificate will be issued when you create the proxy host. This may take 10–30 seconds.",
+      "createSelfSignedHint": "The self-signed certificate will be created when you create the proxy host.",
+      "http3Help": "HTTP/3 uses QUIC over UDP port 443. The Alt-Svc response header advertises HTTP/3 support to browsers."
     },
     "security": {
       "priorityAllowIPs": {
@@ -347,7 +355,8 @@
         "exceptionIPsPlaceholder": "Enter IP addresses that bypass blocking\nOne per line",
         "allowPrivateIPs": "Allow Private IPs",
         "allowPrivateIPsDescription": "Private IPs (10.x, 172.16-31.x, 192.168.x) bypass URI blocking"
-      }
+      },
+      "authProvider": "Auth Provider (SSO)"
     },
     "protection": {
       "title": "Protection Settings",
@@ -391,7 +400,8 @@
           "log": "Log Only",
           "notify": "Notify"
         },
-        "failCodes": "Fail Codes"
+        "failCodes": "Fail Codes",
+        "linkDescription": "Manage Fail2ban settings in the WAF menu"
       },
       "securityHeaders": {
         "title": "Security Headers",
@@ -766,6 +776,31 @@
       "invalid": "Failed",
       "lastSync": "Last sync",
       "never": "Not synced yet"
+    },
+    "help": {
+      "sslDetails": {
+        "protocol": "TLS version negotiated for this connection.",
+        "cipherSuite": "Cipher suite negotiated for this connection.",
+        "validity": "Date from which the certificate is valid.",
+        "daysRemaining": "Days until the certificate expires."
+      },
+      "protocol": "HTTP version negotiated by the test request.",
+      "responseTime": "Time taken to receive a response to the test request.",
+      "http": {
+        "http2": "Whether HTTP/2 is available on this host.",
+        "http3": "Whether HTTP/3 is available on this host.",
+        "altSvc": "The Alt-Svc response header advertises an alternative service such as HTTP/3."
+      },
+      "cache": {
+        "status": "How this response was handled by the proxy cache.",
+        "control": "The Cache-Control response header controls whether and for how long a response can be cached."
+      },
+      "security": {
+        "score": "Score based on the security response headers detected by the test.",
+        "server": "The Server response header may expose server software or version information."
+      },
+      "statusCode": "HTTP status code returned by the test request.",
+      "ssl": "Whether the test could connect over TLS."
     }
   },
   "messages": {

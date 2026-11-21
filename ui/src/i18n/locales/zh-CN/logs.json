@@ -149,24 +149,24 @@
     "asc": "升序"
   },
   "reasons": {
-    "none": "未被阻止",
+    "none": "未拦截",
     "waf": "WAF",
     "botFilter": "机器人过滤器",
     "rateLimit": "速率限制",
-    "geoBlock": "地理块",
-    "bannedIp": "已禁止 IP",
-    "exploitBlock": "漏洞利用",
-    "uriBlock": "URI 块",
-    "cloudChallenge": "云",
-    "cloudBlock": "云",
+    "geoBlock": "地理位置限制",
+    "bannedIp": "IP 已封禁",
+    "exploitBlock": "漏洞利用拦截",
+    "uriBlock": "URI 路径拦截",
+    "cloudChallenge": "云服务 IP 验证",
+    "cloudBlock": "云服务 IP 拦截",
     "accessDenied": "拒绝访问",
-    "filterSubscription": "筛选"
+    "filterSubscription": "过滤列表订阅"
   },
   "bots": {
-    "badBot": "坏机器人",
-    "aiBot": "AI机器人",
-    "suspicious": "可疑",
-    "searchEngine": "搜索引擎"
+    "badBot": "恶意机器人",
+    "aiBot": "AI 爬虫",
+    "suspicious": "可疑客户端",
+    "searchEngine": "搜索引擎爬虫"
   },
   "table": {
     "columns": {
@@ -269,7 +269,8 @@
     "blockReason": "拦截原因",
     "exploitRule": "漏洞利用拦截规则",
     "botCategory": "机器人类别",
-    "matchedURI": "命中的 URI"
+    "matchedURI": "命中的 URI",
+    "noRawLog": "没有可查看的原始日志"
   },
   "disableRule": {
     "button": "禁用此策略",
@@ -400,15 +401,15 @@
   },
   "botFilter": {
     "title": "机器人过滤日志",
-    "subtitle": "请求被机器人过滤器阻止",
+    "subtitle": "被机器人过滤规则拦截的请求",
     "refresh": "刷新",
     "refreshHelp": "刷新日志列表。",
-    "totalBlocked": "总封锁",
+    "totalBlocked": "拦截总数",
     "categories": {
-      "badBot": "坏机器人",
-      "aiBot": "AI机器人",
-      "suspicious": "可疑",
-      "searchEngine": "搜索引擎"
+      "badBot": "恶意机器人",
+      "aiBot": "AI 爬虫",
+      "suspicious": "可疑客户端",
+      "searchEngine": "搜索引擎爬虫"
     },
     "filters": {
       "start": "开始",
@@ -418,8 +419,8 @@
       "botCategory": "机器人类别",
       "botCategoryHelp": "按特定机器人类别过滤。",
       "allCategories": "所有类别",
-      "search": "搜索（IP、用户代理、URI）",
-      "searchHelp": "按 IP、用户代理或 URI 搜索。",
+      "search": "搜索（IP、User-Agent、URI）",
+      "searchHelp": "按 IP、User-Agent 或 URI 搜索。",
       "searchPlaceholder": "搜索...",
       "perPage": "每页",
       "perPageHelp": "选择每页的日志数。"
@@ -445,7 +446,7 @@
       "userAgent": "用户代理",
       "rawLog": "原始日志"
     },
-    "empty": "在此期间没有被阻止的机器人",
+    "empty": "此时间段内暂无机器人拦截记录。",
     "loading": "加载中...",
     "error": "加载日志时出错",
     "pageInfo": "{{total}}页{{page}}（共{{count}}）",
@@ -636,20 +637,20 @@
       "disabled": "原始日志保存已禁用。您可以在下面启用它。"
     },
     "settings": {
-      "title": "旋转设置",
+      "title": "日志轮转设置",
       "save": "保存更改",
       "saving": "保存中...",
       "enable": "启用原始日志保存",
       "enableDesc": "如果启用，nginx 日志将保存到文件中。",
       "alwaysOnLabel": "始终启用原始日志存储",
-      "alwaysOnDescription": "从v2.17.1开始，LogCollector直接读取/etc/nginx/logs/access_raw.log，因此原始日志存储始终启用。您仍然可以在下面调整保留/旋转/压缩。",
+      "alwaysOnDescription": "自 v2.17.1 起，日志采集器直接读取 /etc/nginx/logs/access_raw.log，原始日志会一直保存。下方可调整保留时间、轮转与压缩。",
       "maxSize": "最大文件大小 (MB)",
       "maxSizeDesc": "每小时检查一次：一旦当前文件大于此值，就会轮换。文件也会在每天午夜轮换。",
       "retention": "保留期限（天）",
       "retentionDesc": "比这更旧的轮换文件将在下一次轮换时删除。",
       "rangeHint": "输入{{min}}和{{max}}之间的整数。",
-      "compress": "压缩旋转文件",
-      "compressDesc": "使用 gzip 压缩以保存磁盘空间。最新旋转的文件将在下一次旋转时进行压缩。",
+      "compress": "压缩已轮转日志",
+      "compressDesc": "使用 gzip 压缩以节省磁盘空间。最近轮转出的文件会在下次轮转时压缩。",
       "estimatedSize": "估计磁盘使用量",
       "compressed": "已压缩"
     },
@@ -671,61 +672,61 @@
     "estimate": {
       "formula": "≈{{daily}}/天 ({{basis}}) ×{{retention}}天 + 当前文件{{current}}",
       "basis": "最近{{days}}天的平均值",
-      "none": "尚未完成轮换文件，因此每日数量未知。第一天之后，估算将使用实际文件大小。",
+      "none": "尚无已轮转日志，暂时无法估算每日用量。第一天结束后将按实际文件大小估算。",
       "current": "现在：{{count}}文件，{{size}}",
       "disk": "日志磁盘 ({{fs}})：{{free}}不含{{total}}",
       "exceedsFree": "该估计值大于日志磁盘上的可用空间 ({{free}})。缩短保留时间。",
-      "archiveOn": "使用中的存档：旋转的文件一旦解决就会移动，因此只有当前文件（{{current}}）保留在日志磁盘上。",
+      "archiveOn": "归档已启用。已轮转文件稳定后会迁移，日志磁盘上只保留当前文件（{{current}}）。",
       "archiveNotInUse": "存档已打开，但存档现在无法获取文件（请参阅存档卡），因此轮转的文件保留在日志磁盘上并遵循本地保留。"
     },
     "archive": {
-      "title": "存档目录（另一个磁盘或NAS）",
-      "description": "将完成的旋转原始日志移动到另一个磁盘或NAS以释放日志磁盘。在主机上挂载共享（带有 nofail 的 fstab）并将其绑定到 api 服务上的{{dir}}。在您按“使用此目录”之前，NPG永远不会创建此目录并且不会向其中写入任何内容。",
-      "toggle": "将旋转的原始日志移动到存档目录",
-      "toggleDesc": "仅移动经过压缩且已放置一段时间的旋转文件。当存档无法使用时，文件只会保留在日志磁盘上。",
-      "retention": "档案保留（天）",
+      "title": "归档目录（其他磁盘或 NAS）",
+      "description": "将已完成轮转的原始日志移到其他磁盘或 NAS，以释放日志磁盘空间。请先在主机上挂载共享目录（fstab 使用 nofail），再将其绑定到 api 服务的 {{dir}}。NPG 不会创建该目录，点击“使用此目录”后才会往里写入文件。",
+      "toggle": "将已轮转的原始日志移至归档目录",
+      "toggleDesc": "只迁移已压缩且一段时间内无变化的轮转文件。归档目录不可用时，文件保留在日志磁盘上。",
+      "retention": "归档保留天数",
       "localRetentionNote": "早于该时间的存档文件（按其名称中的轮转时间）将从存档中删除。无法移动的文件将遵循日志磁盘保留。",
-      "estimate": "估计存档使用量约为{{size}}（{{free}}免费）",
-      "estimateExceeds": "估计{{size}}的存档使用量比那里免费的{{free}}多。",
-      "fs": "{{fs}}、{{free}}不含{{total}}",
-      "lastMove": "最后一步：{{when}}（{{count}}文件）",
-      "pending": "{{count}}等待移动的文件",
-      "initDone": "存档目录是为此NPG设置的。您现在可以继续前进。",
-      "runStarted": "已开始移至存档目录。",
+      "estimate": "预计归档约占用 {{size}}（剩余空间 {{free}}）",
+      "estimateExceeds": "预计归档需要 {{size}}，超过剩余空间 {{free}}。",
+      "fs": "{{fs}}，总容量 {{total}}，剩余 {{free}}",
+      "lastMove": "上次迁移：{{when}}（{{count}} 个文件）",
+      "pending": "{{count}} 个文件等待迁移",
+      "initDone": "已为此 NPG 实例设置归档目录。现在可以启用归档迁移。",
+      "runStarted": "已开始将文件移至归档目录。",
       "initConfirmTitle": "使用此目录作为存档",
-      "initConfirm": "NPG将标记文件写入{{dir}}（{{fs}}、{{total}}、{{free}}空闲）并在其中保留原始日志。检查文件系统类型和大小是否为NAS— 这里的本地磁盘意味着共享未安装。",
-      "initForeign": "此目录已被另一个NPG安装使用（或在恢复备份之前被此安装使用）。使用它会停止安装写入此处。",
+      "initConfirm": "NPG 将向 {{dir}} 写入标记文件，并在这里保存原始日志（{{fs}}，总容量 {{total}}，剩余 {{free}}）。请核对文件系统类型和容量是否与 NAS 一致。若显示本地磁盘，可能尚未挂载共享目录。",
+      "initForeign": "此目录之前由另一个 NPG 实例使用，也可能由本实例在恢复备份前使用。接管后，原实例将无法继续向此目录写入。",
       "actions": {
         "check": "检查",
         "checking": "检查中...",
         "init": "使用该目录",
-        "run": "立即搬家"
+        "run": "立即迁移"
       },
       "status": {
         "disabled": "关闭",
-        "not_mounted": "未安装",
+        "not_mounted": "未挂载",
         "not_initialized": "未设置",
-        "foreign": "另一个安装目录",
+        "foreign": "其他实例的归档目录",
         "unwritable": "不可写",
         "insufficient_space": "空间不足",
-        "stalled": "不接听",
+        "stalled": "无响应",
         "ready": "使用中",
         "log_dir": "日志目录"
       },
       "help": {
-        "not_mounted": "API 容器中不存在存档目录。将共享挂载到主机上，将其绑定到 api 服务上并重新创建容器。",
-        "not_initialized": "无标记文件：共享未安装（空安装点）或从未按下“使用此目录”。",
-        "foreign": "另一个NPG安装设置了这个目录。按“使用此目录”以从此安装中使用它。",
+        "not_mounted": "API 容器内找不到归档目录。请将共享目录挂载到主机，绑定到 api 服务，然后重新创建容器。",
+        "not_initialized": "未找到标记文件。可能尚未挂载共享目录，或者还没有点击“使用此目录”。",
+        "foreign": "此目录由另一个 NPG 实例设置。点击“使用此目录”后，当前实例将接管它。",
         "unwritable": "API 无法写入此目录。检查共享的权限（root_squash 等）。",
         "insufficient_space": "存档空间不足，因此移动停止。文件保留在日志磁盘上。",
         "stalled": "存档目录没有响应（挂起或断开连接的NAS）。文件保留在日志磁盘上。",
         "log_dir": "这是 nginx 日志目录本身（或包含它的文件夹），通过此路径或通过另一个挂载（例如同一文件夹的共享），因此此处移动的任何内容都不会离开日志磁盘。改为在此处绑定另一个磁盘上的目录或NAS共享。",
-        "readyToEnable": "该目录是为此安装设置的。继续前进并保存以使用它。"
+        "readyToEnable": "目录已为本实例设置。启用归档迁移并保存即可使用。"
       }
     },
     "actions": {
-      "manualRotate": "手动旋转",
-      "rotating": "轮换中...",
+      "manualRotate": "手动轮转",
+      "rotating": "正在轮转…",
       "refresh": "刷新"
     },
     "modal": {
@@ -738,12 +739,12 @@
       "close": "关闭",
       "noContent": "没有内容"
     },
-    "rotateFail": "日志轮换失败：{{error}}",
+    "rotateFail": "日志轮转失败：{{error}}",
     "rotateSkipped": {
       "empty": "没有可轮转的内容 — 当前日志文件为空。",
-      "already_rotated": "刚才已经旋转了；当前日志是新鲜的。",
+      "already_rotated": "日志刚刚轮转，当前日志文件是新建的。",
       "busy": "日志轮换已在运行。",
-      "unknown": "没有任何东西被旋转。"
+      "unknown": "未轮转任何日志文件。"
     }
   },
   "filterMatch": {
@@ -754,21 +755,21 @@
     "alsoDisabled": "也出现在禁用的订阅中：{{names}}"
   },
   "collectionRules": {
-    "button": "征集规则",
+    "button": "采集规则",
     "title": "日志采集规则",
-    "intro": "与主机规则匹配的访问日志行不会被存储，因此日志和统计信息中会丢失它们。请求NPG块和 WAF 事件始终被存储，并且fail2ban不受影响。",
-    "caution": "客户选择其方法和路径，通常还选择其获得的状态。除非NPG阻止，否则不会存储匹配规则的请求。",
+    "intro": "匹配主机采集规则的访问日志不会写入数据库，因此也不会出现在日志列表和统计中。NPG 拦截的请求和 WAF 事件始终记录，Fail2ban 不受影响。",
+    "caution": "客户端可以决定请求方法和路径，通常也能影响状态码。命中采集规则的请求不会被记录，NPG 拦截的请求除外。",
     "search": "搜索主机",
     "storeAll": "全部存储",
-    "skipAll": "没有存储任何内容",
+    "skipAll": "跳过全部日志",
     "disabledHost": "已禁用",
     "edit": "编辑",
     "skipAllLabel": "不存储该主机的访问日志",
-    "statuses": "状态代码",
-    "statusesHelp": "代码或类别，以逗号分隔：207, 3xx",
-    "streamStatusesHelp": "流会话的状态（200OK、502 后端无法访问，...）。要省略每个会话，请勾选上面的框。",
+    "statuses": "状态码",
+    "statusesHelp": "用逗号分隔状态码或类别，例如 207, 3xx",
+    "streamStatusesHelp": "TCP/UDP 会话状态码（例如 200 表示会话正常结束，502 表示无法连接后端）。勾选上方选项可跳过此主机的全部会话日志。",
     "skipAllLabelStream": "不存储该主机的会话",
-    "streamHost": "流",
+    "streamHost": "TCP/UDP 主机",
     "methods": "方法",
     "methodsHelp": "逗号分隔：PROPFIND、OPTIONS",
     "paths": "路径开头为",
@@ -778,5 +779,10 @@
     "empty": "没有代理主机",
     "noMatch": "没有主机与搜索匹配",
     "readOnly": "更改规则需要有更改日志的权限。"
+  },
+  "method": {
+    "binaryTooltip": "点击查看原始数据",
+    "binary": "二进制",
+    "rawData": "原始数据"
   }
 }

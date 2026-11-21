@@ -650,7 +650,9 @@
         "turnstile": "Cloudflare Turnstile is a free, privacy-friendly CAPTCHA.",
         "recaptcha_v2": "reCAPTCHA v2 shows the \"I am not a robot\" checkbox."
       },
-      "links": "Get CAPTCHA Keys:"
+      "links": "Get CAPTCHA Keys:",
+      "recaptchaConsole": "Google reCAPTCHA Admin Console",
+      "turnstileConsole": "Cloudflare Turnstile Dashboard"
     },
     "keys": {
       "siteKey": "Site Key",
@@ -1031,7 +1033,8 @@
         "title": "Public Error Page Language",
         "description": "Default language shown on public error pages (403 access blocked, etc.) and on the CAPTCHA challenge page when a per-host GeoIP Challenge Mode is triggered.",
         "label": "Default Language",
-        "help": "Auto: follows the visitor's browser language (Korean if the browser is set to Korean, otherwise English). ko/en: force the specified language regardless of the visitor's browser. Priority: visitor's explicit language button click > this global default > browser detection."
+        "help": "The visitor’s saved choice takes priority over this default. Auto follows the browser language for Simplified Chinese, Korean, or English and uses English for other languages.",
+        "automatic": "Auto (browser language)"
       },
       "ddos": {
         "title": "DDoS Protection (Global)",
@@ -1929,10 +1932,16 @@
     "builtIn": "Built-in page",
     "custom": "Custom page",
     "status": {
-      "403": "Blocked",
+      "403": "Forbidden",
       "502": "Bad gateway",
       "503": "Service unavailable",
       "504": "Gateway timeout"
+    },
+    "statusDetails": {
+      "403": "A security policy blocked this request.",
+      "502": "The proxy received an invalid response from an upstream service.",
+      "503": "The service is temporarily unavailable.",
+      "504": "The upstream service did not respond in time."
     },
     "htmlLabel": "HTML of the {{status}} page",
     "placeholder": "Empty uses the built-in page. \"Start from a template\" gives you a starting point.",

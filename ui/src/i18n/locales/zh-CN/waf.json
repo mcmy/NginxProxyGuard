@@ -411,7 +411,7 @@
     "noWafHosts": "⚠️ 没有代理主机启用了 WAF。在代理主机设置中启用 WAF 进行测试。",
     "targetUrl": "目标 URL",
     "targetUrlHelp": "Docker内部：使用https://npg-proxy",
-    "hostHeader": "主机头",
+    "hostHeader": "Host 请求头",
     "hostHeaderHelp": "虚拟主机路由的域名",
     "testAll": "测试所有模式",
     "testingAll": "测试所有...",
@@ -644,7 +644,7 @@
     "tester": {
       "selectHost": "选择代理主机会使用其第一个域填充主机标头。",
       "targetUrl": "测试请求去哪里。默认情况下，NPG自己的代理容器。",
-      "hostHeader": "要发送的主机标头。使用主机的域，以便使用该主机的 WAF 设置检查请求。"
+      "hostHeader": "设置请求发送的 Host 请求头。填写代理主机的域名，测试请求才会应用该主机的 WAF 配置。"
     }
   },
   "pagination": {

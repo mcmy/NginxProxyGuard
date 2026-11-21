@@ -186,7 +186,7 @@ export function URIBlockManager() {
     },
     onError: (error) => {
       console.error('Failed to delete URI block:', error)
-      alert(t('common:error') + ': ' + (error instanceof Error ? error.message : 'Unknown error'))
+      alert(t('common:status.error') + ': ' + (error instanceof Error ? error.message : 'Unknown error'))
     },
   })
 
@@ -291,7 +291,7 @@ export function URIBlockManager() {
   if (error) {
     return (
       <div className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-4 rounded-lg">
-        {t('common:error')}: {(error as Error).message}
+        {t('common:status.error')}: {(error as Error).message}
       </div>
     )
   }
@@ -482,14 +482,14 @@ export function URIBlockManager() {
                 onClick={() => { setShowNewHostModal(false); setSelectedNewHostId(''); }}
                 className="px-4 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
               >
-                {t('common:cancel')}
+                {t('common:buttons.cancel')}
               </button>
               <button
                 onClick={handleCreateNewHost}
                 disabled={!selectedNewHostId || updateMutation.isPending}
                 className="px-4 py-2 bg-rose-600 hover:bg-rose-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg font-medium transition-colors"
               >
-                {updateMutation.isPending ? t('common:processing') : t('uriBlock.newHostModal.create')}
+                {updateMutation.isPending ? t('common:status.processing') : t('uriBlock.newHostModal.create')}
               </button>
             </div>
           </div>

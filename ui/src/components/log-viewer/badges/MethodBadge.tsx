@@ -77,7 +77,7 @@ export function MethodBadge({ method }: MethodBadgeProps) {
                 }}
                 className="text-xs text-blue-400 hover:text-blue-300"
               >
-                {t('method.copy', { defaultValue: 'Copy' })}
+                {t('common:buttons.copy')}
               </button>
             </div>
             <code className="block font-mono break-all whitespace-pre-wrap bg-slate-900 p-1.5 rounded max-h-32 overflow-auto">

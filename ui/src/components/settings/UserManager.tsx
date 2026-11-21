@@ -94,7 +94,7 @@ export default function UserManager() {
       )}
 
       {isLoading ? (
-        <p className="text-sm text-slate-500">{t('common:loading', { defaultValue: 'Loading…' })}</p>
+        <p className="text-sm text-slate-500">{t('common:status.loading', { defaultValue: 'Loading…' })}</p>
       ) : !usersData?.data?.length ? (
         <EmptyState>{t('users.empty')}</EmptyState>
       ) : (

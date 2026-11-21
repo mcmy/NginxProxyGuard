@@ -287,13 +287,13 @@ export default function DNSProviderForm({ provider, onClose, onSuccess }: DNSPro
               disabled={isEditing}
               className="w-full rounded-lg border border-slate-300 dark:border-slate-600 px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 transition-colors bg-white dark:bg-slate-700 dark:text-white disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              <option value="cloudflare">Cloudflare</option>
-              <option value="route53">AWS Route 53</option>
-              <option value="duckdns">DuckDNS</option>
-              <option value="dynu">Dynu</option>
-              <option value="infomaniak">Infomaniak (DynDNS)</option>
-              <option value="ionos">IONOS</option>
-              <option value="ovh">OVHcloud</option>
+              <option value="cloudflare">{t('dnsProviders.types.cloudflare')}</option>
+              <option value="route53">{t('dnsProviders.types.route53')}</option>
+              <option value="duckdns">{t('dnsProviders.types.duckdns')}</option>
+              <option value="dynu">{t('dnsProviders.types.dynu')}</option>
+              <option value="infomaniak">{t('dnsProviders.types.infomaniak')}</option>
+              <option value="ionos">{t('dnsProviders.types.ionos')}</option>
+              <option value="ovh">{t('dnsProviders.types.ovh')}</option>
               <option value="manual">{t('dnsProviders.types.manual')}</option>
             </select>
           </div>

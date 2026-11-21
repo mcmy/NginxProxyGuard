@@ -49,7 +49,7 @@ func generateChallengePageHTML(data map[string]interface{}) string {
 		proxyHostID = *v
 	}
 
-	// Admin-configured default language ('auto' | 'ko' | 'en'). Resolved by the
+	// Admin-configured default language. Resolved by the
 	// service, falls back to 'auto' when system_settings is unavailable.
 	errorPageLanguage := "auto"
 	if v, ok := data["error_page_language"].(string); ok && v != "" {
@@ -78,8 +78,9 @@ func generateChallengePageHTML(data map[string]interface{}) string {
 	// JavaScript will override this when the page loads, but this ensures
 	// correct metadata for screen readers and crawlers that don't run JS.
 	htmlLang := "en"
-	if errorPageLanguage == "ko" {
-		htmlLang = "ko"
+	switch errorPageLanguage {
+	case "ko", "zh-CN":
+		htmlLang = errorPageLanguage
 	}
 
 	return `<!DOCTYPE html>
@@ -177,6 +178,7 @@ func generateChallengePageHTML(data map[string]interface{}) string {
         <div class="lang-switch">
             <button onclick="setLang('ko')" id="lang-ko">한국어</button>
             <button onclick="setLang('en')" id="lang-en">English</button>
+            <button onclick="setLang('zh-CN')" id="lang-zh-CN">简体中文</button>
         </div>
     </div>
 
@@ -206,10 +208,20 @@ func generateChallengePageHTML(data map[string]interface{}) string {
                 networkError: 'Cannot reach the server. Please try again in a moment.',
                 footer: 'This security check helps protect against automated access.',
                 manualRedirect: 'Click here if you are not redirected automatically'
+            },
+            'zh-CN': {
+                title: '人机验证',
+                message: '请完成人机验证后继续访问。',
+                verifying: '正在验证…',
+                success: '验证通过，正在跳转…',
+                error: '验证失败，请重试。',
+                networkError: '无法连接服务器，请稍后重试。',
+                footer: '此验证用于防止自动化请求。',
+                manualRedirect: '如果没有自动跳转，请点此继续'
             }
         };
 
-        // Admin-configured global default ('auto' | 'ko' | 'en'), injected by the server.
+        // Admin-configured global default, injected by the server.
         const adminDefaultLang = '` + escapeJS(errorPageLanguage) + `';
 
         // Resolve language using the same priority as /403.html:
@@ -217,19 +229,27 @@ func generateChallengePageHTML(data map[string]interface{}) string {
         //   2. Admin-configured global default (if not 'auto')
         //   3. Browser language, with English fallback for unsupported locales
         function detectLang() {
-            // UI Settings writes 'npg_language'; legacy 'npg_lang' kept for back-compat
-            const saved = localStorage.getItem('npg_language') || localStorage.getItem('npg_lang');
-            if (saved && i18n[saved]) return saved;
-            if (i18n[adminDefaultLang]) return adminDefaultLang;
-            const browserLang = navigator.language.split('-')[0];
-            return i18n[browserLang] ? browserLang : 'en';
+            try {
+                const saved = localStorage.getItem('npg_language') || localStorage.getItem('npg_lang');
+                if (Object.prototype.hasOwnProperty.call(i18n, saved)) return saved;
+            } catch (e) {
+                // Continue when storage is unavailable.
+            }
+            if (Object.prototype.hasOwnProperty.call(i18n, adminDefaultLang)) return adminDefaultLang;
+            const browserLang = navigator.language || '';
+            if (/^zh(?:-hans(?:-.*)?|-cn|-sg)?$/i.test(browserLang)) return 'zh-CN';
+            return /^ko(?:-|$)/i.test(browserLang) ? 'ko' : 'en';
         }
 
         let currentLang = detectLang();
 
         function setLang(lang) {
             currentLang = lang;
-            localStorage.setItem('npg_language', lang);
+            try {
+                localStorage.setItem('npg_language', lang);
+            } catch (e) {
+                // Apply the selection even when storage is unavailable.
+            }
             document.documentElement.lang = lang;
             updateTexts();
             document.querySelectorAll('.lang-switch button').forEach(btn => btn.classList.remove('active'));

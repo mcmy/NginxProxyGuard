@@ -63,7 +63,7 @@
     "off": "关闭"
   },
   "time": {
-    "now": "现在",
+    "now": "刚刚",
     "second": "秒",
     "seconds": "秒",
     "minute": "分钟",
@@ -82,7 +82,7 @@
     "today": "今天",
     "yesterday": "昨天",
     "tomorrow": "明天",
-    "lastHour": "最后一小时",
+    "lastHour": "过去一小时",
     "last24Hours": "过去 24 小时",
     "last7Days": "过去 7 天",
     "last30Days": "过去 30 天",
@@ -173,11 +173,11 @@
   "pagination": {
     "page": "页",
     "of": "共",
-    "showing": "{{from}}-{{to}}之{{total}}",
+    "showing": "第 {{from}}–{{to}} 项，共 {{total}} 项",
     "itemsPerPage": "每页项目数",
     "first": "第一页",
-    "last": "最后",
-    "goToPage": "前往页面"
+    "last": "最后一页",
+    "goToPage": "跳转到指定页"
   },
   "table": {
     "noData": "无可用数据",

@@ -79,7 +79,7 @@
     },
     "settings": {
       "global": "全局设置",
-      "captcha": "CAPTCHA",
+      "captcha": "人机验证",
       "geoip": "GeoIP",
       "botfilter": "机器人过滤器",
       "wafAutoBan": "WAF 自动封禁",

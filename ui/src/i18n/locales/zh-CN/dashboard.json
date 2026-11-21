@@ -36,7 +36,9 @@
     "blockIo": "块设备 I/O",
     "totalCpu": "总计 CPU",
     "totalMemory": "总内存",
-    "cloudflareTunnel": "Cloudflare 隧道"
+    "cloudflareTunnel": "Cloudflare 隧道",
+    "storage": "存储空间",
+    "totalStorage": "存储空间总计"
   },
   "stats": {
     "blockedRequests": "已拦截请求",

@@ -71,7 +71,7 @@ export function ProfileTab({
                   disabled={changingUsername}
                   className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded disabled:opacity-50"
                 >
-                  {changingUsername ? t('common:buttons.saving') : t('common:buttons.save')}
+                  {changingUsername ? t('common:status.saving') : t('common:buttons.save')}
                 </button>
                 <button
                   type="button"

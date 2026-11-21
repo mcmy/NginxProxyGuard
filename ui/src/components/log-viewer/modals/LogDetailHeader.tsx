@@ -20,7 +20,7 @@ export function LogDetailHeader({ log, onClose, onBanClick }: LogDetailHeaderPro
           <LogTypeBadge type={log.log_type} />
           <h2 className="text-lg font-semibold text-slate-900 dark:text-white">{t('detail.title')}</h2>
         </div>
-        <IconButton onClick={onClose} title={t('detail.close', 'Close')}>
+        <IconButton onClick={onClose} title={t('common:buttons.close')}>
           <XIcon className="h-5 w-5" />
         </IconButton>
       </div>

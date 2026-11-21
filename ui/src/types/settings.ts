@@ -441,7 +441,7 @@ export interface SystemSettings {
 
   // UI Settings (global)
   ui_font_family?: string;
-  ui_error_page_language?: string; // 'auto' | 'ko' | 'en'
+  ui_error_page_language?: string; // 'auto' | 'ko' | 'en' | 'zh-CN'
   instance_name?: string; // shown in the header, up to 32 characters (#369)
 
   // DDNS Settings

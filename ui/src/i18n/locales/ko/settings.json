@@ -650,7 +650,9 @@
         "turnstile": "Cloudflare Turnstile은 무료이며 개인정보 친화적인 CAPTCHA입니다.",
         "recaptcha_v2": "reCAPTCHA v2는 \"I am not a robot\" 체크박스를 표시합니다."
       },
-      "links": "CAPTCHA 키 발급:"
+      "links": "CAPTCHA 키 발급:",
+      "recaptchaConsole": "Google reCAPTCHA 관리 콘솔",
+      "turnstileConsole": "Cloudflare Turnstile 대시보드"
     },
     "keys": {
       "siteKey": "사이트 키",
@@ -1031,7 +1033,8 @@
         "title": "공개 에러 페이지 언어",
         "description": "403(접근 차단) 등 공개 에러 페이지와, per-host GeoIP Challenge Mode가 트리거되었을 때 노출되는 CAPTCHA 챌린지 페이지의 기본 표시 언어입니다.",
         "label": "기본 언어",
-        "help": "Auto: 방문자의 브라우저 언어를 따릅니다(브라우저가 한국어면 한국어, 아니면 영어). ko/en: 방문자 브라우저와 무관하게 지정 언어로 고정합니다. 우선순위: 방문자의 언어 버튼 클릭 > 이 전역 기본값 > 브라우저 감지."
+        "help": "방문자가 저장한 언어가 이 기본값보다 우선합니다. 자동은 브라우저 언어가 중국어 간체, 한국어, 영어인 경우 해당 언어를 사용하며, 나머지는 영어로 표시합니다.",
+        "automatic": "자동 (브라우저 언어)"
       },
       "ddos": {
         "title": "DDoS 보호 (전역 설정)",
@@ -1933,6 +1936,12 @@
       "502": "백엔드 연결 실패",
       "503": "서비스 사용 불가",
       "504": "백엔드 응답 시간 초과"
+    },
+    "statusDetails": {
+      "403": "보안 정책이 이 요청을 차단했습니다.",
+      "502": "프록시가 업스트림 서비스에서 유효하지 않은 응답을 받았습니다.",
+      "503": "지금은 서비스를 이용할 수 없습니다.",
+      "504": "업스트림 서비스가 제한 시간 내에 응답하지 않았습니다."
     },
     "htmlLabel": "{{status}} 페이지 HTML",
     "placeholder": "비워 두면 기본 페이지를 씁니다. \"기본 틀 넣기\"로 시작할 수 있습니다.",

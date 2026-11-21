@@ -47,8 +47,8 @@
       "createdAsc": "最老的在前",
       "expiresAsc": "即将到期",
       "expiresDesc": "稍后到期",
-      "domainAsc": "域A-Z",
-      "domainDesc": "域Z-A"
+      "domainAsc": "域名升序",
+      "domainDesc": "域名降序"
     },
     "filter": {
       "allStatus": "所有状态",
@@ -75,21 +75,21 @@
     },
     "domains": "域名",
     "domainsPlaceholder": "example.com\n*.example.com",
-    "domainsHint": "每行一个或逗号分隔。通配符 (*.domain.com) 需要 Let's Encrypt +DNS验证。",
+    "domainsHint": "可每行填写一个域名，也可用逗号分隔。申请通配符证书（如 *.example.com）需要选择 Let’s Encrypt 并使用 DNS 验证。",
     "letsEncryptSettings": "Let's Encrypt 设置",
     "verificationMethod": "验证方法",
     "methods": {
       "http": "HTTP-01（端口 80）",
-      "httpDesc": "需要开放80端口",
-      "dns": "DNS-01(API)",
+      "httpDesc": "需要开放 80 端口",
+      "dns": "DNS-01（API）",
       "dnsDesc": "支持通配符证书"
     },
     "dnsProvider": "DNS 提供商",
     "selectDnsProvider": "选择 DNS 提供商",
-    "defaultSuffix": "- 默认",
+    "defaultSuffix": "（默认）",
     "noDnsProvider": "找不到 DNS 提供商。请先添加 DNS 提供商。",
-    "httpChallengeInfo": "HTTP-01挑战：域必须指向此服务器（端口 80）。不支持通配符证书。",
-    "autoRenew": "到期前自动续订",
+    "httpChallengeInfo": "HTTP-01 验证要求域名指向此服务器，且 80 端口可访问。通配符证书需使用 DNS 验证。",
+    "autoRenew": "到期前自动续期",
     "selfSignedSettings": "自签名设置",
     "validityPeriod": "有效期",
     "daysOption": "{{count}}天",
@@ -111,7 +111,7 @@
       "domainRequired": "至少需要一个域名",
       "certKeyRequired": "需要证书和私钥"
     },
-    "keyType": "钥匙类型"
+    "keyType": "密钥类型"
   },
   "detail": {
     "title": "证书详情",
@@ -157,14 +157,14 @@
     "name": "名称",
     "type": "类型",
     "types": {
-      "cloudflare": "云耀",
-      "route53": "AWS53 号公路",
-      "duckdns": "鸭子 DNS",
-      "dynu": "迪努",
+      "cloudflare": "Cloudflare",
+      "route53": "AWS Route 53",
+      "duckdns": "DuckDNS",
+      "dynu": "Dynu",
       "ionos": "IONOS",
-      "ovh": "OVH云",
+      "ovh": "OVHcloud",
       "manual": "手动",
-      "infomaniak": "信息狂热者 (DynDNS)"
+      "infomaniak": "Infomaniak (DynDNS)"
     },
     "default": "默认",
     "configured": "已配置",
@@ -172,7 +172,7 @@
     "credentials": "凭据",
     "test": "测试连接",
     "actions": "操作",
-    "empty": "未配置 DNS 提供程序。添加一个以启用 Let's Encrypt 证书。",
+    "empty": "尚未配置 DNS 服务商。添加后可通过 DNS 验证申请 Let’s Encrypt 证书。",
     "add": "添加提供商",
     "edit": "编辑",
     "delete": "删除",
@@ -211,13 +211,13 @@
         "zoneIdHelp": "指定 Cloudflare 区域ID以绕过自动区域检测。对于二级 ccTLD 下的域名（例如 .ai.kr、.pe.kr、.co.uk）是必需的。在 Cloudflare Dashboard > 您的域 > 概述（右侧边栏）中找到它。",
         "optional": "可选",
         "orGlobalKey": "或者使用全局 API 密钥（旧版）",
-        "apiKey": "API 钥匙",
+        "apiKey": "API 密钥",
         "email": "电子邮件"
       },
       "route53": {
         "title": "AWS凭证",
         "accessKeyId": "访问密钥 ID",
-        "secretAccessKey": "秘密访问密钥",
+        "secretAccessKey": "访问密钥（Secret Access Key）",
         "useDefaultCredentials": "使用AWS默认凭据（无访问密钥）",
         "useDefaultCredentialsHelp": "AWS默认凭证链会登录：EC2实例角色、ECS任务角色或 API 容器的AWS_* 环境变量。在EC2上，将实例元数据跃点限制设置为 2。",
         "region": "地区",
@@ -231,7 +231,7 @@
       },
       "dynu": {
         "title": "Dynu 凭证",
-        "apiKey": "API 钥匙",
+        "apiKey": "API 密钥",
         "apiKeyPlaceholder": "输入您的 DynuAPI密钥",
         "apiKeyHelp": "从 Dynu 控制面板 >API凭证获取您的API密钥"
       },
@@ -239,10 +239,10 @@
         "title": "IONOS凭证",
         "apiKeyPrefix": "API 密钥前缀",
         "apiKeyPrefixPlaceholder": "输入您的IONOSAPI密钥前缀",
-        "apiKeyPrefixHelp": "来自IONOS开发人员门户 (developer.hosting.ionos.com) 的API密钥有两部分：公共前缀和秘密。在此输入公共前缀；它是 certbot 的 dns_ionos_prefix。IONOS云DNS不受支持。",
-        "apiKey": "API 钥匙",
+        "apiKeyPrefixHelp": "IONOS 开发者门户（developer.hosting.ionos.com）提供的 API 密钥由公开前缀和私密部分组成。在此填写公开前缀，对应 certbot 的 dns_ionos_prefix。当前不支持 IONOS 云 DNS。",
+        "apiKey": "API 密钥",
         "apiKeyPlaceholder": "输入您的IONOSAPI密钥",
-        "apiKeyHelp": "与前缀相关的秘密。仅输入密码，不输入前缀和点；这是 certbot 的 dns_ionos_secret。"
+        "apiKeyHelp": "填写此前缀对应的私密部分，省略前缀和分隔点。对应 certbot 的 dns_ionos_secret。"
       },
       "ovh": {
         "title": "OVHcloud 凭证",
@@ -253,14 +253,14 @@
           "ca": "OVHcloud 加拿大 (ovh-ca)",
           "us": "OVHcloudUS(ovh-us)"
         },
-        "applicationKey": "应用密钥",
+        "applicationKey": "应用标识密钥（Application Key）",
         "applicationKeyPlaceholder": "输入您的 OVHcloud 应用程序密钥",
         "applicationKeyHelp": "在 /domain/zone/* 上使用GET/PUT/POST/DELETE在https://eu.api.ovh.com/createToken/（或您所在区域的页面）上创建密钥。这是 certbot 的 dns_ovh_application_key。",
-        "applicationSecret": "应用秘密",
-        "applicationSecretPlaceholder": "输入您的 OVHcloud 应用程序密码",
+        "applicationSecret": "应用密钥（Application Secret）",
+        "applicationSecretPlaceholder": "填写 OVHcloud Application Secret",
         "applicationSecretHelp": "创建密钥时显示一次。这是 certbot 的 dns_ovh_application_secret。",
-        "consumerKey": "消费者钥匙",
-        "consumerKeyPlaceholder": "输入您的 OVHcloud 消费者密钥",
+        "consumerKey": "用户密钥（Consumer Key）",
+        "consumerKeyPlaceholder": "填写 OVHcloud Consumer Key",
         "consumerKeyHelp": "承载 /domain/zone/* 上授予的权限的密钥。这是 certbot 的 dns_ovh_consumer_key。"
       },
       "test": {
@@ -271,7 +271,7 @@
       },
       "credentialsConfigured": "凭据已配置。输入新值来更改它们。",
       "errors": {
-        "nameRequired": "姓名为必填项",
+        "nameRequired": "请填写 DNS 服务商名称",
         "createFailed": "无法创建 DNS 提供程序",
         "updateFailed": "无法更新 DNS 提供程序"
       },
@@ -284,22 +284,22 @@
     }
   },
   "providers": {
-    "cloudflare": "云耀",
-    "route53": "亚马逊 53 号公路",
-    "godaddy": "戈达迪",
-    "digitalocean": "数字海洋",
+    "cloudflare": "Cloudflare",
+    "route53": "Amazon Route 53",
+    "godaddy": "GoDaddy",
+    "digitalocean": "DigitalOcean",
     "namecheap": "Namecheap",
-    "gandi": "甘地",
-    "ovh": "OVH云",
+    "gandi": "Gandi",
+    "ovh": "OVHcloud",
     "custom": "自定义"
   },
   "fields": {
-    "apiKey": "API 钥匙",
+    "apiKey": "API 密钥",
     "apiToken": "API 令牌",
-    "apiSecret": "API 秘密",
+    "apiSecret": "API 私密密钥",
     "email": "电子邮件",
     "accessKeyId": "访问密钥 ID",
-    "secretAccessKey": "秘密访问密钥",
+    "secretAccessKey": "访问密钥（Secret Access Key）",
     "region": "地区"
   },
   "validation": {
@@ -313,8 +313,8 @@
   },
   "help": {
     "provider": "选择要颁发的证书类型。",
-    "domains": "输入要为其颁发证书的域。",
-    "verificationMethod": "选择域名所有权验证方法。通配符域满足 DNS 方法。",
+    "domains": "填写需要签发证书的域名。",
+    "verificationMethod": "选择验证域名控制权的方式。申请通配符证书时必须使用 DNS 验证。",
     "dnsProvider": "选择用于完成 DNS 验证的 DNS 服务商。",
     "autoRenew": "证书临近到期时自动续期。",
     "validityPeriod": "设置自签名证书的有效期。",
@@ -368,8 +368,8 @@
     "next": "下一页"
   },
   "keyTypes": {
-    "rsa2048": "第 2048 章",
-    "ec256": "ECDSAP-256",
-    "ec384": "ECDSAP-384"
+    "rsa2048": "RSA 2048",
+    "ec256": "ECDSA P-256",
+    "ec384": "ECDSA P-384"
   }
 }

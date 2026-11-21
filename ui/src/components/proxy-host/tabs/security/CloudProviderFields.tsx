@@ -99,7 +99,7 @@ export function CloudProviderFields({
     return (
       <div className="flex items-center gap-3 text-slate-500 py-4">
         <div className="w-6 h-6 border-2 border-slate-300 border-t-slate-600 rounded-full animate-spin" />
-        <span className="text-sm">{t('common:loading')}</span>
+        <span className="text-sm">{t('common:status.loading')}</span>
       </div>
     )
   }

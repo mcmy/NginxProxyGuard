@@ -260,7 +260,6 @@
     "userAgent": "User Agent",
     "referer": "Referer",
     "errorMessage": "Error Message",
-    "host": "Host",
     "action": "Action",
     "ruleId": "Rule ID",
     "severity": "Severity",
@@ -270,7 +269,8 @@
     "blockReason": "Block Reason",
     "exploitRule": "Exploit Rule",
     "botCategory": "Bot Category",
-    "matchedURI": "Matched URI"
+    "matchedURI": "Matched URI",
+    "noRawLog": "No raw log available"
   },
   "disableRule": {
     "button": "Disable This Policy",
@@ -779,5 +779,10 @@
     "empty": "No proxy hosts",
     "noMatch": "No host matches the search",
     "readOnly": "Changing the rules needs the permission to change logs."
+  },
+  "method": {
+    "binaryTooltip": "Click to view raw data",
+    "binary": "Binary",
+    "rawData": "Raw data"
   }
 }

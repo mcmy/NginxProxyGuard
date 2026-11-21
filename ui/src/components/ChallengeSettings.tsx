@@ -303,12 +303,12 @@ export default function ChallengeSettings() {
         <ul className="mt-2 space-y-1 ml-4 list-disc">
           <li>
             <a href="https://www.google.com/recaptcha/admin" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-600 dark:hover:text-blue-200">
-              Google reCAPTCHA Admin Console
+              {t('captcha.provider.recaptchaConsole')}
             </a>
           </li>
           <li>
             <a href="https://dash.cloudflare.com/?to=/:account/turnstile" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-600 dark:hover:text-blue-200">
-              Cloudflare Turnstile Dashboard
+              {t('captcha.provider.turnstileConsole')}
             </a>
           </li>
         </ul>

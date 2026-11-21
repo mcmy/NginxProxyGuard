@@ -35,6 +35,7 @@ test('Simplified Chinese covers the English resource keys and keeps interpolatio
 test('protocol labels and copyable configuration examples retain their original literals', () => {
   const settings = load('zh-CN', 'settings')
   const proxyHost = load('zh-CN', 'proxyHost')
+  assert.equal(settings.errorPages.status['403'], 'Forbidden')
   assert.equal(settings.errorPages.status['502'], 'Bad Gateway')
   assert.equal(settings.errorPages.status['503'], 'Service Unavailable')
   assert.equal(settings.errorPages.status['504'], 'Gateway Timeout')
@@ -43,6 +44,52 @@ test('protocol labels and copyable configuration examples retain their original 
   assert.equal(proxyHost.form.security.botFilter.customAllowedPlaceholder, load('en', 'proxyHost').form.security.botFilter.customAllowedPlaceholder)
   assert.equal(proxyHost.form.advanced.config.placeholder.split('\n')[1], 'proxy_set_header X-Custom-Header value;')
   assert.match(settings.global.fields.resolver.description, /8\.8\.8\.8 8\.8\.4\.4 valid=300s/)
+})
+
+test('Chinese settings and logs use the same terms for products and bot categories', () => {
+  const settings = load('zh-CN', 'settings')
+  const proxyHost = load('zh-CN', 'proxyHost')
+  const logs = load('zh-CN', 'logs')
+  const certificates = load('zh-CN', 'certificates')
+  const botFilter = settings.system.botfilter
+  const badBot = logs.bots.badBot
+
+  assert.equal(settings.captcha.provider.turnstile, 'Cloudflare Turnstile')
+  assert.equal(proxyHost.form.basic.dockerBrowseShort, 'Docker')
+  assert.equal(certificates.providers.cloudflare, 'Cloudflare')
+  assert.equal(certificates.dnsProviders.types.cloudflare, 'Cloudflare')
+  assert.equal(proxyHost.form.security.fail2banSettings, 'Fail2ban 设置')
+  assert.equal(badBot, '恶意机器人')
+  assert.equal(logs.botFilter.categories.badBot, badBot)
+  assert.equal(botFilter.lists.badBots.label, `${badBot}列表`)
+  assert.ok(botFilter.lists.badBots.description.includes(badBot))
+  assert.equal(botFilter.options.blockBadBots.label, `拦截${badBot}`)
+  assert.equal(proxyHost.form.security.botFilter.blockBadBots, `拦截${badBot}`)
+})
+
+test('public error pages show the same Chinese explanations and HTTP labels as settings', () => {
+  const { status, statusDetails } = load('zh-CN', 'settings').errorPages
+  for (const [code, title] of Object.entries(status)) {
+    const template = readFileSync(new URL(`../../nginx/html/${code}.html`, import.meta.url), 'utf8')
+    assert.ok(template.includes(`<div class="error-title" data-lang="en zh-CN">${title}</div>`), code)
+    assert.ok(template.includes(statusDetails[code]), code)
+    assert.ok(template.includes('id="btn-zh-CN">简体中文</button>'), code)
+  }
+})
+
+test('certificate algorithms, sort directions, and HTTPS switches use consistent Chinese labels', () => {
+  const certificates = load('zh-CN', 'certificates')
+  const proxyHost = load('zh-CN', 'proxyHost')
+  const redirectHost = load('zh-CN', 'redirectHost')
+
+  assert.equal(certificates.form.keyType, '密钥类型')
+  assert.deepEqual(certificates.keyTypes, load('en', 'certificates').keyTypes)
+  assert.equal(certificates.list.sort.domainAsc, '域名升序')
+  assert.equal(certificates.list.sort.domainDesc, '域名降序')
+  assert.equal(proxyHost.list.sort.nameAsc, '名称升序')
+  assert.equal(proxyHost.list.sort.nameDesc, '名称降序')
+  assert.equal(proxyHost.form.ssl.forceHttps, '强制 HTTPS')
+  assert.equal(redirectHost.form.forceHttps, proxyHost.form.ssl.forceHttps)
 })
 
 test('rule labels localize known IDs and preserve descriptions for unknown ones', () => {

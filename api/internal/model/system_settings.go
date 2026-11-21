@@ -116,7 +116,7 @@ type SystemSettings struct {
 
 	// UI Settings (global)
 	UIFontFamily        string `json:"ui_font_family" db:"ui_font_family"`                 // Global font family: system, gowun-batang, noto-sans-kr, pretendard, inter
-	UIErrorPageLanguage string `json:"ui_error_page_language" db:"ui_error_page_language"` // Default language for error pages (403, etc.): auto, ko, en
+	UIErrorPageLanguage string `json:"ui_error_page_language" db:"ui_error_page_language"` // Default language for public error and challenge pages: auto, ko, en, zh-CN
 
 	// InstanceName is shown in the header to tell NPG instances apart (#369).
 	InstanceName string `json:"instance_name" db:"instance_name"`

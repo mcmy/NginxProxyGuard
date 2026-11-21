@@ -203,8 +203,8 @@
     "loadError": "无法加载域条目：{{error}}",
     "empty": "暂无列表使用域名。将 partner.example.com 等域名添加到访问列表或例外列表后，即可在这里查看。",
     "total": "{{count}}最多{{max}}域",
-    "needsReview_one": "{{count}}需要审查",
-    "needsReview_other": "{{count}}需要审核",
+    "needsReview_one": "{{count}} 个域名待确认",
+    "needsReview_other": "{{count}} 个域名待确认",
     "columns": {
       "name": "域名",
       "uses": "使用者",

@@ -125,7 +125,7 @@ export function HostDetailModal({ block: editingBlock, proxyHostsCount, onClose 
       queryClient.invalidateQueries({ queryKey: ['uri-block-history'] })
       onClose()
     },
-    onError: (error) => { alert(t('common:error') + ': ' + (error instanceof Error ? error.message : 'Unknown error')) },
+    onError: (error) => { alert(t('common:status.error') + ': ' + (error instanceof Error ? error.message : 'Unknown error')) },
   })
 
   const resetAddRuleForm = () => { setNewPattern(''); setNewMatchType('prefix'); setNewDescription(''); setApplyToAllHosts(false) }
@@ -258,7 +258,7 @@ export function HostDetailModal({ block: editingBlock, proxyHostsCount, onClose 
             <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">{t('uriBlock.hostModal.exceptionIPsDesc')}</p>
             <div className="flex gap-2 mb-3">
               <input type="text" value={newExceptionIP} onChange={(e) => setNewExceptionIP(e.target.value)} placeholder="192.168.1.100" className="flex-1 px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white text-sm" onKeyDown={(e) => e.key === 'Enter' && handleAddExceptionIP()} />
-              <button onClick={handleAddExceptionIP} disabled={!newExceptionIP.trim() || updateMutation.isPending} className="px-4 py-2 bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white rounded-lg text-sm font-medium">{t('common:add')}</button>
+              <button onClick={handleAddExceptionIP} disabled={!newExceptionIP.trim() || updateMutation.isPending} className="px-4 py-2 bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white rounded-lg text-sm font-medium">{t('common:buttons.add')}</button>
             </div>
             <div className="flex flex-wrap gap-2">
               {editingBlock.exception_ips.map(ip => (
@@ -322,7 +322,7 @@ export function HostDetailModal({ block: editingBlock, proxyHostsCount, onClose 
         <div className="px-6 py-4 border-t border-slate-200 dark:border-slate-700 flex justify-between">
           <button onClick={() => { if (confirm(t('uriBlock.confirmDeleteHost', { host: editingBlock.domain_names[0] }) || `Are you sure?`)) { deleteURIBlockMutation.mutate(editingBlock.proxy_host_id) } }} disabled={deleteURIBlockMutation.isPending} className="px-4 py-2 bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white rounded-lg font-medium transition-colors flex items-center gap-2">
             {deleteURIBlockMutation.isPending && (<svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" /></svg>)}
-            {t('common:delete')}
+            {t('common:buttons.delete')}
           </button>
           <button onClick={onClose} className="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 rounded-lg font-medium transition-colors">{t('common:buttons.close')}</button>
         </div>

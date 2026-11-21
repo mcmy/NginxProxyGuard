@@ -53,7 +53,7 @@ export function UserDetailModal({ userId, onClose }: UserDetailModalProps) {
           {data ? data.username : t('users.detailTitle')}
         </h3>
 
-        {isLoading && <p className="mt-4 text-sm text-slate-500">{t('common:loading', { defaultValue: 'Loading…' })}</p>}
+        {isLoading && <p className="mt-4 text-sm text-slate-500">{t('common:status.loading', { defaultValue: 'Loading…' })}</p>}
         {error && (
           <p className="mt-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700 dark:bg-red-900/20 dark:text-red-300">
             {error instanceof Error ? error.message : String(error)}
@@ -102,7 +102,7 @@ export function UserDetailModal({ userId, onClose }: UserDetailModalProps) {
             {/* Sign-in providers (#227) */}
             <section>
               <h4 className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-400">
-                {t('users.linkedIdentities', { defaultValue: 'Linked sign-in providers' })}
+                {t('sso.linkedIdentities', { defaultValue: 'Linked sign-in providers' })}
               </h4>
               {(data.linked_identities ?? []).length === 0 ? (
                 <p className="text-sm text-slate-500 dark:text-slate-400">{t('sso.noLinkedIdentities')}</p>

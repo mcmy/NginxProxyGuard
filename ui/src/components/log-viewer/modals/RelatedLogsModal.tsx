@@ -55,7 +55,7 @@ export function RelatedLogsModal({ clientIp, requestUri, timestamp, host, userAg
           <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
             {t('detail.relatedLogsTitle', 'Related Access Logs')}
           </h3>
-          <IconButton onClick={onClose} title={t('detail.close', 'Close')}>
+          <IconButton onClick={onClose} title={t('common:buttons.close')}>
             <XIcon className="h-5 w-5" />
           </IconButton>
         </div>

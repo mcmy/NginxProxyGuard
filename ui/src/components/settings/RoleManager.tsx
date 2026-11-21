@@ -212,7 +212,7 @@ export default function RoleManager() {
       )}
 
       {isLoading ? (
-        <p className="text-sm text-slate-500">{t('common:loading', { defaultValue: 'Loading…' })}</p>
+        <p className="text-sm text-slate-500">{t('common:status.loading', { defaultValue: 'Loading…' })}</p>
       ) : !data?.data?.length ? (
         <EmptyState>{t('roles.empty')}</EmptyState>
       ) : (

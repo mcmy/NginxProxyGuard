@@ -1,13 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getSystemSettings, updateSystemSettings } from '../../api/settings';
-
-const ERROR_PAGE_LANGUAGE_OPTIONS = [
-  { value: 'auto', label: 'Auto (browser language)', labelKo: '자동 (브라우저 언어)' },
-  { value: 'ko', label: '한국어', labelKo: '한국어' },
-  { value: 'en', label: 'English', labelKo: 'English' },
-];
+import { LANGUAGE_NAMES, SUPPORTED_LANGUAGES } from '../../i18n';
 
 /**
  * Self-contained section that renders inside the Global Settings > Advanced tab.
@@ -19,7 +14,7 @@ const ERROR_PAGE_LANGUAGE_OPTIONS = [
  * Global Settings form.
  */
 export default function ErrorPageLanguageSection() {
-  const { t, i18n } = useTranslation('settings');
+  const { t } = useTranslation('settings');
   const queryClient = useQueryClient();
   const [editedValue, setEditedValue] = useState<string | null>(null);
   const [saveMessage, setSaveMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -31,13 +26,6 @@ export default function ErrorPageLanguageSection() {
 
   const currentValue = editedValue ?? systemSettings?.ui_error_page_language ?? 'auto';
   const isModified = editedValue !== null && editedValue !== (systemSettings?.ui_error_page_language ?? 'auto');
-
-  // Reset local edit when the underlying fetched value changes (e.g. after save invalidates the query)
-  useEffect(() => {
-    if (systemSettings?.ui_error_page_language !== undefined && editedValue === null) {
-      setEditedValue(null); // keep it at null; we render currentValue from the fetched value directly
-    }
-  }, [systemSettings?.ui_error_page_language, editedValue]);
 
   const saveMutation = useMutation({
     mutationFn: (lang: string) => updateSystemSettings({ ui_error_page_language: lang }),
@@ -75,18 +63,20 @@ export default function ErrorPageLanguageSection() {
       <div className="bg-slate-50 dark:bg-slate-700/30 rounded-xl border border-slate-200 dark:border-slate-700 p-4">
         <div className="flex items-end gap-3">
           <div className="flex-1">
-            <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
+            <label htmlFor="error-page-language" className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
               {t('global.advanced.errorPageLanguage.label')}
             </label>
             <select
+              id="error-page-language"
               value={currentValue}
               onChange={(e) => setEditedValue(e.target.value)}
               disabled={saveMutation.isPending}
               className="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg text-sm text-slate-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50"
             >
-              {ERROR_PAGE_LANGUAGE_OPTIONS.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {i18n.language === 'ko' ? opt.labelKo : opt.label}
+              <option value="auto">{t('global.advanced.errorPageLanguage.automatic')}</option>
+              {SUPPORTED_LANGUAGES.map((language) => (
+                <option key={language} value={language}>
+                  {LANGUAGE_NAMES[language]}
                 </option>
               ))}
             </select>

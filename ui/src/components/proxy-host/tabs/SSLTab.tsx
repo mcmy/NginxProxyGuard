@@ -44,7 +44,7 @@ export function SSLTabContent({
   pendingCerts,
   dnsProviders,
 }: SSLTabProps) {
-  const { t } = useTranslation('proxyHost')
+  const { t } = useTranslation(['proxyHost', 'certificates'])
   const { mode: certMode, data: newCertData, creating: certCreating, error: certError, success: certSuccess, progress: certProgress, elapsedTime: certElapsedTime } = certState
 
   return (
@@ -183,7 +183,7 @@ export function SSLTabContent({
                         <span className="text-lg">🔐</span>
                         <div>
                           <span className="text-sm font-medium text-slate-900 dark:text-white">Let's Encrypt</span>
-                          <p className="text-xs text-slate-500 dark:text-slate-400">Free, auto-renew</p>
+                          <p className="text-xs text-slate-500 dark:text-slate-400">{t('actions.cloneCertLetsEncryptDesc')}</p>
                         </div>
                       </div>
                     </button>
@@ -198,8 +198,8 @@ export function SSLTabContent({
                       <div className="flex items-center gap-2">
                         <span className="text-lg">📜</span>
                         <div>
-                          <span className="text-sm font-medium text-slate-900 dark:text-white">Self-Signed</span>
-                          <p className="text-xs text-slate-500 dark:text-slate-400">For testing</p>
+                          <span className="text-sm font-medium text-slate-900 dark:text-white">{t('certificates:form.providers.selfSigned')}</span>
+                          <p className="text-xs text-slate-500 dark:text-slate-400">{t('certificates:form.providers.selfSignedDesc')}</p>
                         </div>
                       </div>
                     </button>
@@ -208,7 +208,7 @@ export function SSLTabContent({
 
                 {/* Domains to cover */}
                 <div>
-                  <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">Domains (from above)</label>
+                  <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">{t('form.ssl.certificateDomains')}</label>
                   <div className="flex flex-wrap gap-1.5">
                     {newCertData.domain_names.length > 0 ? (
                       newCertData.domain_names.map((domain, i) => (
@@ -217,7 +217,7 @@ export function SSLTabContent({
                         </span>
                       ))
                     ) : (
-                      <span className="text-xs text-slate-500 dark:text-slate-400 italic">Add domains in the Basic tab first</span>
+                      <span className="text-xs text-slate-500 dark:text-slate-400 italic">{t('validation.addDomainsBeforeCert')}</span>
                     )}
                   </div>
                 </div>
@@ -249,7 +249,7 @@ export function SSLTabContent({
                           ))}
                         </select>
                         <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                          Use DNS challenge for wildcard certs or when port 80 isn't accessible
+                          {t('actions.cloneCertDnsProviderHelp')}
                         </p>
                       </div>
                     )}
@@ -273,7 +273,7 @@ export function SSLTabContent({
                         }
                         className="rounded border-slate-300 text-green-600 focus:ring-green-500"
                       />
-                      <span className="text-sm text-slate-700 dark:text-slate-300">Auto-renew before expiry</span>
+                      <span className="text-sm text-slate-700 dark:text-slate-300">{t('certificates:form.autoRenew')}</span>
                     </label>
                   </>
                 )}
@@ -282,7 +282,7 @@ export function SSLTabContent({
                 {newCertData.provider === 'selfsigned' && (
                   <div>
                     <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">
-                      Validity (days)
+                      {t('form.ssl.certificateValidityDays')}
                     </label>
                     <input
                       type="number"
@@ -312,8 +312,8 @@ export function SSLTabContent({
                         <p className="text-sm font-medium text-blue-800">{certProgress}</p>
                         <p className="text-xs text-blue-600 mt-0.5">
                           {newCertData.provider === 'letsencrypt'
-                            ? 'Let\'s Encrypt is validating your domain. This usually takes 10-30 seconds.'
-                            : 'Generating self-signed certificate...'}
+                            ? t('form.ssl.domainValidationProgress')
+                            : t('form.ssl.selfSignedProgress')}
                         </p>
                       </div>
                     </div>
@@ -326,7 +326,7 @@ export function SSLTabContent({
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer" />
                     </div>
                     <p className="text-xs text-blue-500 mt-2 text-center">
-                      Elapsed: {certElapsedTime}s (timeout: 120s)
+                      {t('form.ssl.certificateElapsed', { seconds: certElapsedTime })}
                     </p>
                   </div>
                 )}
@@ -356,8 +356,8 @@ export function SSLTabContent({
                     </svg>
                     <span>
                       {newCertData.provider === 'letsencrypt'
-                        ? 'Let\'s Encrypt certificate will be issued when you click "Create Proxy Host". This may take 10-30 seconds.'
-                        : 'Certificate will be created when you click "Create Proxy Host".'}
+                        ? t('form.ssl.issueCertificateHint')
+                        : t('form.ssl.createSelfSignedHint')}
                     </span>
                   </div>
                 )}
@@ -448,7 +448,7 @@ export function SSLTabContent({
             </label>
             {formData.ssl_http3 && (
               <p className="mt-3 text-xs text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 p-2 rounded border border-slate-200 dark:border-slate-700">
-                HTTP/3 uses QUIC protocol over UDP port 443. The Alt-Svc header will be sent to advertise HTTP/3 support to browsers.
+                {t('form.ssl.http3Help')}
               </p>
             )}
           </div>

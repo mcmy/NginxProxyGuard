@@ -285,52 +285,52 @@
       "options": {
         "title": "默认机器人过滤器选项",
         "blockBadBots": {
-          "label": "阻止坏机器人",
-          "description": "阻止已知的恶意机器人，例如抓取工具、垃圾邮件发送者、漏洞扫描程序。"
+          "label": "拦截恶意机器人",
+          "description": "拦截已知的恶意机器人，例如网页抓取工具、垃圾信息机器人和漏洞扫描器。"
         },
         "blockAiBots": {
-          "label": "阻止AI机器人",
-          "description": "阻止AI爬虫，例如 GPTBot、ChatGPT-User、Claude-Web、Anthropic、CCBot。"
+          "label": "拦截 AI 爬虫",
+          "description": "拦截 GPTBot、ChatGPT-User、Claude-Web、Anthropic 和 CCBot 等 AI 爬虫。"
         },
         "allowSearchEngines": {
-          "label": "允许搜索引擎",
-          "description": "始终允许搜索引擎抓取工具，例如 Google、Bing、Yahoo、Baidu。对于SEO至关重要。"
+          "label": "放行搜索引擎爬虫",
+          "description": "始终放行 Google、Bing、Yahoo、百度等搜索引擎爬虫，以便网站正常收录。"
         },
         "challengeSuspicious": {
-          "label": "质疑可疑请求",
-          "description": "显示可疑请求或缺失用户代理的 JavaScript 质询。"
+          "label": "验证可疑请求",
+          "description": "对可疑请求或缺少 User-Agent 请求头的请求执行 JavaScript 验证。"
         }
       },
       "customAgents": {
-        "label": "自定义块用户代理",
-        "description": "要阻止的其他用户代理模式。每行一个。",
+        "label": "自定义 User-Agent 拦截规则",
+        "description": "填写需要拦截的 User-Agent 匹配模式，每行一条。",
         "placeholder": "示例：\nMyCustomBot\nSomeScraperBot/*\ncurl/*"
       },
       "lists": {
         "title": "机器人列表管理",
         "badge": "全局",
-        "description": "下面的列表在所有代理主机上全局使用。每行输入一个用户代理模式。",
+        "description": "这些列表对所有代理主机生效。每行填写一条 User-Agent 匹配模式。",
         "badBots": {
-          "label": "坏机器人列表",
-          "description": "不良机器人的阻止模式（抓取工具、垃圾邮件发送者等）",
+          "label": "恶意机器人列表",
+          "description": "用于识别并拦截恶意机器人的 User-Agent 匹配模式，例如网页抓取工具和垃圾信息机器人。",
           "placeholder": "AhrefsBot\nSemrushBot\nMJ12bot\n..."
         },
         "aiBots": {
-          "label": "AI机器人列表",
-          "description": "AI爬虫的模式（GPTBot、ClaudeBot 等）",
+          "label": "AI 爬虫列表",
+          "description": "用于识别 GPTBot、ClaudeBot 等 AI 爬虫的 User-Agent 匹配模式。",
           "placeholder": "GPTBot\nChatGPT-User\nClaudeBot\n..."
         },
         "searchEngines": {
-          "label": "搜索引擎列表",
-          "description": "搜索引擎机器人的模式始终允许SEO",
+          "label": "搜索引擎爬虫列表",
+          "description": "用于放行搜索引擎爬虫的 User-Agent 匹配模式，帮助搜索引擎收录网站。",
           "placeholder": "Googlebot\nBingbot\nDuckDuckBot\n..."
         },
         "suspicious": {
-          "label": "可疑客户名单",
-          "description": "可疑客户挑战的模式",
+          "label": "可疑客户端列表",
+          "description": "命中这些 User-Agent 匹配模式的客户端将接受验证。",
           "placeholder": "curl\nwget\npython-requests\n..."
         },
-        "patternCount": "{{count}}匹配模式"
+        "patternCount": "{{count}} 条匹配模式"
       },
       "summary": {
         "title": "当前默认值摘要",
@@ -377,7 +377,7 @@
       },
       "trustedIps": {
         "title": "全局可信 IP",
-        "description": "可信 IP 可绕过主机级地理位置限制、访问列表、机器人过滤和限流，并免于自动封禁。默认仍会经过 WAF 以及漏洞利用和扫描器检测。可通过下方选项单独跳过 WAF（ModSecurity）。",
+        "description": "可信 IP 可绕过主机级地理位置限制、访问列表、机器人过滤和限流，并免于 Fail2ban 和 WAF 自动封禁。默认仍会经过 WAF 以及漏洞利用和扫描器检测。可通过下方选项单独跳过 WAF（ModSecurity）。",
         "help": "可添加内网网段、监控系统或可信服务的 IP。可信地址会跳过主机级地理位置限制、访问列表、机器人过滤和限流，不会被 Fail2ban 或 WAF 自动封禁，也会从 Nginx 配置中的 IP 封禁列表排除。默认仍会经过 WAF 以及漏洞利用和扫描器检测，以防失陷的可信主机向后端转发攻击。需要时可通过下方选项关闭这些 IP 的 WAF（ModSecurity）检查。支持 IPv4、IPv6 和 CIDR。",
         "placeholder": "# 内部网络\n192.168.1.0/24\n10.0.0.0/8\n# 监控服务器\n203.0.113.50",
         "format": "每行一个 IP 或 CIDR。以 # 开头的行是注释。支持 IPv4、IPv6 和 CIDR。保存时会拒绝非 IP 地址的新行；将域名放入下面的域名字段中。",
@@ -396,7 +396,7 @@
         "title": "日志保留设置",
         "description": "为每种日志类型设置保留期限。超过此时间段的日志将被自动删除。",
         "access": "访问日志",
-        "accessDesc": "所有 HTTP 请求，包括机器人过滤器和漏洞利用拦截事件 · 也适用于质询 (CAPTCHA) 记录",
+        "accessDesc": "包含全部 HTTP 请求，以及机器人过滤、漏洞利用拦截和人机验证记录。",
         "waf": "WAF 活动",
         "wafDesc": "ModSecurity 阻止/检测事件",
         "error": "错误日志",
@@ -448,7 +448,7 @@
         },
         "maxSize": {
           "label": "每个文件的最大大小",
-          "help": "达到此尺寸时自动旋转"
+          "help": "日志文件达到此大小时自动轮转。"
         },
         "rotateCount": {
           "label": "轮换文件计数",
@@ -456,11 +456,11 @@
         },
         "retentionDays": {
           "label": "轮换保留天数",
-          "help": "早于该时间的旋转文件将被删除"
+          "help": "超过保留期限的已轮转日志会被删除。"
         },
         "compress": {
-          "label": "压缩旋转文件",
-          "help": "使用 gzip 压缩旋转文件以保存磁盘空间"
+          "label": "压缩已轮转日志",
+          "help": "用 gzip 压缩已轮转日志以节省磁盘空间。"
         },
         "estimate": {
           "title": "估计最大磁盘使用量",
@@ -626,40 +626,42 @@
     }
   },
   "captcha": {
-    "title": "CAPTCHA 挑战设置",
-    "description": "配置每主机挑战模式使用的 CAPTCHA 提供程序。启用此功能后，打开每个代理主机的安全→ GeoIP 选项卡并打开“挑战模式”以实际显示 CAPTCHA 页面。",
+    "title": "人机验证设置",
+    "description": "选择各代理主机用于人机验证的服务。配置完成后，在代理主机的「安全 → GeoIP」中开启「人机验证模式」。",
     "enable": {
-      "label": "启用 CAPTCHA 提供程序",
-      "description": "这仅配置提供程序（Turnstile / reCAPTCHA）。如果代理主机启用了 GeoIP → 挑战模式，则访问者只会看到 CAPTCHA。否则，受地理限制的访问者将显示 403 页面。"
+      "label": "启用人机验证服务",
+      "description": "在此配置 Turnstile 或 reCAPTCHA。代理主机也需开启「GeoIP → 人机验证模式」才会向受地理位置限制的访客显示验证页，否则会显示 403 错误页。"
     },
     "stats": {
-      "title": "挑战统计（24小时）",
-      "total": "总挑战",
+      "title": "人机验证统计（24 小时）",
+      "total": "验证总次数",
       "passed": "通过",
       "failed": "失败",
-      "activeTokens": "活跃令牌"
+      "activeTokens": "有效令牌"
     },
     "provider": {
-      "title": "CAPTCHA 提供商",
-      "subTitle": "CAPTCHA 提供商",
+      "title": "人机验证服务",
+      "subTitle": "人机验证服务",
       "recaptcha_v2": "Google reCAPTCHA v2（复选框）",
       "recaptcha_v3": "Google reCAPTCHA v3（基于分数）",
-      "turnstile": "Cloudflare 十字转门",
+      "turnstile": "Cloudflare Turnstile",
       "help": {
-        "recaptcha_v3": "reCAPTCHA v3 根据分数检测机器人，无需用户交互。",
-        "turnstile": "Cloudflare Turnstile 是一款免费且保护隐私的 CAPTCHA。",
+        "recaptcha_v3": "reCAPTCHA v3 根据风险评分识别自动化请求，无需访客手动操作。",
+        "turnstile": "Turnstile 是 Cloudflare 提供的免费人机验证服务，通常可在浏览器后台完成验证。",
         "recaptcha_v2": "reCAPTCHA v2 显示“我不是机器人”复选框。"
       },
-      "links": "获取 CAPTCHA 密钥："
+      "links": "获取人机验证密钥：",
+      "recaptchaConsole": "Google reCAPTCHA 管理控制台",
+      "turnstileConsole": "Cloudflare Turnstile 控制台"
     },
     "keys": {
-      "siteKey": "站点密钥",
-      "siteKeyDesc": "站点密钥由 CAPTCHA 提供商颁发。",
-      "secretKey": "秘密钥匙",
-      "secretKeyDesc": "由 CAPTCHA 提供商颁发的密钥。",
-      "secretKeySet": "密钥已设置。输入一个新值来更改它。",
-      "siteKeyPlaceholder": "您的网站密钥",
-      "secretKeyPlaceholder": "你的秘密钥匙"
+      "siteKey": "站点密钥（Site Key）",
+      "siteKeyDesc": "人机验证服务提供的公开站点密钥。",
+      "secretKey": "服务端密钥（Secret Key）",
+      "secretKeyDesc": "用于服务端验证令牌，由人机验证服务提供。",
+      "secretKeySet": "已设置服务端密钥。填写新值即可更换。",
+      "siteKeyPlaceholder": "填写站点密钥",
+      "secretKeyPlaceholder": "填写服务端密钥"
     },
     "recaptcha": {
       "score": "最低分数（0.0-1.0）",
@@ -667,21 +669,21 @@
     },
     "tokenValidity": {
       "label": "令牌有效期（秒）",
-      "desc": "通过CAPTCHA后允许持续时间访问。 （默认值：86400s = 24h）"
+      "desc": "通过人机验证后，访客在此时长内无需重新验证。默认 86400 秒（24 小时）。"
     },
     "appearance": {
-      "title": "挑战页面外观",
+      "title": "人机验证页外观",
       "pageTitle": "页面标题",
       "theme": "主题",
-      "message": "页面留言",
-      "messageDesc": "消息显示在 CAPTCHA 上方。",
+      "message": "页面提示",
+      "messageDesc": "显示在人机验证组件上方。",
       "pageTitlePlaceholder": "安全检查",
       "themeLight": "浅色",
       "themeDark": "深色",
       "messagePlaceholder": "请完成安全检查以继续。"
     },
     "messages": {
-      "saveSuccess": "CAPTCHA 设置已成功保存。"
+      "saveSuccess": "人机验证设置已保存。"
     }
   },
   "messages": {
@@ -823,15 +825,15 @@
         "description": "添加“Vary：Accept-Encoding”标头。确保 CDN/缓存提供正确的版本。"
       },
       "brotli_enabled": {
-        "label": "布洛特利压缩",
+        "label": "Brotli 压缩",
         "description": "启用 Brotli 压缩。提供比 Gzip 更高的压缩比。现代浏览器支持。"
       },
       "brotli_static": {
-        "label": "布罗特利静态",
+        "label": "预压缩 Brotli 文件",
         "description": "提供预压缩的 .br 文件（如果有）。减少静态资源的 CPU 开销。"
       },
       "brotli_comp_level": {
-        "label": "布罗特利等级 (1-11)",
+        "label": "Brotli 压缩级别（1–11）",
         "description": "Brotli 压缩强度。 1-4：快速，5-9：平衡，10-11：最大（高 CPU）。推荐：4-6。"
       },
       "brotli_min_length": {
@@ -903,7 +905,7 @@
         "description": "从上游服务器读取响应超时。调整缓慢的 API 响应。"
       },
       "resolver": {
-        "label": "DNS 旋转变压器",
+        "label": "DNS 解析器",
         "description": "用于解析域名的 DNS 服务器。例如 8.8.8.8 8.8.4.4 valid=300s"
       },
       "error_log_level": {
@@ -916,7 +918,7 @@
       },
       "access_log_strip_query": {
         "label": "从访问日志中删除查询字符串",
-        "description": "仅记录路径，删除查询字符串 (?apiKey=..., ?access_token=...)，因此作为查询参数传递的机密不会出现在 access_raw.log 或旋转存档中。默认关闭（当前行为）。"
+        "description": "访问日志仅记录路径，省略查询字符串（?apiKey=…、?access_token=…），避免查询参数中的凭据写入 access_raw.log 或轮转归档。默认关闭。"
       },
       "custom_http_config": {
         "label": "自定义 HTTP 配置",
@@ -1028,10 +1030,11 @@
         "help": "最多{{max}}个字符。将其留空以不显示任何内容。"
       },
       "errorPageLanguage": {
-        "title": "公共错误页面语言",
-        "description": "当触发每主机 GeoIP 挑战模式时，公共错误页面（403 访问被阻止等）和 CAPTCHA 挑战页面上显示的默认语言。",
+        "title": "公开错误页语言",
+        "description": "设置公开错误页和人机验证页的默认语言。",
         "label": "默认语言",
-        "help": "自动：遵循访问者的浏览器语言（如果浏览器设置为韩语，则为韩语，否则为英语）。 ko/en：无论访问者的浏览器如何，强制指定的语言。优先级：访问者的显式语言按钮点击 > 此全局默认值 > 浏览器检测。"
+        "help": "优先使用访客已选择的语言。其次使用这里的默认语言。选择“自动”时，跟随浏览器的简体中文、韩语或英语设置，其他语言显示英语。",
+        "automatic": "自动（跟随浏览器语言）"
       },
       "ddos": {
         "title": "DDoS 防护（全局）",
@@ -1429,20 +1432,20 @@
       "renewBefore": "在到期前许多天更新证书。建议使用默认值 (30)。"
     },
     "botFilter": {
-      "defaults": "这些设置仅作为NEW代理主机的默认设置应用。现有主机不受影响。",
-      "lists": "管理所有代理主机共享的用户代理阻止和允许列表。",
-      "badBots": "阻止已知的恶意机器人，例如网络爬虫和垃圾邮件发送者。",
-      "aiBots": "阻止AI数据抓取工具，例如 GPTBot 和 ClaudeBot。",
-      "searchEngines": "始终允许搜索引擎爬虫（Google、Bing）保护SEO。",
-      "suspicious": "使用 JavaScript 挑战来挑战可疑客户端（curl、python 请求）。"
+      "defaults": "这些默认设置只应用于新建的代理主机。",
+      "lists": "管理所有代理主机共用的 User-Agent 拦截和放行列表。",
+      "badBots": "拦截已知的恶意机器人，例如网页抓取工具和垃圾信息机器人。",
+      "aiBots": "拦截 GPTBot、ClaudeBot 等用于收集数据的 AI 爬虫。",
+      "searchEngines": "始终放行 Google、Bing 等搜索引擎爬虫，以便网站正常收录。",
+      "suspicious": "对 curl、python-requests 等可疑客户端执行 JavaScript 验证。"
     },
     "botfilter": {
-      "defaults": "这些设置仅作为NEW代理主机的默认设置应用。现有主机不受影响。",
-      "lists": "管理所有代理主机共享的用户代理阻止和允许列表。",
-      "badBots": "阻止已知的恶意机器人，例如网络爬虫和垃圾邮件发送者。",
-      "aiBots": "阻止AI数据抓取工具，例如 GPTBot 和 ClaudeBot。",
-      "searchEngines": "始终允许搜索引擎爬虫（Google、Bing）保护SEO。",
-      "suspicious": "使用 JavaScript 挑战来挑战可疑客户端（curl、python 请求）。"
+      "defaults": "这些默认设置只应用于新建的代理主机。",
+      "lists": "管理所有代理主机共用的 User-Agent 拦截和放行列表。",
+      "badBots": "拦截已知的恶意机器人，例如网页抓取工具和垃圾信息机器人。",
+      "aiBots": "拦截 GPTBot、ClaudeBot 等用于收集数据的 AI 爬虫。",
+      "searchEngines": "始终放行 Google、Bing 等搜索引擎爬虫，以便网站正常收录。",
+      "suspicious": "对 curl、python-requests 等可疑客户端执行 JavaScript 验证。"
     },
     "waf": {
       "autoBan": "自动封禁短时间内频繁生成 WAF 警报（例如 SQL 注入）的 IP。",
@@ -1506,7 +1509,7 @@
       "dashboard": "仪表板",
       "proxy": "代理主机",
       "redirect": "重定向",
-      "waf": "WAF/ 阻塞",
+      "waf": "WAF / 拦截",
       "access": "访问控制",
       "authprovider": "认证提供方",
       "certificate": "证书",
@@ -1605,8 +1608,8 @@
       "issuer": "签发方 URL",
       "issuerHint": "用于 OIDC 服务发现的基础地址，例如 https://accounts.google.com",
       "clientId": "客户 ID",
-      "clientSecret": "客户秘密",
-      "secretKeepHint": "保持不变以保持存储的秘密。",
+      "clientSecret": "客户端密钥",
+      "secretKeepHint": "留空以保留已保存的客户端密钥。",
       "scopes": "范围",
       "callbackBase": "回调基 URL",
       "callbackBaseHint": "当NPG位于另一个代理后面时固定公共源。当空时从请求派生。",
@@ -1929,10 +1932,16 @@
     "builtIn": "内置页面",
     "custom": "自定义页面",
     "status": {
-      "403": "访问已拦截",
+      "403": "Forbidden",
       "502": "Bad Gateway",
       "503": "Service Unavailable",
       "504": "Gateway Timeout"
+    },
+    "statusDetails": {
+      "403": "安全策略拦截了此请求。",
+      "502": "代理未能从上游服务获得有效响应。",
+      "503": "服务暂时无法处理请求。",
+      "504": "上游服务未在规定时间内响应。"
     },
     "htmlLabel": "{{status}} 页面 HTML",
     "placeholder": "留空将使用内置错误页。选择“从模板开始”可以载入示例 HTML。",

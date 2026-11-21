@@ -69,8 +69,8 @@
     "noResultsDescription": "没有代理主机与“{{query}}”匹配",
     "clearSearch": "清除搜索",
     "sort": {
-      "nameAsc": "姓名（A-Z）",
-      "nameDesc": "姓名（Z-A）",
+      "nameAsc": "名称升序",
+      "nameDesc": "名称降序",
       "updatedDesc": "最近更新",
       "updatedAsc": "最旧更新",
       "createdDesc": "最近创建",
@@ -132,12 +132,12 @@
       "tagsInvalid": "标签只能包含 a-z、0-9、“.”、“_”和“-”，并且必须以字母或数字开头（最多 32 个字符）。",
       "tagsMax": "每个主机最多{{max}}标签。",
       "tagRemove": "删除标签{{tag}}",
-      "streamListener": "流监听器",
+      "streamListener": "TCP/UDP 监听",
       "streamProtocol": "协议",
       "streamListenHost": "聆听主机",
       "streamListenPort": "监听端口",
       "streamSslPreread": "SSL 预读",
-      "streamSslPrereadDescription": "读取TLSSNI而不终止 TLS",
+      "streamSslPrereadDescription": "预读 TLS 握手中的服务器名称（SNI），保持流量加密。",
       "streamAcceptProxyProtocol": "接受PROXY",
       "streamAcceptProxyProtocolDescription": "期望来自客户端的PROXY协议",
       "streamSendProxyProtocol": "发送PROXY",
@@ -152,7 +152,7 @@
       "forwardPort": "转发端口",
       "forwardScheme": "远期计划",
       "dockerBrowse": "浏览 Docker 容器",
-      "dockerBrowseShort": "码头工人",
+      "dockerBrowseShort": "Docker",
       "dockerContainerTarget": "Docker 容器：{{name}}（按名称自动解析）",
       "dockerContainerTargetWithNetwork": "Docker 容器：{{name}}（网络：{{network}}，自动解析）",
       "websocket": "WebSocket 支持",
@@ -173,16 +173,16 @@
       "tlsMode": {
         "label": "TLS 模式",
         "none": "无（普通TCP）",
-        "passthrough": "TLS 直通 (ssl_preread)",
-        "terminate": "TLS 终止（证书）",
-        "help": "仅限TCP。 Passthrough读取TLSSNI而不终止；终止使用证书解密 TLS 并将明文转发到后端。两者是相互排斥的。",
+        "passthrough": "TLS 直通（ssl_preread）",
+        "terminate": "TLS 终止（使用证书）",
+        "help": "仅适用于 TCP，两种模式只能选一种。TLS 直通会预读握手中的服务器名称（SNI），并将加密流量转发给后端。TLS 终止由 Nginx 使用证书和私钥完成握手和解密，默认向后端转发明文。",
         "certLabel": "证书"
       }
     },
     "ssl": {
       "enabled": "SSL 已启用",
       "enabledDescription": "启用 HTTPS 连接",
-      "forceHttps": "力 HTTPS",
+      "forceHttps": "强制 HTTPS",
       "forceHttpsDescription": "将 HTTP 请求重定向到 HTTPS",
       "http2": "HTTP/2",
       "http2Description": "启用 HTTP/2 协议",
@@ -197,11 +197,19 @@
       "certificateProvider": "证书提供方",
       "dnsProvider": "DNS 提供商",
       "dnsChallenge": "DNS 验证",
-      "httpChallenge": "HTTP 挑战",
+      "httpChallenge": "HTTP 验证",
       "creatingCertificate": "正在创建证书...",
       "certificateSuccess": "证书已创建",
       "certificateFailed": "创建证书失败",
-      "disabledHint": "启用 SSL 以配置 HTTPS 设置"
+      "disabledHint": "启用 SSL 以配置 HTTPS 设置",
+      "certificateDomains": "证书覆盖的域名",
+      "certificateValidityDays": "有效期（天）",
+      "domainValidationProgress": "Let’s Encrypt 正在验证域名，通常需要 10–30 秒。",
+      "selfSignedProgress": "正在生成自签名证书…",
+      "certificateElapsed": "已等待 {{seconds}} 秒，超时上限为 120 秒。",
+      "issueCertificateHint": "创建代理主机时将申请 Let’s Encrypt 证书，可能需要 10–30 秒。",
+      "createSelfSignedHint": "创建代理主机时将生成自签名证书。",
+      "http3Help": "HTTP/3 通过 UDP 443 端口使用 QUIC。Alt-Svc 响应头会向浏览器声明支持 HTTP/3。"
     },
     "security": {
       "priorityAllowIPs": {
@@ -220,8 +228,8 @@
       "manageRules": "管理规则",
       "fail2ban": "Fail2ban（自动封禁 IP）",
       "fail2banDescription": "重复尝试失败（401/403 错误）后自动封禁 IP。",
-      "fail2banSettings": "禁止失败设置",
-      "fail2banSettingsDescription": "配置禁止时间、最大重试次数和其他设置。",
+      "fail2banSettings": "Fail2ban 设置",
+      "fail2banSettingsDescription": "配置 IP 封禁时长、失败次数阈值等选项。",
       "configureSettings": "配置",
       "blockExploitsExceptionsPlaceholder": "^/wp-json/\n^/api/v1/webhook/",
       "blockExploitsExceptionsDescription": "每行填写一个 URI 路径匹配模式，以跳过远程文件包含（RFI）或其他漏洞利用拦截。例如 ^/wp-json/ 可放行 WordPress REST API。",
@@ -231,21 +239,21 @@
       "botFilter": {
         "title": "机器人过滤器",
         "enabled": "启用机器人过滤器",
-        "description": "阻止恶意机器人和抓取工具",
-        "blockBadBots": "阻止坏机器人",
-        "blockBadBotsDescription": "阻止已知的恶意机器人",
-        "blockAiBots": "阻止AI机器人",
-        "blockAiBotsDescription": "阻止AI训练机器人",
-        "allowSearchEngines": "允许搜索引擎",
-        "allowSearchEnginesDescription": "允许 Google、Bing 和其他搜索引擎机器人",
-        "blockSuspicious": "阻止可疑客户",
+        "description": "拦截恶意机器人和网页抓取工具",
+        "blockBadBots": "拦截恶意机器人",
+        "blockBadBotsDescription": "拦截已知的恶意机器人",
+        "blockAiBots": "拦截 AI 爬虫",
+        "blockAiBotsDescription": "拦截用于训练 AI 的爬虫",
+        "allowSearchEngines": "放行搜索引擎爬虫",
+        "allowSearchEnginesDescription": "放行 Google、Bing 等搜索引擎爬虫",
+        "blockSuspicious": "拦截可疑客户端",
         "blockSuspiciousDescription": "阻止具有异常请求模式的客户端",
-        "challengeSuspicious": "质疑可疑请求",
-        "challengeSuspiciousDescription": "对于可疑请求显示 CAPTCHA",
-        "customBlocked": "自定义阻止列表",
-        "customBlockedPlaceholder": "输入要阻止的用户代理，每行一个",
-        "customAllowed": "自定义允许列表",
-        "customAllowedDescription": "此列表中的用户代理绕过机器人过滤器的阻止，在整个站点上或仅在您提供的路径下",
+        "challengeSuspicious": "验证可疑请求",
+        "challengeSuspiciousDescription": "对可疑请求执行人机验证",
+        "customBlocked": "自定义拦截列表",
+        "customBlockedPlaceholder": "填写需要拦截的 User-Agent，每行一条",
+        "customAllowed": "自定义放行列表",
+        "customAllowedDescription": "名单中的 User-Agent 可跳过机器人过滤。可对整个站点放行，也可以限定到指定路径。",
         "customAllowedPlaceholder": "GoodBot\nokhttp @ /api\npython-requests @ /webhook /hooks",
         "customAllowedScopeHint": "要仅允许代理在某些路径下，请添加“@”和路径：okhttp @ /api 覆盖 /api 及其下面的所有内容，而不是 /api-admin。路径区分大小写，且不带 %、?或者 //。机器人过滤器仅读取任何客户端都可以设置的 User-Agent 标头，因此它不是访问控制。覆盖机器人过滤器的主机仅使用自己的列表。",
         "allowedPreview": {
@@ -284,8 +292,8 @@
         "modeBlockDescription": "阻止选定的国家/地区",
         "modeAllow": "仅允许",
         "modeAllowDescription": "仅允许选定的国家/地区",
-        "challengeMode": "挑战模式",
-        "challengeModeDescription": "启用验证码验证。配置了 ForwardAuth 的主机仍会直接拦截。",
+        "challengeMode": "人机验证模式",
+        "challengeModeDescription": "对受地理位置限制的请求执行人机验证。配置了 ForwardAuth 的主机仍会直接拦截。",
         "allowPrivateIPs": "允许私有 IP",
         "allowPrivateIPsDescription": "私有 IP 范围（10.x.x.x、172.16-31.x.x、192.168.x.x）绕过 GeoIP 阻止",
         "allowSearchBots": "允许搜索机器人",
@@ -309,7 +317,7 @@
         "description": "阻止来自已知云服务提供商的流量",
         "blocked": "已阻止",
         "warning": "来自选定云提供商的流量将被阻止。这可能会影响通过 VPN 或基于云的服务访问的合法用户。",
-        "challengeMode": "挑战模式",
+        "challengeMode": "人机验证模式",
         "challengeModeDescription": "通过验证码验证可放行云服务 IP 发来的请求。",
         "challengeWarning": "来自所选云服务商 IP 的访问需要先通过验证码验证。",
         "allowSearchBots": "允许搜索机器人",
@@ -330,7 +338,7 @@
         "disableHint": "该主机没有受到云阻止（全局默认值也被忽略）。"
       },
       "uriBlock": {
-        "title": "URI 路径阻塞",
+        "title": "URI 路径拦截",
         "description": "阻止对特定 URI 路径的访问",
         "quickAdd": "快速添加",
         "addRule": "添加阻止规则",
@@ -347,7 +355,8 @@
         "exceptionIPsPlaceholder": "输入绕过封锁的IP地址\n每行一个",
         "allowPrivateIPs": "允许私有 IP",
         "allowPrivateIPsDescription": "私有 IP（10.x、172.16-31.x、192.168.x）绕过 URI 阻止"
-      }
+      },
+      "authProvider": "认证提供方（SSO）"
     },
     "protection": {
       "title": "保护设置",
@@ -391,7 +400,8 @@
           "log": "仅记录",
           "notify": "通知"
         },
-        "failCodes": "失败代码"
+        "failCodes": "计为失败的状态码",
+        "linkDescription": "在 WAF 菜单中管理 Fail2ban 设置"
       },
       "securityHeaders": {
         "title": "安全响应头",
@@ -576,7 +586,7 @@
       "http2": "现代协议可实现更快的页面加载。推荐用于大多数网站。",
       "http3": "使用QUIC/UDP的下一代协议。在移动/不稳定网络上速度更快。需要UDP端口 443。",
       "hsts": "要求浏览器仅通过 HTTPS 访问此网站。浏览器会缓存这项设置。",
-      "certificate": "该主机提供的证书。选择涵盖主机域的已颁发或上传的证书。"
+      "certificate": "选择已签发或已上传的证书，并确保证书覆盖此主机的域名。"
     },
     "security": {
       "priorityAllowIPs": "绕过所有阻止（GeoIP、机器人过滤器等）的可信 IP。用于内部监控或合作伙伴。",
@@ -640,7 +650,7 @@
     "cloneDomains": "新域名",
     "cloneDomainsPlaceholder": "new.example.com, another.example.com",
     "cloneDomainsHelp": "用逗号或空格分隔多个域",
-    "cloneForwardScheme": "方案",
+    "cloneForwardScheme": "上游协议",
     "cloneForwardHost": "主机",
     "cloneForwardPort": "端口",
     "cloneCertificate": "SSL 证书",
@@ -659,8 +669,8 @@
     "cloneCertDomains": "证书域名",
     "cloneCertDomainsEmpty": "首先输入上面的域名",
     "cloneCertDnsProvider": "DNS 提供商（DNS 验证）",
-    "cloneCertHttpChallenge": "HTTP 挑战（默认）",
-    "cloneCertDnsProviderHelp": "对通配符证书或端口 80 被阻止时使用 DNS 验证",
+    "cloneCertHttpChallenge": "HTTP 验证（默认）",
+    "cloneCertDnsProviderHelp": "申请通配符证书或 80 端口无法访问时，请使用 DNS 验证。",
     "cloneCertLetsEncryptInfo": "单击“克隆”时将颁发 Let's Encrypt 证书。这需要 10-30 秒。",
     "cloneCertSelfSignedInfo": "单击“克隆”时将生成自签名证书。",
     "cloneCertIssuing": "颁发证书...",
@@ -723,7 +733,7 @@
       "altSvcDesc": "此标头向兼容浏览器通告 HTTP/3 支持"
     },
     "stream": {
-      "listener": "监听器",
+      "listener": "监听地址",
       "upstream": "上游"
     },
     "cache": {
@@ -766,6 +776,31 @@
       "invalid": "失败",
       "lastSync": "上次同步",
       "never": "尚未同步"
+    },
+    "help": {
+      "sslDetails": {
+        "protocol": "该连接握手协商出的 TLS 版本。",
+        "cipherSuite": "该连接握手协商出的密码套件。",
+        "validity": "证书开始生效的日期。",
+        "daysRemaining": "距离证书到期的剩余天数。"
+      },
+      "protocol": "测试请求协商出的 HTTP 版本。",
+      "responseTime": "从发出测试请求到收到响应所用的时间。",
+      "http": {
+        "http2": "此主机是否支持 HTTP/2。",
+        "http3": "此主机是否支持 HTTP/3。",
+        "altSvc": "Alt-Svc 响应头用于声明 HTTP/3 等可选服务。"
+      },
+      "cache": {
+        "status": "代理缓存处理此次响应的结果。",
+        "control": "Cache-Control 响应头指定响应是否可以缓存及缓存时长。"
+      },
+      "security": {
+        "score": "按测试检测到的安全响应头计算的分数。",
+        "server": "Server 响应头可能暴露服务器软件或版本信息。"
+      },
+      "statusCode": "测试请求收到的 HTTP 状态码。",
+      "ssl": "测试请求能否通过 TLS 建立连接。"
     }
   },
   "messages": {
@@ -817,7 +852,7 @@
     "checkPath": "检查路径",
     "expectedStatus": "预期状态",
     "healthy": "健康",
-    "unhealthy": "不健康",
+    "unhealthy": "异常",
     "serversUp": "服务器启动",
     "saveUpstream": "保存",
     "saving": "保存中...",

@@ -62,6 +62,9 @@ function ErrorPageCard({ status, page }: { status: number; page?: CustomErrorPag
           {page ? t('errorPages.custom') : t('errorPages.builtIn')}
         </span>
       </div>
+      <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
+        {t(`errorPages.statusDetails.${status}`)}
+      </p>
 
       <textarea
         value={html}

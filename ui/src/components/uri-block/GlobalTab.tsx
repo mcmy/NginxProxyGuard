@@ -355,7 +355,7 @@ export function GlobalTab({
               disabled={!globalExceptionIP.trim()}
               className="px-4 py-2 bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white rounded-lg text-sm font-medium"
             >
-              {t('common:add')}
+              {t('common:buttons.add')}
             </button>
           </div>
           <div className="flex flex-wrap gap-2">

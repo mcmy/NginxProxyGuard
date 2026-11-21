@@ -260,7 +260,6 @@
     "userAgent": "User Agent",
     "referer": "Referer",
     "errorMessage": "오류 메시지",
-    "host": "호스트",
     "action": "조치",
     "ruleId": "정책 ID",
     "severity": "심각도",
@@ -270,7 +269,8 @@
     "blockReason": "차단 원인",
     "exploitRule": "Exploit 규칙",
     "botCategory": "봇 분류",
-    "matchedURI": "매칭된 URI"
+    "matchedURI": "매칭된 URI",
+    "noRawLog": "사용 가능한 원본 로그가 없습니다"
   },
   "disableRule": {
     "button": "이 정책 비활성화",
@@ -779,5 +779,10 @@
     "empty": "프록시 호스트가 없습니다",
     "noMatch": "검색에 맞는 호스트가 없습니다",
     "readOnly": "규칙을 바꾸려면 로그 변경 권한이 필요합니다."
+  },
+  "method": {
+    "binaryTooltip": "클릭하여 원시 데이터 보기",
+    "binary": "바이너리",
+    "rawData": "원시 데이터"
   }
 }

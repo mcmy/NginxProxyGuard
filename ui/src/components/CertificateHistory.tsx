@@ -311,14 +311,14 @@ export default function CertificateHistoryList() {
               disabled={page <= 1}
               className="px-3 py-1 text-sm rounded border border-slate-300 dark:border-slate-600 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 dark:hover:bg-slate-700"
             >
-              {t('common:pagination.previous', 'Previous')}
+              {t('common:buttons.previous', 'Previous')}
             </button>
             <button
               onClick={() => setPage(page + 1)}
               disabled={page >= data.total_pages}
               className="px-3 py-1 text-sm rounded border border-slate-300 dark:border-slate-600 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 dark:hover:bg-slate-700"
             >
-              {t('common:pagination.next', 'Next')}
+              {t('common:buttons.next', 'Next')}
             </button>
           </div>
         </div>
