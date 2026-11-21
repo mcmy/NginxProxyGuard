@@ -259,6 +259,10 @@ func (s *AuthService) verify2FACode(user *model.User, code string) bool {
 
 // createSession creates a full session after authentication
 func (s *AuthService) createSession(ctx context.Context, user *model.User, ip, userAgent string) (*model.LoginResponse, error) {
+	return s.createSessionWith(ctx, user, ip, userAgent, s.repo.CreateSession)
+}
+
+func (s *AuthService) createSessionWith(ctx context.Context, user *model.User, ip, userAgent string, persist func(context.Context, *model.AuthSession) error) (*model.LoginResponse, error) {
 	// Generate session token
 	token, err := generateToken(tokenLength)
 	if err != nil {
@@ -277,7 +281,7 @@ func (s *AuthService) createSession(ctx context.Context, user *model.User, ip, u
 		ExpiresAt: time.Now().Add(sessionDuration),
 	}
 
-	if err := s.repo.CreateSession(ctx, session); err != nil {
+	if err := persist(ctx, session); err != nil {
 		return nil, err
 	}
 
@@ -729,7 +733,7 @@ func (s *AuthService) CleanupSessions(ctx context.Context) error {
 	}
 	s.tokenMu.Unlock()
 
-	return err
+	return errors.Join(err, s.repo.CleanExpiredPasskeyFlows(ctx))
 }
 
 func generateToken(length int) (string, error) {

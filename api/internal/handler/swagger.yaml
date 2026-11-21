@@ -84,6 +84,130 @@ tags:
     description: ForwardAuth providers (Authelia, Authentik, custom) applied per proxy host
 
 paths:
+  /auth/passkey/login/begin:
+    post:
+      security: []
+      tags: [Auth]
+      summary: Start sign-in with a security key
+      description: Starts a discoverable WebAuthn ceremony without a username. Requires the browser's same-origin HTTPS Origin header or localhost.
+      responses:
+        '200':
+          description: The request options and a two-minute flow ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PasskeyOptions'
+        '400':
+          description: Unsupported origin
+        '429':
+          description: Too many requests
+  /auth/passkey/login/finish:
+    post:
+      security: []
+      tags: [Auth]
+      summary: Sign in with a security key
+      requestBody:
+        $ref: '#/components/requestBodies/PasskeyCredential'
+      responses:
+        '200':
+          description: Signed in
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          description: Credential verification failed or the flow was expired or already used
+        '429':
+          description: Too many requests
+  /auth/passkeys:
+    get:
+      security:
+        - SessionAuth: []
+      tags: [Auth]
+      summary: List own security keys
+      responses:
+        '200':
+          description: Registered keys
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Passkey'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /auth/passkeys/register/begin:
+    post:
+      security:
+        - SessionAuth: []
+      tags: [Auth]
+      summary: Start registering a security key
+      description: Requires the current account password and an authenticator code when TOTP is enabled.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/PasskeyProof'
+                - type: object
+                  required: [name]
+                  properties:
+                    name:
+                      type: string
+                      maxLength: 80
+      responses:
+        '200':
+          description: The creation options and a two-minute flow ID bound to this session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PasskeyOptions'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Reauthentication failed or account setup is required
+  /auth/passkeys/register/finish:
+    post:
+      security:
+        - SessionAuth: []
+      tags: [Auth]
+      summary: Finish registering a security key
+      requestBody:
+        $ref: '#/components/requestBodies/PasskeyCredential'
+      responses:
+        '201':
+          description: Security key registered
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /auth/passkeys/{id}:
+    delete:
+      security:
+        - SessionAuth: []
+      tags: [Auth]
+      summary: Remove an own security key
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Base64url-encoded ID from the security key list
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasskeyProof'
+      responses:
+        '204':
+          description: Security key removed
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Reauthentication failed or account setup is required
+        '404':
+          description: No matching security key on this account
   /auth/login:
     post:
       security: []
@@ -11993,6 +12117,21 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
 
+  requestBodies:
+    PasskeyCredential:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [flow_id, credential]
+            properties:
+              flow_id:
+                type: string
+              credential:
+                type: object
+                description: The browser's JSON WebAuthn credential response
+
   schemas:
     TrafficHost:
       type: object
@@ -15019,10 +15158,48 @@ components:
           description: When unauthenticated, whether the install still needs its first credential change; when authenticated, the caller's own flag.
         user:
           $ref: '#/components/schemas/User'
+    Passkey:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        rp_id:
+          type: string
+          description: Domain the credential was registered for
+        created_at:
+          type: string
+          format: date-time
+        last_used_at:
+          type: string
+          format: date-time
+    PasskeyOptions:
+      type: object
+      properties:
+        flow_id:
+          type: string
+          description: Short-lived, single-use ceremony ID
+        options:
+          type: object
+          properties:
+            publicKey:
+              type: object
+              description: JSON WebAuthn request or creation options
+    PasskeyProof:
+      type: object
+      required: [password]
+      properties:
+        password:
+          type: string
+          format: password
+        totp_code:
+          type: string
+          description: Required when the account has TOTP enabled
     LoginResponse:
       type: object
       description: |
-        Returned by POST /auth/login and POST /auth/verify-2fa. Which fields are present
+        Returned by POST /auth/login, POST /auth/verify-2fa, and POST /auth/passkey/login/finish. Which fields are present
         depends on the outcome: a completed login carries `token` and `user`, while a login
         that still needs 2FA carries only `requires_2fa` and `temp_token`. `is_initial_setup`
         has no omitempty, so it is always serialised — it reads `false` on the 2FA leg

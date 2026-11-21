@@ -48,7 +48,7 @@ func runResetPasswordCommand(args []string) int {
 		fmt.Fprintln(os.Stderr, "Side effects on success:")
 		fmt.Fprintln(os.Stderr, "  - bcrypts and writes the new password_hash")
 		fmt.Fprintln(os.Stderr, "  - clears failed login_attempts for the target username")
-		fmt.Fprintln(os.Stderr, "  - invalidates every active auth_session for the target user")
+		fmt.Fprintln(os.Stderr, "  - invalidates every active auth_session and revokes passkeys for the target user")
 		fmt.Fprintln(os.Stderr, "  - records an entry in system_logs (source=audit)")
 		fmt.Fprintln(os.Stderr, "")
 		fmt.Fprintln(os.Stderr, "Flags:")
@@ -223,6 +223,18 @@ func applyReset(db *database.DB, user *cliUser, passwordHash string, clear2FA bo
 	}
 	if err != nil {
 		return nil, fmt.Errorf("update users: %w", err)
+	}
+
+	// The CLI can also run against an older installation before the server
+	// has upgraded its schema.
+	var hasPasskeys bool
+	if err := tx.QueryRow("SELECT to_regclass('public.user_passkeys') IS NOT NULL").Scan(&hasPasskeys); err != nil {
+		return nil, fmt.Errorf("check passkey table: %w", err)
+	}
+	if hasPasskeys {
+		if _, err := tx.Exec("DELETE FROM user_passkeys WHERE user_id = $1", user.id); err != nil {
+			return nil, fmt.Errorf("revoke passkeys: %w", err)
+		}
 	}
 
 	// Clear failed login attempts so a stale per-IP lockout cannot block the

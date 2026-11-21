@@ -481,6 +481,8 @@
       "user_created": "User Created",
       "user_updated": "User Updated",
       "user_deleted": "User Deleted",
+      "passkey_registered": "Security Key Registered",
+      "passkey_removed": "Security Key Removed",
       "password_changed": "Password Changed",
       "username_changed": "Username Changed",
       "totp_enabled": "2FA Enabled",

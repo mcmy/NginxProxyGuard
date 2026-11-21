@@ -480,6 +480,8 @@
       "user_created": "用户已创建",
       "user_updated": "用户更新",
       "user_deleted": "用户已删除",
+      "passkey_registered": "绑定安全密钥",
+      "passkey_removed": "移除安全密钥",
       "password_changed": "密码已更改",
       "username_changed": "用户名已更改",
       "totp_enabled": "启用 2FA",

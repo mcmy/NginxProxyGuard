@@ -1309,6 +1309,32 @@ UPDATE public.users SET role_id = '00000000-0000-0000-0000-0000000000a1' WHERE r
 ON CONFLICT (role_id, permission) DO NOTHING;`,
 		},
 		{
+			desc: "WebAuthn passkeys and single-use flows",
+			sql: `
+CREATE TABLE IF NOT EXISTS public.user_passkeys (
+    id bytea PRIMARY KEY,
+    user_id uuid NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+    rp_id text NOT NULL,
+    name text NOT NULL,
+    credential jsonb NOT NULL,
+    revision bigint NOT NULL DEFAULT 0,
+    created_at timestamptz NOT NULL DEFAULT now(),
+    last_used_at timestamptz
+);
+CREATE INDEX IF NOT EXISTS idx_user_passkeys_user_id ON public.user_passkeys (user_id);
+
+CREATE TABLE IF NOT EXISTS public.passkey_flows (
+    token_hash text PRIMARY KEY,
+    kind text NOT NULL,
+    origin text NOT NULL,
+    session_hash text NOT NULL,
+    data jsonb NOT NULL,
+    expires_at timestamptz NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_passkey_flows_expiry ON public.passkey_flows (expires_at);
+`,
+		},
+		{
 			desc: "v2.35.0: sso_providers + user_identities + sso_login_states (OIDC SSO, #227)",
 			sql: `CREATE TABLE IF NOT EXISTS public.sso_providers (
     id uuid DEFAULT gen_random_uuid() NOT NULL,

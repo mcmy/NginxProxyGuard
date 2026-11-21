@@ -108,6 +108,12 @@ Track all configuration changes with user attribution and timestamps.
 ### 🔐 Two-Factor Authentication
 Optional 2FA for admin accounts using TOTP (Google Authenticator, Authy, etc.).
 
+### Security Key Sign-in
+
+Open **Account Settings → Security Keys** and register a FIDO2 security key or device passkey. Registration and removal require the account's current password and a TOTP code if enabled. After setup, select **Sign in with a security key** to sign in using your key or device without entering your username or password.
+
+Use a recent browser on `localhost` or on the panel's HTTPS domain. Reverse proxies must preserve the public `Host` header, including any non-default port. Credentials are tied to the registration domain. An administrator or CLI password reset revokes the affected account's security keys.
+
 ### 🌐 HTTP/3 & QUIC
 Modern protocol support for faster, more reliable connections over UDP.
 

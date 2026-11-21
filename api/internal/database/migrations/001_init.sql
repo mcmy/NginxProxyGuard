@@ -3810,6 +3810,28 @@ CREATE INDEX IF NOT EXISTS idx_fsee_subscription ON public.filter_subscription_e
 -- that may not exist in older database versions
 -- ============================================================================
 
+CREATE TABLE IF NOT EXISTS public.user_passkeys (
+    id bytea PRIMARY KEY,
+    user_id uuid NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+    rp_id text NOT NULL,
+    name text NOT NULL,
+    credential jsonb NOT NULL,
+    revision bigint NOT NULL DEFAULT 0,
+    created_at timestamptz NOT NULL DEFAULT now(),
+    last_used_at timestamptz
+);
+CREATE INDEX IF NOT EXISTS idx_user_passkeys_user_id ON public.user_passkeys (user_id);
+
+CREATE TABLE IF NOT EXISTS public.passkey_flows (
+    token_hash text PRIMARY KEY,
+    kind text NOT NULL,
+    origin text NOT NULL,
+    session_hash text NOT NULL,
+    data jsonb NOT NULL,
+    expires_at timestamptz NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_passkey_flows_expiry ON public.passkey_flows (expires_at);
+
 -- RBAC (#222) — DOCUMENTATION ONLY. The executable copy lives in
 -- database/migration.go `upgrades` (three entries: tables + columns, the
 -- users.role_id FK behind a duplicate_object guard, and the built-in role seed

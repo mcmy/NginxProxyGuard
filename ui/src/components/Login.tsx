@@ -2,20 +2,26 @@ import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { login, verify2FA } from '../api/auth'
+import { passkeyErrorKey, signInWithPasskey, supportsPasskeys } from '../api/passkeys'
 import { fetchPublicSSOProviders, ssoStartURL } from '../api/sso'
+import { useDarkMode } from '../hooks/useDarkMode'
 import { LanguageSwitcher } from './LanguageSwitcher'
+import { LockIcon } from './common/listui'
 
 interface LoginProps {
   onLogin: () => void
 }
 
-/** Buttons for every enabled identity provider, above the password form.
- *
- *  The password form is never removed. NPG is often the reverse proxy in front
- *  of the very IdP being used, so requiring SSO would mean a dead IdP container
- *  locks the operator out of the tool needed to fix it. (#227)
- */
-function SSOButtons({ onChoose }: { onChoose: (slug: string) => void }) {
+interface AlternateSignInProps {
+  onChooseProvider: (slug: string) => void
+  onPasskey?: () => void
+  waitingForKey: boolean
+  disabled: boolean
+}
+
+const alternateButton = 'inline-flex w-full min-h-11 items-center justify-center gap-2 rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-700'
+
+function AlternateSignIn({ onChooseProvider, onPasskey, waitingForKey, disabled }: AlternateSignInProps) {
   const { t } = useTranslation('auth')
   const { data } = useQuery({
     queryKey: ['sso-providers-public'],
@@ -24,20 +30,31 @@ function SSOButtons({ onChoose }: { onChoose: (slug: string) => void }) {
     retry: false,
   })
   const providers = data?.data ?? []
-  if (providers.length === 0) return null
+  if (!onPasskey && providers.length === 0) return null
 
   return (
     <div className="mb-6">
       <div className="space-y-2">
+        {onPasskey && (
+          <button type="button" onClick={onPasskey} disabled={disabled} aria-busy={waitingForKey} className={alternateButton}>
+            {waitingForKey ? (
+              <span aria-hidden="true" className="h-4 w-4 shrink-0 rounded-full border-2 border-current border-r-transparent motion-safe:animate-spin" />
+            ) : (
+              <LockIcon className="h-4 w-4 shrink-0" />
+            )}
+            <span aria-live="polite">{t(waitingForKey ? 'passkeys.waitingForKey' : 'passkeys.signIn')}</span>
+          </button>
+        )}
         {providers.map((p) => (
           <button
             key={p.id}
             type="button"
-            onClick={() => onChoose(p.slug)}
+            onClick={() => onChooseProvider(p.slug)}
+            disabled={disabled}
             aria-label={`sso-${p.slug}`}
-            className="w-full flex items-center justify-center gap-2 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 py-2.5 px-4 rounded-lg font-medium hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+            className={alternateButton}
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg aria-hidden="true" className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                 d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
             </svg>
@@ -48,7 +65,7 @@ function SSOButtons({ onChoose }: { onChoose: (slug: string) => void }) {
       <div className="relative my-5">
         <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-slate-200 dark:border-slate-700" /></div>
         <div className="relative flex justify-center">
-          <span className="bg-white dark:bg-slate-800 px-3 text-xs text-slate-400">{t('login.ssoOr')}</span>
+          <span className="bg-white px-3 text-xs text-slate-500 dark:bg-slate-800 dark:text-slate-400">{t('login.ssoOr')}</span>
         </div>
       </div>
     </div>
@@ -57,13 +74,16 @@ function SSOButtons({ onChoose }: { onChoose: (slug: string) => void }) {
 
 export function Login({ onLogin }: LoginProps) {
   const { t } = useTranslation(['auth', 'common'])
+  useDarkMode()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [totpCode, setTotpCode] = useState('')
   const [tempToken, setTempToken] = useState('')
   const [requires2FA, setRequires2FA] = useState(false)
   const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [pending, setPending] = useState<'password' | 'passkey' | 'totp' | null>(null)
+  const loading = pending !== null
+  const passkeyAvailable = supportsPasskeys()
 
   // The SSO callback parks a failure code in the fragment before sending the
   // browser here, so the reason is shown on the form the operator is looking at.
@@ -75,8 +95,10 @@ export function Login({ onLogin }: LoginProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (loading) return
     setError('')
-    setLoading(true)
+    setSsoError('')
+    setPending('password')
 
     try {
       const response = await login({ username, password })
@@ -90,14 +112,30 @@ export function Login({ onLogin }: LoginProps) {
     } catch (err) {
       setError(err instanceof Error ? err.message : t('errors.networkError'))
     } finally {
-      setLoading(false)
+      setPending(null)
+    }
+  }
+
+  const handlePasskeyLogin = async () => {
+    if (loading) return
+    setPending('passkey')
+    setError('')
+    setSsoError('')
+    try {
+      await signInWithPasskey()
+      onLogin()
+    } catch (err) {
+      setError(t(passkeyErrorKey(err), { defaultValue: t('passkeys.errors.failed') }))
+    } finally {
+      setPending(null)
     }
   }
 
   const handle2FASubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (loading) return
     setError('')
-    setLoading(true)
+    setPending('totp')
 
     try {
       await verify2FA({ temp_token: tempToken, totp_code: totpCode })
@@ -105,7 +143,7 @@ export function Login({ onLogin }: LoginProps) {
     } catch (err) {
       setError(err instanceof Error ? err.message : t('errors.networkError'))
     } finally {
-      setLoading(false)
+      setPending(null)
     }
   }
 
@@ -117,40 +155,39 @@ export function Login({ onLogin }: LoginProps) {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="flex min-h-dvh items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-4 py-6">
       <div className="w-full max-w-md">
         {/* Logo/Title */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center mb-4">
-            <img src="/favicon.ico" alt="NPG Logo" className="w-20 h-20 rounded-2xl" />
+            <img src="/npg-logo.png" alt="" className="h-20 w-20 rounded-2xl object-contain" />
           </div>
           <h1 className="text-3xl font-bold text-white">Nginx Proxy Guard</h1>
           <p className="text-slate-400 mt-2">{t('login.brandSubtitle')}</p>
         </div>
 
         {/* Login Form */}
-        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-8">
+        <div className="rounded-2xl bg-white p-6 shadow-2xl sm:p-8 dark:bg-slate-800">
           {!requires2FA ? (
             <>
               <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-6 text-center">
                 {t('login.title')}
               </h2>
 
-              {ssoError && (
-                <div className="mb-5 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg text-sm">
-                  {t(`login.ssoErrors.${ssoError}`, { defaultValue: t('login.ssoErrors.failed') })}
+              {(error || ssoError) && (
+                <div role="alert" className="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-800 dark:bg-red-900/20 dark:text-red-300">
+                  {error || t(`login.ssoErrors.${ssoError}`, { defaultValue: t('login.ssoErrors.failed') })}
                 </div>
               )}
 
-              <SSOButtons onChoose={(slug) => { setSsoError(''); window.location.href = ssoStartURL(slug) }} />
+              <AlternateSignIn
+                onChooseProvider={(slug) => { setSsoError(''); window.location.href = ssoStartURL(slug) }}
+                onPasskey={passkeyAvailable ? handlePasskeyLogin : undefined}
+                waitingForKey={pending === 'passkey'}
+                disabled={loading}
+              />
 
               <form onSubmit={handleSubmit} className="space-y-5">
-                {error && (
-                  <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg text-sm">
-                    {error}
-                  </div>
-                )}
-
                 <div>
                   <label htmlFor="username" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                     {t('login.email')}
@@ -162,10 +199,10 @@ export function Login({ onLogin }: LoginProps) {
                     autoComplete="username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    className="w-full px-4 py-2.5 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors bg-white dark:bg-slate-700 text-slate-900 dark:text-white"
+                    className="w-full px-4 py-2.5 border border-slate-300 dark:border-slate-600 rounded-lg focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors bg-white dark:bg-slate-700 text-slate-900 dark:text-white"
                     placeholder={t('login.emailPlaceholder')}
                     required
-                    autoFocus
+                    autoFocus={!passkeyAvailable}
                   />
                 </div>
 
@@ -180,7 +217,7 @@ export function Login({ onLogin }: LoginProps) {
                     autoComplete="current-password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full px-4 py-2.5 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors bg-white dark:bg-slate-700 text-slate-900 dark:text-white"
+                    className="w-full px-4 py-2.5 border border-slate-300 dark:border-slate-600 rounded-lg focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors bg-white dark:bg-slate-700 text-slate-900 dark:text-white"
                     placeholder={t('login.passwordPlaceholder')}
                     required
                   />
@@ -191,7 +228,7 @@ export function Login({ onLogin }: LoginProps) {
                   disabled={loading}
                   className="w-full bg-primary-600 text-white py-2.5 px-4 rounded-lg font-medium hover:bg-primary-700 focus:ring-4 focus:ring-primary-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loading ? (
+                  {pending === 'password' ? (
                     <span className="flex items-center justify-center gap-2">
                       <svg className="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
@@ -240,7 +277,7 @@ export function Login({ onLogin }: LoginProps) {
                        password manager does not count toward the length; the
                        server decides what is actually valid. */
                     onChange={(e) => setTotpCode(e.target.value.toUpperCase().replace(/[^0-9A-Z]/g, '').slice(0, 8))}
-                    className="w-full px-4 py-4 border border-slate-300 dark:border-slate-600 rounded-lg text-center text-3xl tracking-[0.5em] font-mono focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors bg-white dark:bg-slate-700 text-slate-900 dark:text-white"
+                    className="w-full px-4 py-4 border border-slate-300 dark:border-slate-600 rounded-lg text-center text-3xl tracking-[0.5em] font-mono focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors bg-white dark:bg-slate-700 text-slate-900 dark:text-white"
                     placeholder="000000"
                     maxLength={8}
                     required
@@ -272,6 +309,7 @@ export function Login({ onLogin }: LoginProps) {
                 <button
                   type="button"
                   onClick={handleBackToLogin}
+                  disabled={loading}
                   className="w-full text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white py-2 text-sm transition-colors"
                 >
                   {t('common:buttons.back')}
@@ -282,12 +320,10 @@ export function Login({ onLogin }: LoginProps) {
         </div>
 
         {/* Footer with Language Switcher */}
-        <div className="flex items-center justify-center gap-4 mt-6">
-          <p className="text-slate-500 text-sm">
-            Protected by Nginx Proxy Guard Security
-          </p>
-          <span className="text-slate-600">|</span>
-          <LanguageSwitcher variant="dropdown" className="text-slate-400" />
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-center">
+          <p className="text-sm text-slate-400">{t('login.footer')}</p>
+          <span aria-hidden="true" className="hidden text-slate-600 sm:inline">|</span>
+          <LanguageSwitcher variant="dropdown" className="text-slate-300" />
         </div>
       </div>
     </div>

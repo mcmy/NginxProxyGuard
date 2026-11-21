@@ -174,9 +174,15 @@ func (r *UserRepository) SetEmail(ctx context.Context, userID, email string) err
 	return nil
 }
 
-// SetPassword resets a password and forces a change on next login.
+// SetPassword resets a password, forces a change at the next login, and revokes passkeys.
 func (r *UserRepository) SetPassword(ctx context.Context, userID, passwordHash string) error {
-	res, err := r.db.ExecContext(ctx, `
+	tx, err := r.db.BeginTx(ctx, nil)
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	res, err := tx.ExecContext(ctx, `
 		UPDATE users SET password_hash = $2, must_change_password = true, updated_at = now()
 		WHERE id = $1`, userID, passwordHash)
 	if err != nil {
@@ -185,7 +191,10 @@ func (r *UserRepository) SetPassword(ctx context.Context, userID, passwordHash s
 	if n, _ := res.RowsAffected(); n == 0 {
 		return sql.ErrNoRows
 	}
-	return nil
+	if _, err := tx.ExecContext(ctx, "DELETE FROM user_passkeys WHERE user_id = $1", userID); err != nil {
+		return fmt.Errorf("failed to revoke passkeys: %w", err)
+	}
+	return tx.Commit()
 }
 
 // Delete removes an account. api_tokens and auth_sessions cascade with it — the

@@ -61,6 +61,8 @@ const (
 // not a group. bootstrap's TestRateLimiterBucketAssignment keeps this list and
 // the route table from drifting apart.
 var publicAuthPaths = map[string]struct{}{
+	"/api/v1/auth/passkey/login/begin":  {},
+	"/api/v1/auth/passkey/login/finish": {},
 	"/api/v1/auth/login":              {},
 	"/api/v1/auth/logout":             {},
 	"/api/v1/auth/status":             {},

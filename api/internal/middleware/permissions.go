@@ -31,6 +31,10 @@ import (
 // is a broken account, not a restricted one. They require authentication and
 // nothing else.
 var SelfRoutes = map[string]bool{
+	"GET /api/v1/auth/passkeys":                  true,
+	"POST /api/v1/auth/passkeys/register/begin":   true,
+	"POST /api/v1/auth/passkeys/register/finish":  true,
+	"DELETE /api/v1/auth/passkeys/:id":            true,
 	"GET /api/v1/auth/me":              true,
 	"GET /api/v1/auth/account":         true,
 	"GET /api/v1/auth/language":        true,
@@ -84,6 +88,8 @@ var PublicRoutes = map[string]bool{
 	"POST /api/v1/auth/logout":     true,
 	"GET /api/v1/auth/status":      true,
 	"POST /api/v1/auth/verify-2fa": true,
+	"POST /api/v1/auth/passkey/login/begin":  true,
+	"POST /api/v1/auth/passkey/login/finish": true,
 
 	// CAPTCHA challenge. These are hit by VISITORS' browsers, not by operators
 	// (registerPublicRoutes in bootstrap/routes.go). Requiring a permission here

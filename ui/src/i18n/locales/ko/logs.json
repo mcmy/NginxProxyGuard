@@ -481,6 +481,8 @@
       "user_created": "사용자 생성",
       "user_updated": "사용자 수정",
       "user_deleted": "사용자 삭제",
+      "passkey_registered": "보안 키 등록",
+      "passkey_removed": "보안 키 삭제",
       "password_changed": "비밀번호 변경",
       "username_changed": "사용자명 변경",
       "totp_enabled": "2FA 활성화",

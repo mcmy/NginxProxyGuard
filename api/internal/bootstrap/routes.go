@@ -262,6 +262,9 @@ func registerPublicRoutes(v1 *echo.Group, c *Container) {
 		auth.GET("/status", c.Handlers.Auth.GetStatus)
 		auth.POST("/verify-2fa", c.Handlers.Auth.Verify2FA)
 
+		auth.POST("/passkey/login/begin", c.Handlers.Auth.BeginPasskeyLogin)
+		auth.POST("/passkey/login/finish", c.Handlers.Auth.FinishPasskeyLogin)
+
 		// OIDC SSO (#227). These three are unauthenticated by necessity: the
 		// login screen reads the provider list before anyone has signed in, and
 		// the browser arrives at start/callback carrying no NPG credential —
@@ -306,6 +309,10 @@ func registerProtectedAuthRoutes(v1 *echo.Group, c *Container) {
 	protected.POST("/auth/2fa/setup", c.Handlers.Auth.Setup2FA)
 	protected.POST("/auth/2fa/enable", c.Handlers.Auth.Enable2FA)
 	protected.POST("/auth/2fa/disable", c.Handlers.Auth.Disable2FA)
+	protected.GET("/auth/passkeys", c.Handlers.Auth.ListPasskeys)
+	protected.POST("/auth/passkeys/register/begin", c.Handlers.Auth.BeginPasskeyRegistration)
+	protected.POST("/auth/passkeys/register/finish", c.Handlers.Auth.FinishPasskeyRegistration)
+	protected.DELETE("/auth/passkeys/:id", c.Handlers.Auth.DeletePasskey)
 	// A person's interface preferences. A token has no language or font, and
 	// letting one rewrite a human's settings serves nobody.
 	protected.GET("/auth/language", c.Handlers.Auth.GetLanguage)

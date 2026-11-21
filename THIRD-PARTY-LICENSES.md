@@ -60,6 +60,7 @@ Nginx Proxy Guard uses the following third-party software:
 |---------|---------|---------|
 | github.com/labstack/echo/v4 | MIT | https://echo.labstack.com/ |
 | github.com/go-acme/lego/v4 | MIT | https://go-acme.github.io/lego/ |
+| github.com/go-webauthn/webauthn | BSD-3-Clause | https://github.com/go-webauthn/webauthn |
 | github.com/lib/pq | MIT | https://github.com/lib/pq |
 | github.com/google/uuid | BSD-3-Clause | https://github.com/google/uuid |
 | github.com/redis/go-redis/v9 | BSD-2-Clause | https://github.com/redis/go-redis |

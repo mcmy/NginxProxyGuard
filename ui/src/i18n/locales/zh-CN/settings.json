@@ -1538,7 +1538,7 @@
     "passwordHint": "至少10个字符，包含大小写、数字和符号。首次登录时需要更改。",
     "resetTitle": "重置密码",
     "resetMessage": "为“{{username}}”设置新密码。",
-    "resetHint": "重置会结束该帐户的每个会话，并需要在下次登录时进行更改。",
+    "resetHint": "重置会结束此账号的所有会话并撤销已绑定的安全密钥。用户下次登录时必须更改密码。",
     "deleteTitle": "删除用户",
     "deleteMessage": "删除帐户“{{username}}”。",
     "deleteTokenWarning": "{{count}}API该用户发行的令牌将随之删除并立即停止工作。",

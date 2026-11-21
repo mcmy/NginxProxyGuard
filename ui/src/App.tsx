@@ -219,9 +219,9 @@ function AppContent({ user, onLogout }: AppContentProps) {
             onClick={() => navigate('/dashboard')}
           >
             <img
-              src="/favicon.ico"
+              src="/npg-logo.png"
               alt="NPG Logo"
-              className="w-8 h-8 lg:w-10 lg:h-10 rounded-lg flex-shrink-0"
+              className="w-8 h-8 lg:w-10 lg:h-10 rounded-lg flex-shrink-0 object-contain"
             />
             <div className="hidden sm:block">
               <h1 className="text-lg lg:text-xl font-bold text-slate-900 dark:text-gray-100">{t('header.nginxProxyGuard')}</h1>

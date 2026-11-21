@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useLanguage } from '../i18n/hooks/useLanguage'
 import type { SupportedLanguage } from '../i18n'
 
@@ -7,6 +8,7 @@ interface LanguageSwitcherProps {
 }
 
 export function LanguageSwitcher({ variant = 'select', className = '' }: LanguageSwitcherProps) {
+  const { t } = useTranslation('common')
   const { currentLanguage, changeLanguage, isChanging, supportedLanguages, languageNames } = useLanguage()
 
   if (variant === 'buttons') {
@@ -34,18 +36,20 @@ export function LanguageSwitcher({ variant = 'select', className = '' }: Languag
     return (
       <div className={`relative ${className}`}>
         <select
+          aria-label={t('labels.language')}
           value={currentLanguage}
           onChange={(e) => changeLanguage(e.target.value as SupportedLanguage)}
           disabled={isChanging}
-          className="appearance-none bg-transparent text-sm font-medium text-slate-700 hover:text-slate-900 cursor-pointer pr-6 py-1 focus:outline-none disabled:opacity-50"
+          className="cursor-pointer appearance-none rounded bg-transparent py-1 pr-6 text-sm font-medium text-inherit hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 disabled:opacity-50"
         >
           {supportedLanguages.map((lang) => (
-            <option key={lang} value={lang}>
+            <option key={lang} value={lang} className="bg-white text-slate-900 dark:bg-slate-800 dark:text-slate-100">
               {languageNames[lang]}
             </option>
           ))}
         </select>
         <svg
+          aria-hidden="true"
           className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"
           fill="none"
           stroke="currentColor"

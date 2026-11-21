@@ -20,6 +20,7 @@ import APITokenManager from './APITokenManager'
 import { ProfileTab } from './account/ProfileTab'
 import { PasswordTab } from './account/PasswordTab'
 import { TwoFactorTab } from './account/TwoFactorTab'
+import { PasskeysTab } from './account/PasskeysTab'
 import { LanguageFontTab } from './account/LanguageFontTab'
 
 interface AccountSettingsProps {
@@ -27,7 +28,7 @@ interface AccountSettingsProps {
   onLogout: () => void
 }
 
-type Tab = 'info' | 'password' | '2fa' | 'api-tokens'
+type Tab = 'info' | 'password' | '2fa' | 'passkeys' | 'api-tokens'
 
 export default function AccountSettings({ onClose, onLogout }: AccountSettingsProps) {
   const { t } = useTranslation(['auth', 'common', 'navigation'])
@@ -243,12 +244,13 @@ export default function AccountSettings({ onClose, onLogout }: AccountSettingsPr
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className={`bg-white dark:bg-gray-800 rounded-lg w-full max-h-[90vh] overflow-hidden flex flex-col ${activeTab === 'api-tokens' ? 'max-w-5xl' : 'max-w-2xl'}`}>
+      <div className={`bg-white dark:bg-gray-800 rounded-lg w-full max-h-[90dvh] overflow-hidden flex flex-col ${activeTab === 'api-tokens' ? 'max-w-5xl' : 'max-w-2xl'}`}>
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex shrink-0 items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white">{t('account.title')}</h2>
           <button
             onClick={onClose}
+            aria-label={t('common:buttons.close')}
             className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white text-2xl"
           >
             &times;
@@ -256,20 +258,22 @@ export default function AccountSettings({ onClose, onLogout }: AccountSettingsPr
         </div>
 
         {/* Tabs */}
-        <div className="flex border-b border-gray-200 dark:border-gray-700">
+        <div className="flex shrink-0 overflow-x-auto border-b border-gray-200 dark:border-gray-700">
           {([
             ['info', t('account.tabs.info')],
             ['password', t('account.tabs.password')],
             ['2fa', t('account.tabs.twoFactor')],
+            ['passkeys', t('passkeys.title')],
             ['api-tokens', t('account.tabs.apiTokens')],
           ] as [Tab, string][]).map(([key, label]) => (
             <button
               key={key}
+              aria-pressed={activeTab === key}
               onClick={() => { setActiveTab(key); setError(''); setSuccess(''); }}
-              className={`px-6 py-3 font-medium ${
+              className={`shrink-0 whitespace-nowrap border-b-2 px-3.5 py-3 text-sm font-medium transition-[color,background-color] focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-500 sm:px-5 ${
                 activeTab === key
-                  ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
-                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                  ? 'text-blue-600 dark:text-blue-400 border-blue-600 dark:border-blue-400'
+                  : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
               {label}
@@ -278,7 +282,7 @@ export default function AccountSettings({ onClose, onLogout }: AccountSettingsPr
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="min-h-0 flex-1 overflow-y-auto p-4 sm:p-6">
           {error && (
             <div className="mb-4 p-3 bg-red-500/20 border border-red-500 rounded text-red-400">
               {error}
@@ -313,6 +317,10 @@ export default function AccountSettings({ onClose, onLogout }: AccountSettingsPr
                 onFontFamilyChange={handleFontFamilyChange}
               />
             </ProfileTab>
+          )}
+
+          {activeTab === 'passkeys' && accountInfo && (
+            <PasskeysTab userID={accountInfo.id} requiresTOTP={accountInfo.totp_enabled} />
           )}
 
           {/* Password Tab */}

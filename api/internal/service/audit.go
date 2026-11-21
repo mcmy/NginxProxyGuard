@@ -460,6 +460,14 @@ func (s *AuditService) LogPasswordChanged(ctx context.Context, username string) 
 	return s.logEntry(ctx, "password_changed", "user", "", username, nil)
 }
 
+func (s *AuditService) LogPasskeyChange(ctx context.Context, username string, registered bool) error {
+	action := "passkey_removed"
+	if registered {
+		action = "passkey_registered"
+	}
+	return s.logEntry(ctx, action, "user", "", username, nil)
+}
+
 // LogUsernameChanged logs username change
 func (s *AuditService) LogUsernameChanged(ctx context.Context, oldUsername, newUsername string) error {
 	return s.logEntry(ctx, "username_changed", "user", "", newUsername, map[string]interface{}{
