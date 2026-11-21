@@ -6,8 +6,7 @@ on:
       - 'v*'
 
 env:
-  REGISTRY: docker.io
-  IMAGE_PREFIX: svrforum/nginxproxyguard
+  REGISTRY: ghcr.io
 
 jobs:
   # ============================================================
@@ -16,8 +15,13 @@ jobs:
   detect:
     name: 🔍 Detect Changes
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
     outputs:
       version: ${{ steps.version.outputs.version }}
+      prerelease: ${{ steps.version.outputs.prerelease }}
+      image_prefix: ${{ steps.version.outputs.image_prefix }}
       api_changed: ${{ steps.changes.outputs.api }}
       ui_changed: ${{ steps.changes.outputs.ui }}
       nginx_changed: ${{ steps.changes.outputs.nginx }}
@@ -32,54 +36,60 @@ jobs:
         id: version
         run: |
           VERSION=${GITHUB_REF#refs/tags/v}
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "📦 Version: $VERSION"
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][A-Za-z0-9_][A-Za-z0-9_.-]*)?$ || ${#VERSION} -gt 117 ]]; then
+            echo "::error::Unsupported release version: $VERSION"
+            exit 1
+          fi
+          if [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "prerelease=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "prerelease=true" >> "$GITHUB_OUTPUT"
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          REPOSITORY=$(printf '%s' "$GITHUB_REPOSITORY" | tr '[:upper:]' '[:lower:]')
+          echo "image_prefix=$REGISTRY/$REPOSITORY" >> "$GITHUB_OUTPUT"
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v4.8.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
 
       - name: Check component changes
         id: changes
+        env:
+          IMAGE_PREFIX: ${{ steps.version.outputs.image_prefix }}
         run: |
-          # Compare files in HEAD against the previous release tag. The old
-          # source-hash + manifest-annotation approach was unreliable —
-          # `docker buildx imagetools create --annotation index:...` did not
-          # propagate the revision annotation to the pushed manifest list on
-          # Docker Hub, so REMOTE_HASH always fell back to "none" and every
-          # release rebuilt every component (including the 5-9 min nginx
-          # ModSecurity build). Git diff between tags is deterministic, has no
-          # registry round-trip, and matches developer intuition.
-          #
-          # HEAD^ is the parent of the release commit so `git describe`
-          # returns the prior tag, not the current one. fetch-depth: 0 above
-          # guarantees the tag is reachable.
-          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          # Unchanged components reuse the stable latest image, so compare
+          # against a stable tag. A test tag never updates latest.
+          PREV_TAG=$(git describe --tags --abbrev=0 --match 'v[0-9]*.[0-9]*.[0-9]*' \
+            --exclude 'v*-*' --exclude 'v*.*.*.*' HEAD^ 2>/dev/null || true)
 
           if [ -z "$PREV_TAG" ]; then
-            echo "ℹ️ No previous tag found - treating all components as changed (first release)"
-            echo "api=true" >> $GITHUB_OUTPUT
-            echo "ui=true" >> $GITHUB_OUTPUT
-            echo "nginx=true" >> $GITHUB_OUTPUT
+            echo "No prior stable tag found. Building all components."
+            echo "api=true" >> "$GITHUB_OUTPUT"
+            echo "ui=true" >> "$GITHUB_OUTPUT"
+            echo "nginx=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
-          echo "📦 Comparing $PREV_TAG..HEAD"
-          CHANGED_FILES=$(git diff --name-only "${PREV_TAG}..HEAD")
-          echo "Changed files:"
-          echo "$CHANGED_FILES" | sed 's/^/  /'
-
+          CHANGED_FILES=$(git diff --name-only "$PREV_TAG" HEAD)
           check_changes() {
             local component=$1
-            local dir=$2
-            if echo "$CHANGED_FILES" | grep -q "^${dir}/"; then
-              echo "$component=true" >> $GITHUB_OUTPUT
-              echo "✅ $component: changes since $PREV_TAG"
+            if grep -q "^${component}/" <<< "$CHANGED_FILES"; then
+              echo "$component=true" >> "$GITHUB_OUTPUT"
+            elif docker buildx imagetools inspect "$IMAGE_PREFIX-$component:latest" >/dev/null 2>&1; then
+              echo "$component=false" >> "$GITHUB_OUTPUT"
             else
-              echo "$component=false" >> $GITHUB_OUTPUT
-              echo "⏭️ $component: unchanged since $PREV_TAG"
+              echo "No reusable GHCR image for $component. Building it from this tag."
+              echo "$component=true" >> "$GITHUB_OUTPUT"
             fi
           }
 
-          check_changes "api" "api"
-          check_changes "ui" "ui"
-          check_changes "nginx" "nginx"
+          check_changes "api"
+          check_changes "ui"
+          check_changes "nginx"
 
   # ============================================================
   # Step 2: Build Images (Parallel, Native Multi-Arch)
@@ -98,6 +108,11 @@ jobs:
             runner: ubuntu-24.04-arm
             platform: linux/arm64
     runs-on: ${{ matrix.runner }}
+    permissions:
+      contents: read
+      packages: write
+    env:
+      IMAGE_PREFIX: ${{ needs.detect.outputs.image_prefix }}
 
     steps:
       - name: Checkout
@@ -106,11 +121,12 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
-      - name: Login to Docker Hub
+      - name: Login to GitHub Container Registry
         uses: docker/login-action@v4.8.0
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
 
       - name: Build and push (test tag)
         uses: docker/build-push-action@v7
@@ -121,6 +137,7 @@ jobs:
           tags: ${{ env.IMAGE_PREFIX }}-api:${{ needs.detect.outputs.version }}-test-${{ matrix.arch }}
           cache-from: type=gha,scope=api-${{ matrix.arch }}
           cache-to: type=gha,mode=max,scope=api-${{ matrix.arch }}
+          labels: org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
           provenance: false
 
   build-ui:
@@ -137,6 +154,11 @@ jobs:
             runner: ubuntu-24.04-arm
             platform: linux/arm64
     runs-on: ${{ matrix.runner }}
+    permissions:
+      contents: read
+      packages: write
+    env:
+      IMAGE_PREFIX: ${{ needs.detect.outputs.image_prefix }}
 
     steps:
       - name: Checkout
@@ -145,11 +167,12 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
-      - name: Login to Docker Hub
+      - name: Login to GitHub Container Registry
         uses: docker/login-action@v4.8.0
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
 
       - name: Build and push (test tag)
         uses: docker/build-push-action@v7
@@ -160,6 +183,7 @@ jobs:
           tags: ${{ env.IMAGE_PREFIX }}-ui:${{ needs.detect.outputs.version }}-test-${{ matrix.arch }}
           cache-from: type=gha,scope=ui-${{ matrix.arch }}
           cache-to: type=gha,mode=max,scope=ui-${{ matrix.arch }}
+          labels: org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
           provenance: false
 
   build-nginx:
@@ -176,6 +200,11 @@ jobs:
             runner: ubuntu-24.04-arm
             platform: linux/arm64
     runs-on: ${{ matrix.runner }}
+    permissions:
+      contents: read
+      packages: write
+    env:
+      IMAGE_PREFIX: ${{ needs.detect.outputs.image_prefix }}
 
     steps:
       - name: Checkout
@@ -184,11 +213,12 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
-      - name: Login to Docker Hub
+      - name: Login to GitHub Container Registry
         uses: docker/login-action@v4.8.0
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
 
       - name: Build and push (test tag)
         uses: docker/build-push-action@v7
@@ -199,6 +229,7 @@ jobs:
           tags: ${{ env.IMAGE_PREFIX }}-nginx:${{ needs.detect.outputs.version }}-test-${{ matrix.arch }}
           cache-from: type=gha,scope=nginx-${{ matrix.arch }}
           cache-to: type=gha,mode=max,scope=nginx-${{ matrix.arch }}
+          labels: org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
           provenance: false
 
   # ============================================================
@@ -207,39 +238,44 @@ jobs:
   create-test-manifests:
     name: 📦 Create Test Manifests
     needs: [detect, build-api, build-ui, build-nginx]
-    if: always() && needs.detect.result == 'success'
+    if: ${{ !cancelled() && !failure() && needs.detect.result == 'success' }}
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    env:
+      IMAGE_PREFIX: ${{ needs.detect.outputs.image_prefix }}
 
     steps:
-      - name: Login to Docker Hub
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Login to GitHub Container Registry
         uses: docker/login-action@v4.8.0
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
 
       - name: Create API manifest
         if: needs.detect.outputs.api_changed == 'true' && needs.build-api.result == 'success'
         run: |
-          docker manifest create ${{ env.IMAGE_PREFIX }}-api:${{ needs.detect.outputs.version }}-test \
+          docker buildx imagetools create --tag ${{ env.IMAGE_PREFIX }}-api:${{ needs.detect.outputs.version }}-test \
             ${{ env.IMAGE_PREFIX }}-api:${{ needs.detect.outputs.version }}-test-amd64 \
             ${{ env.IMAGE_PREFIX }}-api:${{ needs.detect.outputs.version }}-test-arm64
-          docker manifest push ${{ env.IMAGE_PREFIX }}-api:${{ needs.detect.outputs.version }}-test
 
       - name: Create UI manifest
         if: needs.detect.outputs.ui_changed == 'true' && needs.build-ui.result == 'success'
         run: |
-          docker manifest create ${{ env.IMAGE_PREFIX }}-ui:${{ needs.detect.outputs.version }}-test \
+          docker buildx imagetools create --tag ${{ env.IMAGE_PREFIX }}-ui:${{ needs.detect.outputs.version }}-test \
             ${{ env.IMAGE_PREFIX }}-ui:${{ needs.detect.outputs.version }}-test-amd64 \
             ${{ env.IMAGE_PREFIX }}-ui:${{ needs.detect.outputs.version }}-test-arm64
-          docker manifest push ${{ env.IMAGE_PREFIX }}-ui:${{ needs.detect.outputs.version }}-test
 
       - name: Create Nginx manifest
         if: needs.detect.outputs.nginx_changed == 'true' && needs.build-nginx.result == 'success'
         run: |
-          docker manifest create ${{ env.IMAGE_PREFIX }}-nginx:${{ needs.detect.outputs.version }}-test \
+          docker buildx imagetools create --tag ${{ env.IMAGE_PREFIX }}-nginx:${{ needs.detect.outputs.version }}-test \
             ${{ env.IMAGE_PREFIX }}-nginx:${{ needs.detect.outputs.version }}-test-amd64 \
             ${{ env.IMAGE_PREFIX }}-nginx:${{ needs.detect.outputs.version }}-test-arm64
-          docker manifest push ${{ env.IMAGE_PREFIX }}-nginx:${{ needs.detect.outputs.version }}-test
 
   # ============================================================
   # Step 4: E2E Tests - Host Mode
@@ -247,10 +283,14 @@ jobs:
   test-host:
     name: 🧪 Test (Host Mode)
     needs: [detect, build-api, build-ui, build-nginx, create-test-manifests]
-    if: always() && needs.detect.result == 'success'
+    if: ${{ !cancelled() && needs.create-test-manifests.result == 'success' }}
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      packages: read
     env:
+      IMAGE_PREFIX: ${{ needs.detect.outputs.image_prefix }}
       NGINX_HTTP_PORT: 28080
       NGINX_HTTPS_PORT: 28443
       API_HOST_PORT: 29080
@@ -259,6 +299,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v4.8.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
 
       - name: Prepare test images
         env:
@@ -271,13 +318,13 @@ jobs:
             local component=$1
             local changed=$2
 
+            local image="$IMAGE_PREFIX-$component"
+            local source=latest
             if [ "$changed" == "true" ]; then
-              docker pull ${{ env.IMAGE_PREFIX }}-$component:$VERSION-test
-              docker tag ${{ env.IMAGE_PREFIX }}-$component:$VERSION-test ${{ env.IMAGE_PREFIX }}-$component:$VERSION
-            else
-              docker pull ${{ env.IMAGE_PREFIX }}-$component:latest
-              docker tag ${{ env.IMAGE_PREFIX }}-$component:latest ${{ env.IMAGE_PREFIX }}-$component:$VERSION
+              source="$VERSION-test"
             fi
+            docker pull "$image:$source"
+            docker tag "$image:$source" "$image:$VERSION"
           }
 
           pull_image "api" "$API_CHANGED"
@@ -340,78 +387,49 @@ jobs:
     needs: [detect, test-host]
     if: always() && needs.test-host.result == 'success'
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    env:
+      IMAGE_PREFIX: ${{ needs.detect.outputs.image_prefix }}
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
-      - name: Login to Docker Hub
+      - name: Login to GitHub Container Registry
         uses: docker/login-action@v4.8.0
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
 
-      # For changed components: assemble the multi-arch manifest from the
-      # per-arch test images and publish under :VERSION + :latest.
-      # For unchanged components: copy the existing :latest manifest to
-      # :VERSION so consumers (and the GitHub Release page's pull commands)
-      # can always reference an explicit version, regardless of which
-      # components were rebuilt.
-      - name: Create API manifests
-        if: needs.detect.outputs.api_changed == 'true'
+      - name: Publish versioned manifests
+        env:
+          VERSION: ${{ needs.detect.outputs.version }}
+          PRERELEASE: ${{ needs.detect.outputs.prerelease }}
+          API_CHANGED: ${{ needs.detect.outputs.api_changed }}
+          UI_CHANGED: ${{ needs.detect.outputs.ui_changed }}
+          NGINX_CHANGED: ${{ needs.detect.outputs.nginx_changed }}
         run: |
-          docker buildx imagetools create \
-            --tag ${{ env.IMAGE_PREFIX }}-api:${{ needs.detect.outputs.version }} \
-            --tag ${{ env.IMAGE_PREFIX }}-api:latest \
-            ${{ env.IMAGE_PREFIX }}-api:${{ needs.detect.outputs.version }}-test-amd64 \
-            ${{ env.IMAGE_PREFIX }}-api:${{ needs.detect.outputs.version }}-test-arm64
+          publish_manifest() {
+            local image="$IMAGE_PREFIX-$1"
+            local changed=$2
+            local source=latest
+            local -a tags=(--tag "$image:$VERSION")
 
-      - name: Retag API (unchanged)
-        if: needs.detect.outputs.api_changed != 'true'
-        run: |
-          docker buildx imagetools create \
-            --tag ${{ env.IMAGE_PREFIX }}-api:${{ needs.detect.outputs.version }} \
-            ${{ env.IMAGE_PREFIX }}-api:latest
+            if [ "$changed" == "true" ]; then
+              source="$VERSION-test"
+              if [ "$PRERELEASE" != true ]; then
+                tags+=(--tag "$image:latest")
+              fi
+            fi
 
-      - name: Create UI manifests
-        if: needs.detect.outputs.ui_changed == 'true'
-        run: |
-          docker buildx imagetools create \
-            --tag ${{ env.IMAGE_PREFIX }}-ui:${{ needs.detect.outputs.version }} \
-            --tag ${{ env.IMAGE_PREFIX }}-ui:latest \
-            ${{ env.IMAGE_PREFIX }}-ui:${{ needs.detect.outputs.version }}-test-amd64 \
-            ${{ env.IMAGE_PREFIX }}-ui:${{ needs.detect.outputs.version }}-test-arm64
+            docker buildx imagetools create "${tags[@]}" "$image:$source"
+          }
 
-      - name: Retag UI (unchanged)
-        if: needs.detect.outputs.ui_changed != 'true'
-        run: |
-          docker buildx imagetools create \
-            --tag ${{ env.IMAGE_PREFIX }}-ui:${{ needs.detect.outputs.version }} \
-            ${{ env.IMAGE_PREFIX }}-ui:latest
-
-      - name: Create Nginx manifests
-        if: needs.detect.outputs.nginx_changed == 'true'
-        run: |
-          docker buildx imagetools create \
-            --tag ${{ env.IMAGE_PREFIX }}-nginx:${{ needs.detect.outputs.version }} \
-            --tag ${{ env.IMAGE_PREFIX }}-nginx:latest \
-            ${{ env.IMAGE_PREFIX }}-nginx:${{ needs.detect.outputs.version }}-test-amd64 \
-            ${{ env.IMAGE_PREFIX }}-nginx:${{ needs.detect.outputs.version }}-test-arm64
-
-      - name: Retag Nginx (unchanged)
-        if: needs.detect.outputs.nginx_changed != 'true'
-        run: |
-          docker buildx imagetools create \
-            --tag ${{ env.IMAGE_PREFIX }}-nginx:${{ needs.detect.outputs.version }} \
-            ${{ env.IMAGE_PREFIX }}-nginx:latest
-
-      - name: Summary
-        run: |
-          echo "✅ Final images pushed successfully"
-          echo "📝 Test tags (${{ needs.detect.outputs.version }}-test) will be overwritten on next release"
+          publish_manifest api "$API_CHANGED"
+          publish_manifest ui "$UI_CHANGED"
+          publish_manifest nginx "$NGINX_CHANGED"
 
   # ============================================================
   # Step 6: Create GitHub Release
@@ -543,9 +561,9 @@ jobs:
             ## Docker Images
 
             ```bash
-            docker pull svrforum/nginxproxyguard-api:${{ needs.detect.outputs.version }}
-            docker pull svrforum/nginxproxyguard-ui:${{ needs.detect.outputs.version }}
-            docker pull svrforum/nginxproxyguard-nginx:${{ needs.detect.outputs.version }}
+            docker pull ${{ needs.detect.outputs.image_prefix }}-api:${{ needs.detect.outputs.version }}
+            docker pull ${{ needs.detect.outputs.image_prefix }}-ui:${{ needs.detect.outputs.version }}
+            docker pull ${{ needs.detect.outputs.image_prefix }}-nginx:${{ needs.detect.outputs.version }}
             ```
 
             **Architectures:** `linux/amd64`, `linux/arm64`
@@ -558,7 +576,8 @@ jobs:
 
             ${{ steps.release_notes.outputs.contributors != '' && format('**Contributors:** {0}', steps.release_notes.outputs.contributors) || '' }}
           draft: false
-          prerelease: ${{ contains(github.ref, '-rc') || contains(github.ref, '-beta') || contains(github.ref, '-alpha') }}
+          prerelease: ${{ needs.detect.outputs.prerelease == 'true' }}
+          make_latest: ${{ needs.detect.outputs.prerelease == 'true' && 'false' || 'true' }}
 
   # ============================================================
   # Cleanup on Failure
@@ -566,7 +585,7 @@ jobs:
   cleanup-on-failure:
     name: 🧹 Cleanup (on failure)
     needs: [detect, test-host]
-    if: failure()
+    if: failure() && needs.detect.outputs.prerelease == 'false'
     runs-on: ubuntu-latest
     permissions:
       contents: write

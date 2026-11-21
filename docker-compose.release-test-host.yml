@@ -43,9 +43,9 @@ services:
     networks:
       - release-test-host-network
 
-  # API - Released image from Docker Hub
+  # API - Released image from GitHub Container Registry
   api:
-    image: svrforum/nginxproxyguard-api:${VERSION:-latest}
+    image: ${IMAGE_PREFIX:-ghcr.io/mcmy/nginxproxyguard}-api:${VERSION:-latest}
     container_name: release-test-host-api
     # Mirror the production hardening from docker-compose.yml so the smoke test
     # exercises the real deployment capability set (a cap_drop regression once
@@ -99,7 +99,7 @@ services:
 
   # Nginx - Released image with HOST NETWORK MODE
   nginx:
-    image: svrforum/nginxproxyguard-nginx:${VERSION:-latest}
+    image: ${IMAGE_PREFIX:-ghcr.io/mcmy/nginxproxyguard}-nginx:${VERSION:-latest}
     container_name: release-test-host-nginx
     network_mode: host
     # Mirror production hardening (no cap_drop here — root master needs

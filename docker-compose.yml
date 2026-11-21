@@ -59,7 +59,7 @@ services:
 
   # Go API Server
   api:
-    image: svrforum/nginxproxyguard-api:latest
+    image: ${NPG_IMAGE_PREFIX:-svrforum/nginxproxyguard}-api:${NPG_IMAGE_TAG:-latest}
     # build:
     #   context: ./api
     #   dockerfile: Dockerfile
@@ -180,7 +180,7 @@ services:
 
   # React UI (Production) - Admin Panel on port 81 (HTTPS)
   ui:
-    image: svrforum/nginxproxyguard-ui:latest
+    image: ${NPG_IMAGE_PREFIX:-svrforum/nginxproxyguard}-ui:${NPG_IMAGE_TAG:-latest}
     # build:
     #   context: ./ui
     #   dockerfile: Dockerfile
@@ -217,7 +217,7 @@ services:
   # Nginx Reverse Proxy - HOST NETWORK MODE
   # Real client IPs are visible directly without proxy protocol
   nginx:
-    image: svrforum/nginxproxyguard-nginx:latest
+    image: ${NPG_IMAGE_PREFIX:-svrforum/nginxproxyguard}-nginx:${NPG_IMAGE_TAG:-latest}
     # build:
     #   context: ./nginx
     #   dockerfile: Dockerfile
