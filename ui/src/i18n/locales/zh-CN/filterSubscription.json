@@ -1,49 +1,49 @@
 {
-  "title": "过滤订阅",
-  "subtitle": "订阅外部阻止列表以自动阻止恶意 IP、CIDR 和用户代理。",
+  "title": "过滤列表订阅",
+  "subtitle": "订阅外部拦截列表，自动拦截恶意 IP、CIDR 网段和 User-Agent。",
   "tabs": {
     "catalog": "目录",
     "subscriptions": "我的订阅"
   },
   "howItWorks": {
-    "title": "它是如何运作的",
-    "step1": "1.添加推荐黑名单或输入外部URL进行订阅。",
-    "step2": "2. 获取列表的IP/CIDR条目并将其存储在数据库中。默认情况下禁用新订阅。",
-    "step3": "3. 切换ON重新生成 nginx 配置并重新加载 — 阻止立即生效。切换OFF以移除阻塞。",
+    "title": "订阅如何生效",
+    "step1": "1. 选择推荐的拦截列表，或输入外部 URL 来订阅。",
+    "step2": "2. 系统抓取列表中的 IP 和 CIDR 条目并写入数据库。新订阅默认关闭。",
+    "step3": "3. 启用订阅后，系统会重新生成并加载 Nginx 配置，拦截立即生效。关闭订阅可解除该列表的拦截。",
     "step4": "4. 列表会按照您配置的时间间隔自动刷新，以保持最新状态。如果刷新失败，现有数据将被保留。"
   },
   "catalog": {
     "title": "NPG过滤器目录",
-    "description": "社区维护的安全过滤器列表。",
+    "description": "由社区维护的安全过滤列表。",
     "empty": "无法加载目录。",
-    "subscribe": "订阅精选",
+    "subscribe": "订阅选中列表",
     "unsubscribe": "取消订阅",
     "subscribed": "已订阅",
     "entries": "{{count}}条目",
-    "showEntries": "显示参赛作品",
+    "showEntries": "显示条目",
     "hideEntries": "隐藏条目",
     "fetchError": "无法获取目录。",
     "unsubscribeConfirm": "您确定要取消订阅此过滤器吗？"
   },
   "list": {
-    "empty": "没有活动的过滤器订阅。",
-    "addUrl": "添加者：URL",
-    "lastFetch": "最后获取的",
-    "showEntries": "显示参赛作品",
+    "empty": "暂无生效的过滤列表订阅。",
+    "addUrl": "通过 URL 添加",
+    "lastFetch": "上次获取时间",
+    "showEntries": "显示条目",
     "hideEntries": "隐藏条目",
     "noEntries": "没有条目。",
-    "searchPlaceholder": "搜索IP或图案...",
+    "searchPlaceholder": "搜索 IP 或匹配模式...",
     "searchResults": "结果",
     "status": {
       "ok": "OK",
       "error": "错误",
       "never": "从不"
     },
-    "limited": "已应用{{listed}}条目中的{{applied}}（限制）",
+    "limited": "已应用 {{listed}} 条中的 {{applied}} 条（受数量上限限制）",
     "limitedHint": "所有订阅总共最多可应用 100,000 个条目，因此此列表的其余部分被忽略。"
   },
   "form": {
-    "url": "过滤器列表URL",
+    "url": "过滤器列表 URL",
     "urlPlaceholder": "https://example.com/blocklist.json",
     "name": "名称",
     "namePlaceholder": "自动检测或手动输入",
@@ -67,8 +67,8 @@
     "exclusions": "主机排除",
     "exclusionDescription": "此过滤器不会应用于选定的主机。",
     "excluded": "已排除",
-    "excludePrivateIPs": "排除私有IP范围",
-    "excludePrivateIPsDescription": "启用后，从所有订阅阻止列表中排除RFC1918 私有IP范围（10.0.0.0/8、172.16.0.0/12、192.168.0.0/16）。"
+    "excludePrivateIPs": "排除私有 IP 范围",
+    "excludePrivateIPsDescription": "启用后，从所有订阅阻止列表中排除RFC1918 私有 IP 范围（10.0.0.0/8、172.16.0.0/12、192.168.0.0/16）。"
   },
   "entryExclusions": {
     "exclude": "排除",
@@ -87,7 +87,7 @@
   "types": {
     "ip": "IP",
     "cidr": "CIDR",
-    "user_agent": "用户代理"
+    "user_agent": "User-Agent"
   },
   "messages": {
     "created": "已添加过滤器订阅。",
@@ -101,8 +101,8 @@
     "add": "添加",
     "visitSite": "官方网站",
     "spamhaus": {
-      "description": "SpamhausDROP（不路由或对等）— 被劫持和垃圾邮件控制的IP范围",
-      "detail": "由 Spamhaus 项目运营。全球 ISP 和企业使用的最值得信赖的黑名单之一。提供CIDR范围。"
+      "description": "SpamhausDROP（不路由或对等）— 被劫持和垃圾邮件控制的 IP 范围",
+      "detail": "由 Spamhaus 项目运营。全球 ISP 和企业使用的最值得信赖的黑名单之一。提供 CIDR 范围。"
     },
     "firehol": {
       "description": "FireHOL 1 级 — 来自多个来源的聚合威胁情报",

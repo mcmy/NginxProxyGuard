@@ -1,3 +1,4 @@
+import { wafRuleText } from '../../i18n/ruleText';
 import { memo, type MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Log } from '../../types/log';
@@ -176,7 +177,7 @@ export const LogRowTyped = memo(function LogRowTyped({ log, logType, onClick, on
           </span>
         </td>
         <td className="px-4 py-3 text-sm text-slate-700 dark:text-slate-200 truncate max-w-[120px] sm:max-w-[180px] lg:max-w-[250px] xl:max-w-[350px]" title={log.rule_message}>
-          {log.rule_message || '-'}
+          {wafRuleText(i18n.language, log.rule_id, log.rule_message) || '-'}
         </td>
         <td className="px-4 py-3 text-sm text-slate-600 dark:text-slate-300 truncate font-mono max-w-[100px] sm:max-w-[150px] lg:max-w-[180px] xl:max-w-[250px]" title={log.request_uri}>
           {log.request_uri || '-'}
@@ -188,7 +189,7 @@ export const LogRowTyped = memo(function LogRowTyped({ log, logType, onClick, on
               ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
               : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
             }`}>
-            {log.action_taken === 'excluded' ? t('table.logType.pass') : log.action_taken || t('table.logType.logged')}
+            {log.action_taken === 'excluded' ? t('table.logType.pass') : t(`table.logType.${log.action_taken || 'logged'}`, { defaultValue: log.action_taken || t('table.logType.logged') })}
           </span>
         </td>
       </tr>

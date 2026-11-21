@@ -430,7 +430,30 @@
       "title": "Attack Patterns",
       "loading": "Loading patterns...",
       "test": "Test",
-      "testing": "Testing..."
+      "testing": "Testing...",
+      "categories": {
+        "SQL Injection": "SQL Injection",
+        "XSS": "XSS",
+        "Path Traversal": "Path Traversal",
+        "Command Injection": "Command Injection",
+        "Scanner Detection": "Scanner Detection",
+        "RCE": "RCE",
+        "Protocol Attack": "Protocol Attack"
+      },
+      "descriptions": {
+        "sql_injection": "SQL Injection - Classic OR-based bypass",
+        "sql_injection_union": "SQL Injection - UNION-based attack",
+        "xss_script": "XSS - Script tag injection",
+        "xss_event": "XSS - Event handler injection",
+        "path_traversal": "Path Traversal - Directory traversal attack",
+        "path_traversal_encoded": "Path Traversal - URL encoded",
+        "command_injection": "Command Injection - Shell command",
+        "command_injection_pipe": "Command Injection - Pipe command",
+        "scanner_sqlmap": "Scanner Detection - SQLMap user agent",
+        "scanner_nikto": "Scanner Detection - Nikto user agent",
+        "rce_php": "RCE - PHP wrapper attack",
+        "protocol_attack": "Protocol Attack - Host header injection"
+      }
     },
     "modeInfo": {
       "title": "WAF Mode",

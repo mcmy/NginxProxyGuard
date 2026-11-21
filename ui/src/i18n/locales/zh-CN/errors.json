@@ -1,18 +1,18 @@
 {
   "http": {
-    "400": "错误的请求",
-    "401": "需要身份验证",
-    "403": "拒绝访问",
-    "404": "未找到",
-    "405": "不允许的方法",
-    "408": "请求超时",
-    "409": "冲突",
-    "413": "请求太大",
-    "429": "请求过多",
-    "500": "服务器错误",
-    "502": "坏网关",
-    "503": "暂停服务",
-    "504": "网关超时"
+    "400": "Bad Request",
+    "401": "Authentication Required",
+    "403": "Access Denied",
+    "404": "Not Found",
+    "405": "Method Not Allowed",
+    "408": "Request Timeout",
+    "409": "Conflict",
+    "413": "Request Too Large",
+    "429": "Too Many Requests",
+    "500": "Server Error",
+    "502": "Bad Gateway",
+    "503": "Service Unavailable",
+    "504": "Gateway Timeout"
   },
   "auth": {
     "INVALID_CREDENTIALS": "电子邮件或密码无效",
@@ -26,13 +26,13 @@
   "validation": {
     "REQUIRED": "此字段是必需的",
     "INVALID_EMAIL": "请输入有效的电子邮件",
-    "INVALID_URL": "请输入有效的URL",
-    "INVALID_IP": "请输入有效的IP地址",
+    "INVALID_URL": "请输入有效的 URL",
+    "INVALID_IP": "请输入有效的 IP 地址",
     "INVALID_DOMAIN": "请输入有效域名",
     "INVALID_PORT": "端口必须介于 1 和 65535 之间",
     "PASSWORD_TOO_SHORT": "密码必须至少 10 个字符",
     "PASSWORD_MISMATCH": "密码不匹配",
-    "DUPLICATE_DOMAIN": "域已存在",
+    "DUPLICATE_DOMAIN": "域名已存在",
     "DUPLICATE_NAME": "名称已被使用"
   },
   "proxy": {
@@ -42,21 +42,21 @@
     "HOST_DELETE_FAILED": "删除代理主机失败",
     "INVALID_CONFIG": "配置无效",
     "UPSTREAM_UNREACHABLE": "无法连接到上游服务器",
-    "SSL_REQUIRED": "需要SSL证书"
+    "SSL_REQUIRED": "需要 SSL 证书"
   },
   "certificate": {
     "NOT_FOUND": "未找到证书",
     "CREATE_FAILED": "创建证书失败",
-    "RENEW_FAILED": "更新证书失败",
+    "RENEW_FAILED": "续期证书失败",
     "DELETE_FAILED": "删除证书失败",
     "INVALID_CERTIFICATE": "证书无效",
     "INVALID_PRIVATE_KEY": "私钥无效",
-    "DOMAIN_VALIDATION_FAILED": "域验证失败",
+    "DOMAIN_VALIDATION_FAILED": "域名验证失败",
     "RATE_LIMITED": "超出速率限制。请稍后重试",
-    "DNS_CHALLENGE_FAILED": "DNS挑战失败"
+    "DNS_CHALLENGE_FAILED": "DNS 验证失败"
   },
   "waf": {
-    "CONFIG_ERROR": "WAF配置错误",
+    "CONFIG_ERROR": "WAF 配置错误",
     "RULE_NOT_FOUND": "未找到规则",
     "INVALID_RULE": "规则无效"
   },

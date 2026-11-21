@@ -1,59 +1,59 @@
 {
   "title": "WAF",
-  "subtitle": "网络应用防火墙",
+  "subtitle": "Web 应用防火墙",
   "overview": {
     "title": "概览",
-    "totalEvents": "活动总数",
-    "blockedRequests": "被阻止的请求",
+    "totalEvents": "事件总数",
+    "blockedRequests": "已拦截请求",
     "detectedThreats": "检测到的威胁",
-    "activeRules": "活动规则"
+    "activeRules": "已启用规则"
   },
   "status": {
-    "enabled": "WAF已启用",
-    "disabled": "WAF已禁用",
-    "blocking": "阻塞模式",
-    "detection": "检测方式"
+    "enabled": "WAF 已启用",
+    "disabled": "WAF 已禁用",
+    "blocking": "拦截模式",
+    "detection": "检测模式"
   },
   "settings": {
-    "title": "WAF设置",
+    "title": "WAF 设置",
     "mode": {
       "title": "模式",
-      "blocking": "阻止",
-      "blockingDescription": "阻止恶意请求",
+      "blocking": "拦截",
+      "blockingDescription": "拦截恶意请求",
       "detection": "检测",
       "detectionDescription": "仅检测并记录威胁"
     },
     "paranoiaLevel": {
-      "title": "偏执程度",
+      "title": "检测严格级别",
       "description": "级别越高越敏感",
-      "level1": "级别 1 - 默认",
+      "level1": "级别 1（默认）",
       "level1Description": "最大限度地减少误报",
-      "level2": "2 级 - 标准",
+      "level2": "级别 2（标准）",
       "level2Description": "均衡保护",
-      "level3": "3 级 - 增强",
+      "level3": "级别 3（增强）",
       "level3Description": "增强保护",
-      "level4": "4 级 - 最高",
+      "level4": "级别 4（最高）",
       "level4Description": "最大程度的保护（误报风险高）"
     },
     "anomalyThreshold": {
-      "title": "异常阈值",
-      "description": "阻止请求的最低分数"
+      "title": "异常评分阈值",
+      "description": "触发请求拦截的最低异常分数"
     },
     "autoBan": {
-      "title": "自动禁令",
-      "enabled": "启用自动禁止",
-      "description": "自动禁止重复出现WAF违规的 IP",
-      "threshold": "禁令门槛",
-      "thresholdDescription": "自动封禁前的违规行为",
+      "title": "自动封禁",
+      "enabled": "启用自动封禁",
+      "description": "同一 IP 多次触发 WAF 规则时自动封禁",
+      "threshold": "封禁阈值",
+      "thresholdDescription": "触发自动封禁所需的事件次数",
       "duration": "封禁时长",
-      "durationDescription": "IP禁令时长（分钟）"
+      "durationDescription": "IP 封禁时长（分钟）"
     }
   },
   "rules": {
     "title": "规则",
     "coreRuleSet": "OWASP核心规则集",
     "customRules": "自定义规则",
-    "ruleId": "规则ID",
+    "ruleId": "规则 ID",
     "ruleName": "规则名称",
     "severity": "严重性",
     "category": "类别",
@@ -63,34 +63,34 @@
     "editRule": "编辑规则",
     "deleteRule": "删除规则",
     "categories": {
-      "sqli": "SQL注射",
+      "sqli": "SQL 注入",
       "xss": "跨站脚本",
       "lfi": "本地文件包含",
       "rfi": "远程文件包含",
       "rce": "远程代码执行",
-      "scanner": "扫描仪检测",
+      "scanner": "扫描器检测",
       "protocol": "违反协议",
       "dos": "拒绝服务"
     }
   },
   "exclusions": {
     "title": "排除项",
-    "description": "从WAF检查中排除的路径或规则",
+    "description": "从 WAF 检查中排除的路径或规则",
     "addExclusion": "添加排除项",
     "editExclusion": "编辑排除",
     "deleteExclusion": "删除排除",
     "path": "路径",
-    "pathPlaceholder": "/api/上传/*",
+    "pathPlaceholder": "/api/upload/*",
     "ruleIds": "规则 ID",
     "ruleIdsPlaceholder": "920300, 942100",
     "allRules": "所有规则",
-    "specificRules": "具体规则"
+    "specificRules": "指定规则"
   },
   "events": {
     "title": "事件",
-    "recentEvents": "近期活动",
+    "recentEvents": "近期事件",
     "viewAll": "查看全部",
-    "noEvents": "没有活动",
+    "noEvents": "暂无事件",
     "severity": {
       "critical": "严重",
       "high": "高",
@@ -106,7 +106,7 @@
       "uri": "URI"
     },
     "actions": {
-      "blocked": "已阻止",
+      "blocked": "已拦截",
       "logged": "已记录",
       "allowed": "已允许"
     }
@@ -114,78 +114,78 @@
   "policy": {
     "title": "策略",
     "globalPolicy": "全局策略",
-    "hostPolicy": "主机政策",
+    "hostPolicy": "主机策略",
     "inheritance": "继承",
     "override": "覆盖",
     "history": {
-      "title": "政策历史",
+      "title": "策略变更记录",
       "viewHistory": "查看历史记录",
       "restore": "恢复",
       "compare": "比较"
     }
   },
   "messages": {
-    "saveSuccess": "WAF设置已保存",
-    "saveFailed": "无法保存WAF设置",
+    "saveSuccess": "WAF 设置已保存",
+    "saveFailed": "无法保存 WAF 设置",
     "ruleEnabled": "规则已启用",
     "ruleDisabled": "规则已禁用",
     "exclusionAdded": "添加了排除项",
     "exclusionRemoved": "排除已删除"
   },
   "bannedIp": {
-    "title": "禁止IP列表",
-    "subtitle": "IP地址被WAF、速率限制或 Fail2ban 禁止",
+    "title": "已封禁 IP",
+    "subtitle": "查看由 WAF、限流或 Fail2ban 封禁的 IP 地址",
     "totalCount": "总计{{count}}",
-    "addBan": "添加IP禁令",
+    "addBan": "添加 IP 封禁",
     "filterSubscriptionBanner": "订阅社区阻止列表（Spamhaus、FireHOL 等）以自动阻止已知的恶意 IP。",
     "goToFilterSubscriptions": "管理过滤器订阅",
-    "noBans": "目前没有禁止任何 IP。",
-    "fetchError": "无法获取禁止的IP列表。",
+    "noBans": "当前没有已封禁的 IP。",
+    "fetchError": "获取已封禁 IP 列表失败。",
     "global": "全局",
     "tabs": {
       "global": "全局封禁",
-      "perHost": "每个主机的禁令",
-      "current": "目前的禁令",
-      "history": "禁令历史"
+      "perHost": "按主机封禁",
+      "current": "当前封禁",
+      "history": "封禁记录"
     },
     "stats": {
-      "total": "全面禁止",
+      "total": "封禁总数",
       "permanent": "永久",
-      "auto": "自动禁止",
+      "auto": "自动封禁",
       "global": "全局封禁",
-      "hostsWithBans": "被禁止的主机",
-      "perHostTotal": "每个主机的禁令"
+      "hostsWithBans": "设有 IP 封禁的主机",
+      "perHostTotal": "按主机封禁"
     },
     "ipStats": {
       "window": "{{days}}d",
       "unknownCountry": "国家未知",
       "totalRequests": "请求总数",
-      "blockedRequests": "已阻止",
-      "banCount": "禁止次数",
+      "blockedRequests": "已拦截",
+      "banCount": "封禁次数",
       "times": "{{n}}",
-      "firstSeen": "第一次见到",
+      "firstSeen": "首次出现",
       "today": "今天",
-      "daysAgo": "{{days}}d 前",
-      "topHosts": "首要目标",
-      "topURIs": "热门路径",
-      "noTrafficInWindow": "此窗口中没有记录任何请求 - 禁令仍然有效，或者日志已过期。",
+      "daysAgo": "{{days}} 天前",
+      "topHosts": "常见目标主机",
+      "topURIs": "常见请求路径",
+      "noTrafficInWindow": "这段时间没有请求记录。IP 封禁可能仍在生效，或相关日志已过期。",
       "fetchError": "无法加载统计信息。"
     },
     "filter": {
       "host": "主机",
       "allHosts": "所有主机",
-      "globalOnly": "仅限全球",
-      "type": "禁令类型",
+      "globalOnly": "仅全局",
+      "type": "封禁类型",
       "allTypes": "所有类型",
       "autoOnly": "自动封禁",
-      "manualOnly": "手动禁令",
-      "waf": "WAF禁令",
+      "manualOnly": "手动封禁",
+      "waf": "WAF 封禁",
       "fail2ban": "Fail2ban",
       "rateLimit": "速率限制",
       "showing": "显示{{count}}"
     },
     "table": {
-      "ip": "IP地址",
+      "ip": "IP 地址",
       "host": "主机",
       "reason": "原因",
       "type": "类型",
@@ -198,22 +198,22 @@
       "manual": "手动"
     },
     "status": {
-      "permanent": "永久禁令",
-      "daysRemaining": "剩余{{count}}d",
-      "hoursRemaining": "剩余{{count}}h",
-      "minutesRemaining": "剩余{{count}}m",
+      "permanent": "永久封禁",
+      "daysRemaining": "剩余 {{count}} 天",
+      "hoursRemaining": "剩余 {{count}} 小时",
+      "minutesRemaining": "剩余 {{count}} 分钟",
       "expiringSoon": "即将到期",
       "expired": "已过期"
     },
     "time": {
-      "futureDays": "在{{count}}天里",
-      "futureHours": "在{{count}}小时内",
-      "futureMinutes": "{{count}}分钟内",
+      "futureDays": "{{count}} 天后",
+      "futureHours": "{{count}} 小时后",
+      "futureMinutes": "{{count}} 分钟后",
       "soon": "即将",
-      "justNow": "现在",
+      "justNow": "刚刚",
       "minutesAgo": "{{count}}分钟前",
-      "hoursAgo": "{{count}}前",
-      "daysAgo": "{{count}}d 前"
+      "hoursAgo": "{{count}} 小时前",
+      "daysAgo": "{{count}} 天前"
     },
     "actions": {
       "unban": "解除封禁",
@@ -222,20 +222,20 @@
       "processing": "处理中..."
     },
     "confirm": {
-      "unban": "您确定要取消禁止{{ip}}吗？",
-      "bulkUnban": "取消禁止{{count}}选定的 IP？",
-      "unbanAll": "取消禁止当前过滤器中的所有{{count}}IP？此操作无法撤消。"
+      "unban": "确定解除对 {{ip}} 的封禁？",
+      "bulkUnban": "确定解除所选 {{count}} 个 IP 的封禁？",
+      "unbanAll": "确定解除当前筛选结果中全部 {{count}} 个 IP 的封禁？此操作无法撤销。"
     },
     "modal": {
-      "title": "添加IP禁令",
-      "ipLabel": "IP地址",
+      "title": "添加 IP 封禁",
+      "ipLabel": "IP 地址",
       "ipPlaceholder": "192.168.1.100",
       "reasonLabel": "原因",
-      "reasonPlaceholder": "输入禁止原因（可选）",
+      "reasonPlaceholder": "输入封禁原因（可选）",
       "durationLabel": "封禁时长",
       "hostLabel": "应用到主机",
-      "globalBan": "全局禁令（所有主机）",
-      "hostHint": "全局禁令适用于所有代理主机。",
+      "globalBan": "全局封禁（所有主机）",
+      "hostHint": "全局封禁适用于所有代理主机。",
       "durations": {
         "5m": "5分钟",
         "10m": "10分钟",
@@ -244,7 +244,7 @@
         "24h": "24小时",
         "7d": "7天",
         "30d": "30天",
-        "permanent": "永久禁令"
+        "permanent": "永久封禁"
       }
     },
     "durations": {
@@ -255,29 +255,29 @@
       "24h": "24小时",
       "7d": "7天",
       "30d": "30天",
-      "permanent": "永久禁令"
+      "permanent": "永久封禁"
     },
     "messages": {
-      "saveFailed": "禁止IP失败。"
+      "saveFailed": "封禁 IP 失败。"
     },
     "logs": {
       "title": "活动日志",
-      "subtitle": "被禁止的IP的先前活动日志",
+      "subtitle": "该封禁 IP 的历史活动日志",
       "reasonPrefix": "原因：",
       "banTime": "封禁时间：",
       "expires": "到期时间：",
       "failCount": "失败次数：",
-      "noLogs": "没有记录此IP的日志。",
+      "noLogs": "没有记录此 IP 的日志。",
       "fetchError": "获取日志失败。",
       "close": "关闭",
-      "host": "主持人："
+      "host": "主机："
     },
     "history": {
       "stats": {
-        "totalBans": "全面禁止",
+        "totalBans": "封禁总数",
         "totalUnbans": "解禁总数",
-        "activeBans": "主动禁令",
-        "fail2ban": "Fail2ban 禁令"
+        "activeBans": "生效中的封禁",
+        "fail2ban": "Fail2ban 封禁"
       },
       "filter": {
         "eventType": "事件类型",
@@ -291,7 +291,7 @@
       "table": {
         "time": "时间",
         "event": "事件",
-        "ip": "IP地址",
+        "ip": "IP 地址",
         "source": "来源",
         "host": "主机",
         "reason": "原因",
@@ -304,14 +304,14 @@
       "source": {
         "manual": "手动",
         "expired": "已过期",
-        "wafAutoBan": "WAF自动禁令"
+        "wafAutoBan": "WAF 自动封禁"
       },
       "fetchError": "加载历史记录失败。",
       "noHistory": "没有找到历史记录。",
       "system": "系统",
-      "topBanned": "经常被禁止的IP",
+      "topBanned": "频繁被封禁的 IP",
       "times": "次",
-      "viewActivity": "查看此IP的活动"
+      "viewActivity": "查看此 IP 的活动"
     },
     "pagination": {
       "prev": "上一页",
@@ -323,9 +323,9 @@
       "unbanning": "解除封禁中...",
       "selectAll": "选择全部",
       "clear": "清除选择",
-      "unbanAll": "全部取消禁止 ({{count}})",
+      "unbanAll": "全部解除封禁 ({{count}})",
       "unbanAllProgress": "解封{{done}}/{{total}}...",
-      "unbanAllHint": "取消禁止与当前过滤器匹配的每个IP"
+      "unbanAllHint": "解除封禁与当前过滤器匹配的每个 IP"
     },
     "duration": {
       "edit": "变更持续时间",
@@ -335,33 +335,33 @@
     }
   },
   "hostList": {
-    "subtitle": "管理每个主机的WAF策略",
+    "subtitle": "管理每个主机的 WAF 策略",
     "noHosts": "未找到代理主机。请先创建一个代理主机。",
     "loadError": "加载主机列表失败",
-    "managePolicy": "管理政策",
+    "managePolicy": "管理策略",
     "rulesDisabled": "{{count}}规则已禁用",
     "allRulesEnabled": "启用所有规则",
     "status": {
       "inactive": "未激活",
-      "blocking": "阻塞模式",
+      "blocking": "拦截模式",
       "detection": "检测方式"
     },
     "exclusionCount": "{{count}}规则排除"
   },
   "policyManager": {
-    "title": "WAF策略管理 -{{name}}",
-    "subtitle": "{{total}}规则的{{disabled}}已禁用",
+    "title": "WAF 策略管理 -{{name}}",
+    "subtitle": "共 {{total}} 条规则，已禁用 {{disabled}} 条",
     "loadError": "加载规则失败",
     "tabs": {
       "rules": "策略设置",
       "history": "变更历史记录"
     },
-    "searchPlaceholder": "按规则ID或描述搜索...",
+    "searchPlaceholder": "按规则 ID 或说明搜索…",
     "showDisabledOnly": "仅禁用规则",
-    "showingCount": "显示{{count}}",
+    "showingCount": "显示 {{count}} 条规则",
     "disabledCount": "（{{count}}已禁用）",
     "allCategories": "所有类别",
-    "ruleCount": "{{count}}规则",
+    "ruleCount": "{{count}} 条规则",
     "empty": "没有可显示的规则",
     "noResults": "没有找到结果",
     "bulkEnable": "全部启用",
@@ -376,7 +376,7 @@
     "unnamedHost": "未命名主机",
     "history": {
       "loadError": "无法加载更改历史记录",
-      "searchPlaceholder": "按规则ID或类别搜索...",
+      "searchPlaceholder": "按规则 ID、类别或说明搜索…",
       "count": "{{count}}条目",
       "total": "（共{{count}}）",
       "empty": "无变更历史",
@@ -401,15 +401,15 @@
     "processing": "处理中..."
   },
   "tester": {
-    "title": "WAF攻击测试仪",
-    "description": "通过发送模拟攻击模式来测试您的WAF配置。",
+    "title": "WAF 攻击测试",
+    "description": "通过发送模拟攻击模式来测试您的 WAF 配置。",
     "warning": "仅在您自己的系统上使用它。",
     "selectHost": "选择代理主机",
     "selectHostPlaceholder": "-- 选择代理主机或手动输入 --",
-    "wafEnabledGroup": "🛡️WAF已启用",
-    "wafDisabledGroup": "⚠️WAF已禁用",
-    "noWafHosts": "⚠️ 没有代理主机启用了WAF。在代理主机设置中启用WAF进行测试。",
-    "targetUrl": "目标URL",
+    "wafEnabledGroup": "🛡️WAF 已启用",
+    "wafDisabledGroup": "⚠️WAF 已禁用",
+    "noWafHosts": "⚠️ 没有代理主机启用了 WAF。在代理主机设置中启用 WAF 进行测试。",
+    "targetUrl": "目标 URL",
     "targetUrlHelp": "Docker内部：使用https://npg-proxy",
     "hostHeader": "主机头",
     "hostHeaderHelp": "虚拟主机路由的域名",
@@ -417,9 +417,9 @@
     "testingAll": "测试所有...",
     "target": "目标：",
     "status": {
-      "blocking": "🛡️WAF封锁",
-      "detection": "👁️WAF检测",
-      "disabled": "⚠️WAF已禁用"
+      "blocking": "🛡️WAF 封锁",
+      "detection": "👁️WAF 检测",
+      "disabled": "⚠️WAF 已禁用"
     },
     "stats": {
       "total": "总测试数",
@@ -427,16 +427,39 @@
       "passed": "已通过"
     },
     "patterns": {
-      "title": "攻击模式",
-      "loading": "正在加载图案...",
+      "title": "预设测试项",
+      "loading": "正在加载测试项…",
       "test": "测试",
-      "testing": "测试中..."
+      "testing": "测试中...",
+      "categories": {
+        "SQL Injection": "SQL 注入",
+        "XSS": "跨站脚本（XSS）",
+        "Path Traversal": "路径遍历",
+        "Command Injection": "命令注入",
+        "Scanner Detection": "扫描器检测",
+        "RCE": "远程代码执行",
+        "Protocol Attack": "HTTP 协议攻击"
+      },
+      "descriptions": {
+        "sql_injection": "SQL 注入：基于 OR 条件的典型绕过",
+        "sql_injection_union": "SQL 注入：基于 UNION 的攻击",
+        "xss_script": "XSS：脚本标签注入",
+        "xss_event": "XSS：事件处理器注入",
+        "path_traversal": "路径遍历：目录遍历攻击",
+        "path_traversal_encoded": "路径遍历：使用 URL 编码",
+        "command_injection": "命令注入：Shell 命令",
+        "command_injection_pipe": "命令注入：管道命令",
+        "scanner_sqlmap": "扫描器检测：sqlmap User-Agent",
+        "scanner_nikto": "扫描器检测：Nikto User-Agent",
+        "rce_php": "远程代码执行：PHP 流包装器攻击",
+        "protocol_attack": "协议攻击：Host 请求头注入"
+      }
     },
     "modeInfo": {
-      "title": "WAF模式",
+      "title": "WAF 模式",
       "blocking": "阻止模式：阻止并记录攻击（返回 403）。",
       "detection": "检测模式：仅记录攻击，但不阻止（返回200）。",
-      "configure": "在代理主机设置中配置WAF模式。"
+      "configure": "在代理主机设置中配置 WAF 模式。"
     },
     "result": {
       "blocked": "被阻止 ({{code}})",
@@ -445,12 +468,12 @@
     "options": {
       "blocking": "（封锁）",
       "detection": "（检测）",
-      "noWaf": "（没有WAF）"
+      "noWaf": "（没有 WAF）"
     }
   },
   "uriBlock": {
-    "title": "URI路径阻塞",
-    "subtitle": "管理所有代理主机上的URI阻止规则",
+    "title": "URI 路径拦截",
+    "subtitle": "管理所有代理主机的 URI 路径拦截规则",
     "addRule": "添加规则",
     "addHost": "添加主机",
     "stats": {
@@ -470,14 +493,14 @@
       "actions": "操作"
     },
     "empty": {
-      "title": "无URI阻止规则",
-      "description": "单击“添加主机”为代理主机配置URI阻止。"
+      "title": "暂无 URI 路径拦截规则",
+      "description": "点击“添加主机”，为代理主机配置 URI 路径拦截规则。"
     },
     "hostDisabled": "主机已禁用",
     "moreHosts": "更多域名",
     "rulesCount": "规则",
     "exceptions": "例外",
-    "privateAllowed": "私有IP",
+    "privateAllowed": "私有 IP",
     "noRules": "没有配置规则",
     "matchTypes": {
       "exact": "精确",
@@ -485,40 +508,40 @@
       "regex": "正则表达式"
     },
     "confirmDelete": "您确定要删除此规则吗？",
-    "confirmDeleteHost": "您确定要删除{{host}}的URI屏蔽吗？",
-    "exceptionIPs": "例外IP",
-    "allowPrivateIPs": "允许私有IP",
+    "confirmDeleteHost": "您确定要删除{{host}}的 URI 屏蔽吗？",
+    "exceptionIPs": "例外 IP",
+    "allowPrivateIPs": "允许私有 IP",
     "updatedAt": "已更新",
     "hostModal": {
-      "subtitle": "URI阻塞配置",
-      "enableBlocking": "启用URI阻止",
-      "enableBlockingDesc": "阻止访问已配置的URI模式",
+      "subtitle": "URI 路径拦截设置",
+      "enableBlocking": "启用 URI 阻止",
+      "enableBlockingDesc": "阻止访问已配置的 URI 模式",
       "rules": "阻止规则",
-      "exceptionIPsDesc": "这些 IP 将绕过URI阻止规则",
-      "noExceptionIPs": "未配置异常IP",
+      "exceptionIPsDesc": "这些 IP 将绕过 URI 阻止规则",
+      "noExceptionIPs": "未配置异常 IP",
       "settings": "设置",
       "allowPrivateIPsDesc": "允许私有/本地 IP（10.x、172.16.x、192.168.x、127.x）绕过阻止"
     },
     "newHostModal": {
-      "title": "添加URI阻止的主机",
+      "title": "为主机添加 URI 路径拦截",
       "selectHost": "选择代理主机",
-      "noAvailableHosts": "所有代理主机均已配置URI阻止",
+      "noAvailableHosts": "所有代理主机均已配置 URI 阻止",
       "create": "添加主机"
     },
     "modal": {
-      "title": "添加URI阻止规则",
+      "title": "添加 URI 拦截规则",
       "selectHost": "代理主机",
       "selectHostPlaceholder": "-- 选择代理主机 --",
-      "pattern": "URI图案",
+      "pattern": "URI 匹配模式",
       "patternPlaceholder": "/wp-admin, /xmlrpc.php, \\.php$",
       "matchType": "比赛类型",
       "matchTypeHelp": {
         "prefix": "阻止以此模式开头的所有 URI",
-        "exact": "仅阻止确切的URI路径",
+        "exact": "仅阻止确切的 URI 路径",
         "regex": "阻止与此正则表达式匹配的 URI"
       },
       "description": "说明（可选）",
-      "descriptionPlaceholder": "例如，阻止 WordPress 管理员",
+      "descriptionPlaceholder": "例如拦截 WordPress 后台路径",
       "quickTemplates": "快速模板",
       "addButton": "添加"
     },
@@ -528,10 +551,10 @@
       "history": "历史记录"
     },
     "global": {
-      "title": "全局URI阻止",
+      "title": "全局 URI 路径拦截",
       "description": "这些规则自动应用于所有代理主机。",
       "rules": "规则",
-      "exceptionIPsDesc": "绕过全局URI阻止的 IP。",
+      "exceptionIPsDesc": "绕过全局 URI 阻止的 IP。",
       "infoTitle": "全局规则如何运作",
       "infoDesc": "全局规则会自动应用于所有代理主机。它们会在特定于主机的规则之前进行检查。将此用于常见的安全模式，例如阻止 WordPress 管理员、XML-RPC或敏感文件。",
       "unsavedChanges": "您有未保存的更改",
@@ -566,23 +589,23 @@
       "env": "阻止 .env"
     },
     "ruleExceptions": {
-      "add": "+ 允许的IP",
+      "add": "+ 允许的 IP",
       "count": "允许的 IP：{{count}}",
       "title": "仅此规则允许通过的地址",
       "label": "此规则允许的 IP",
-      "help": "每行一个IP地址或CIDR范围。只有这条规则才能让他们通过；以下例外 IP 适用于每条规则。"
+      "help": "每行一个 IP 地址或 CIDR 范围。只有这条规则才能让他们通过；以下例外 IP 适用于每条规则。"
     }
   },
   "global": {
-    "title": "全局WAF规则管理",
+    "title": "全局 WAF 规则管理",
     "subtitle": "管理适用于所有代理主机的全局规则",
-    "ruleCount": "{{total}}规则中的{{disabled}}已全局禁用",
+    "ruleCount": "共 {{total}} 条规则，其中 {{disabled}} 条已全局禁用",
     "showDisabledOnly": "仅全局禁用",
     "globallyDisabled": "（{{count}}全局禁用）",
     "badge": "全局",
     "exclusionInfo": "全局排除信息",
     "tabs": {
-      "perHost": "每主机策略",
+      "perHost": "主机策略",
       "global": "全局策略"
     },
     "disableModal": {
@@ -593,7 +616,7 @@
     },
     "history": {
       "loadError": "无法加载更改历史记录",
-      "searchPlaceholder": "按规则ID或类别搜索...",
+      "searchPlaceholder": "按规则 ID、类别或说明搜索…",
       "count": "{{count}}记录",
       "total": "{{count}}总计",
       "empty": "没有全局策略历史",
@@ -605,23 +628,23 @@
   },
   "help": {
     "bannedIp": {
-      "ip": "输入要禁止的IP地址。",
+      "ip": "输入要禁止的 IP 地址。",
       "reason": "输入禁止的原因（可选）。",
-      "duration": "设置IP禁令的持续时间。"
+      "duration": "设置 IP 封禁的持续时间。"
     },
     "hostList": {
-      "status": "WAF已禁用。在代理主机设置中启用它。"
+      "status": "WAF 已禁用。在代理主机设置中启用它。"
     },
     "policyManager": {
       "showDisabledOnly": "过滤以仅显示禁用的规则。"
     },
     "global": {
-      "description": "全局策略中禁用的规则会自动应用于所有代理主机。"
+      "description": "全局禁用的规则在所有代理主机上都会停用。"
     },
     "tester": {
       "selectHost": "选择代理主机会使用其第一个域填充主机标头。",
       "targetUrl": "测试请求去哪里。默认情况下，NPG自己的代理容器。",
-      "hostHeader": "要发送的主机标头。使用主机的域，以便使用该主机的WAF设置检查请求。"
+      "hostHeader": "要发送的主机标头。使用主机的域，以便使用该主机的 WAF 设置检查请求。"
     }
   },
   "pagination": {
@@ -655,19 +678,19 @@
     "unsavedChanges": "您有未保存的更改"
   },
   "globalSecurityHeaders": {
-    "title": "全局安全标头默认值",
-    "subtitle": "默认情况下，安全标头应用于所有代理主机。每个主机都可以继承、覆盖或禁用它们。",
-    "enableTitle": "全局安全标头",
+    "title": "全局安全响应头默认值",
+    "subtitle": "默认情况下，安全响应头应用于所有代理主机。每个主机都可以继承、覆盖或禁用它们。",
+    "enableTitle": "全局安全响应头",
     "enableDescription": "启用后，此默认值适用于设置为继承的每个主机。",
-    "infoTitle": "全局安全标头默认值如何工作",
-    "infoDesc": "此默认值适用于将安全标头设置为“继承”的所有代理主机。设置为“Override”的主机使用自己的配置，设置为“Disable”的主机根本没有安全标头。保存会自动重新生成所有继承主机。",
-    "saveSuccess": "全局安全标头默认保存并应用于继承主机",
-    "saveFailed": "无法保存全局安全标头默认值",
+    "infoTitle": "全局安全响应头默认值如何工作",
+    "infoDesc": "此默认值适用于将安全响应头设置为“继承”的所有代理主机。设置为“Override”的主机使用自己的配置，设置为“Disable”的主机根本没有安全响应头。保存会自动重新生成所有继承主机。",
+    "saveSuccess": "全局安全响应头默认保存并应用于继承主机",
+    "saveFailed": "无法保存全局安全响应头默认值",
     "unsavedChanges": "您有未保存的更改"
   },
   "globalCloudProviders": {
-    "title": "全球云屏蔽默认设置",
-    "subtitle": "默认情况下，云提供商阻止应用于所有代理主机。每个主机都可以继承、覆盖或禁用它。",
+    "title": "全局云服务 IP 拦截默认设置",
+    "subtitle": "默认对所有代理主机启用此云服务 IP 拦截设置。可在各主机上继承、覆盖或关闭。",
     "infoTitle": "全局云阻止默认值的工作原理",
     "infoDesc": "此处选择的提供商将在每个将云阻止设置为“继承”的代理主机上被阻止。选择自己的提供商“覆盖”该列表的主机，以及设置为“禁用”的主机根本不会受到云阻止。保存会自动重新生成所有继承主机。",
     "saveSuccess": "全局云阻止默认值已保存并应用于继承主机",
@@ -686,15 +709,15 @@
     "unsavedChanges": "您有未保存的更改"
   },
   "globalWAF": {
-    "title": "全局WAF默认值",
-    "subtitle": "WAF(ModSecurity) 模式、偏执级别和异常阈值默认应用于所有代理主机。每个主机都可以继承、覆盖或禁用它。",
+    "title": "全局 WAF 默认值",
+    "subtitle": "为所有代理主机配置默认的 WAF（ModSecurity）模式、检测严格级别和异常评分阈值。各主机可以继承、覆盖或关闭 WAF。",
     "restartNote": "WAF/ModSecurity 规则更改不会通过重新加载而生效。继承主机的配置文件会立即重新生成，但更改仅在代理容器重新启动（docker restart npg-proxy）后生效。",
     "enableTitle": "全局 WAF",
     "enableDescription": "启用后，此默认值适用于设置为继承的每个主机。",
-    "infoTitle": "全局WAF默认值如何工作",
-    "infoDesc": "此默认值适用于将WAF设置为“继承”的所有代理主机（它们使用全局启用标志及其模式/偏执/阈值）。设置为“覆盖”的主机使用其自己的配置，设置为“禁用”的主机将关闭WAF，无论全局默认值如何。保存会自动重新生成所有继承主机。",
-    "saveSuccess": "全局WAF默认保存并应用于继承主机（重启后生效）",
-    "saveFailed": "无法保存全局WAF默认值",
+    "infoTitle": "全局 WAF 默认值如何工作",
+    "infoDesc": "选择“继承”的代理主机采用全局 WAF 启用状态、模式、检测严格级别和异常评分阈值。选择“覆盖”的主机采用自己的配置，选择“禁用”的主机会关闭 WAF。保存后，系统会重新生成所有继承全局设置的主机配置。",
+    "saveSuccess": "全局 WAF 默认保存并应用于继承主机（重启后生效）",
+    "saveFailed": "无法保存全局 WAF 默认值",
     "unsavedChanges": "您有未保存的更改"
   }
 }

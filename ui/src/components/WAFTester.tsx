@@ -52,11 +52,11 @@ function PatternCard({ pattern, onTest, isLoading, result }: PatternCardProps) {
     <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 p-4 hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between mb-2">
         <span className={`px-2 py-0.5 rounded text-xs font-medium ${categoryColors[pattern.category] || 'bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-300'}`}>
-          {pattern.category}
+          {t(`tester.patterns.categories.${pattern.category}`, { defaultValue: pattern.category })}
         </span>
         {result && <ResultBadge blocked={result.blocked} statusCode={result.status_code} />}
       </div>
-      <h3 className="font-medium text-slate-900 dark:text-white mb-1">{pattern.description}</h3>
+      <h3 className="font-medium text-slate-900 dark:text-white mb-1" title={pattern.description}>{t(`tester.patterns.descriptions.${pattern.id}`, { defaultValue: pattern.description })}</h3>
       <p className="text-xs text-slate-500 dark:text-slate-400 font-mono mb-3">{pattern.id}</p>
       <div className="flex items-center justify-between">
         <button

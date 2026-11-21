@@ -92,8 +92,8 @@
   "validation": {
     "required": "此字段是必需的",
     "invalidEmail": "请输入有效的电子邮件",
-    "invalidUrl": "请输入有效的URL",
-    "invalidIp": "请输入有效的IP地址",
+    "invalidUrl": "请输入有效的 URL",
+    "invalidIp": "请输入有效的 IP 地址",
     "invalidDomain": "请输入有效域名",
     "minLength": "必须至少为{{min}}个字符",
     "maxLength": "最多只能是{{max}}个字符",

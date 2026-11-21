@@ -1,3 +1,4 @@
+import { wafRuleText } from '../../../i18n/ruleText';
 import { useTranslation, Trans } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
 import { ContributingRules } from './ContributingRules';
@@ -543,7 +544,7 @@ export function AccessLogBody({ log }: { log: Log }) {
 
 // ModSec-log specific body (identifying fields)
 export function ModsecLogBody({ log }: { log: Log }) {
-  const { t } = useTranslation('logs');
+  const { t, i18n } = useTranslation('logs');
   return (
     <>
       <div className="grid grid-cols-2 gap-4 mb-4">
@@ -558,7 +559,7 @@ export function ModsecLogBody({ log }: { log: Log }) {
               log.action_taken === 'excluded' ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300' :
                 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300'
               }`}>
-              {log.action_taken === 'excluded' ? t('table.logType.pass') : log.action_taken || t('table.logType.logged')}
+              {log.action_taken === 'excluded' ? t('table.logType.pass') : t(`table.logType.${log.action_taken || 'logged'}`, { defaultValue: log.action_taken || t('table.logType.logged') })}
             </span>
           </p>
         </div>
@@ -577,7 +578,7 @@ export function ModsecLogBody({ log }: { log: Log }) {
       {log.rule_message && (
         <div className="mb-4">
           <label className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase">{t('detail.ruleMessage')}</label>
-          <p className="text-sm text-orange-700 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/30 p-3 rounded-lg">{log.rule_message}</p>
+          <p className="text-sm text-orange-700 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/30 p-3 rounded-lg" title={log.rule_message}>{wafRuleText(i18n.language, log.rule_id, log.rule_message)}</p>
         </div>
       )}
       {log.attack_type && (

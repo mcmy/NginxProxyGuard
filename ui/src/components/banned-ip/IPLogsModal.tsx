@@ -5,6 +5,7 @@ import { fetchIPLogs } from '../../api/banned-ips'
 import type { BannedIP } from '../../api/banned-ips'
 import { IPStatsBand } from './IPStatsBand'
 import { BanDurationEditor } from './BanDurationEditor'
+import { wafRuleText } from '../../i18n/ruleText'
 
 function formatDate(dateStr: string, locale?: string): string {
   return new Date(dateStr).toLocaleString(locale || 'ko-KR')
@@ -121,7 +122,7 @@ export function IPLogsModal({ ipAddress, ban, hostName, onClose }: { ipAddress: 
                     <span className="text-xs text-slate-400 dark:text-slate-500">{formatDate(log.timestamp, i18n.language)}</span>
                   </div>
                   {log.request_uri && (<div className="font-mono text-sm text-slate-700 dark:text-slate-300 mb-1"><span className="text-slate-500">{log.request_method}</span> {log.request_uri}</div>)}
-                  {log.rule_message && (<div className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/10 rounded px-2 py-1 mt-1"><span className="font-medium">Rule {log.rule_id}:</span> {log.rule_message}</div>)}
+                  {log.rule_message && (<div className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/10 rounded px-2 py-1 mt-1" title={log.rule_message}><span className="font-medium">{t('events.columns.rule')} {log.rule_id}:</span> {wafRuleText(i18n.language, log.rule_id, log.rule_message)}</div>)}
                   {log.host && (<div className="text-xs text-slate-500 mt-1">{t('bannedIp.logs.host')} {log.host}</div>)}
                 </div>
               ))}

@@ -16,6 +16,7 @@ import type {
   WAFPolicyHistory,
 } from '../../types/waf';
 import { HelpTip } from '../common/HelpTip';
+import { ruleSeverityText, wafCategoryText, wafRuleText } from '../../i18n/ruleText';
 import { CategoryIcon } from './CategoryIcon';
 
 export function WAFRulesModal({
@@ -25,7 +26,7 @@ export function WAFRulesModal({
   host: WAFHostConfig;
   onClose: () => void;
 }) {
-  const { t } = useTranslation('waf');
+  const { t, i18n } = useTranslation('waf');
   const [activeTab, setActiveTab] = useState<'rules' | 'history'>('rules');
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -111,7 +112,7 @@ export function WAFRulesModal({
     const categories = rulesQuery.data.categories
       .map((cat) => {
         let rules = cat.rules || [];
-        if (query) { rules = rules.filter((r) => r.id.toString().includes(query) || r.description?.toLowerCase().includes(query)); }
+        if (query) { rules = rules.filter((r) => r.id.toString().includes(query) || r.description?.toLowerCase().includes(query) || wafRuleText(i18n.language, r.id, r.description).toLowerCase().includes(query)); }
         // A rule with only a narrow exemption stays enabled, so filtering on
         // !enabled alone hid exactly the rows this filter exists to surface. (#286)
         if (showDisabledOnly) { rules = rules.filter((r) => !r.enabled || (r.exclusions?.length ?? 0) > 0); }
@@ -121,7 +122,7 @@ export function WAFRulesModal({
       })
       .filter((cat) => { if (activeCategory === 'all') return cat.rules && cat.rules.length > 0; return cat.id === activeCategory; });
     return { categories, totalRules, disabledRules };
-  }, [rulesQuery.data, searchQuery, showDisabledOnly, activeCategory]);
+  }, [rulesQuery.data, searchQuery, showDisabledOnly, activeCategory, i18n.language]);
 
   // The header pairs this with the unfiltered rule total, so it must be counted
   // over every rule — filteredData is narrowed by the search box. (#286)
@@ -207,7 +208,7 @@ export function WAFRulesModal({
                     return (
                       <button key={cat.id} onClick={() => setActiveCategory(cat.id)} className={`w-auto md:w-full whitespace-nowrap px-3 py-2 text-left rounded-lg text-sm transition-colors mt-0 md:mt-1 ${activeCategory === cat.id ? 'bg-blue-600 text-white' : 'hover:bg-gray-200 dark:hover:bg-slate-800 text-gray-700 dark:text-slate-300'}`}>
                         <div className="flex items-center justify-between">
-                          <span className="truncate">{cat.name}</span>
+                          <span className="truncate" title={cat.name}>{wafCategoryText(i18n.language, cat.name)}</span>
                           {disabledCount > 0 && (<span className={`ml-1 px-1.5 py-0.5 text-xs rounded ${activeCategory === cat.id ? 'bg-blue-500 text-white' : 'bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400'}`}>{disabledCount}</span>)}
                         </div>
                         <div className={`text-xs ${activeCategory === cat.id ? 'text-blue-200' : 'text-gray-500 dark:text-slate-500'}`}>{t('policyManager.ruleCount', { count: cat.rule_count })}</div>
@@ -254,9 +255,9 @@ export function WAFRulesModal({
               <div className="mb-4">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="px-2 py-0.5 rounded text-xs font-mono bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400">{disableModalRule.rule.id}</span>
-                  <span className="text-sm font-medium text-gray-700 dark:text-slate-300">{disableModalRule.categoryName}</span>
+                  <span className="text-sm font-medium text-gray-700 dark:text-slate-300">{wafCategoryText(i18n.language, disableModalRule.categoryName)}</span>
                 </div>
-                <p className="text-sm text-gray-600 dark:text-slate-400">{disableModalRule.rule.description || t('policyManager.noDescription')}</p>
+                <p className="text-sm text-gray-600 dark:text-slate-400" title={disableModalRule.rule.description}>{wafRuleText(i18n.language, disableModalRule.rule.id, disableModalRule.rule.description) || t('policyManager.noDescription')}</p>
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">{t('disableModal.reasonLabel')} <span className="text-gray-400 dark:text-slate-500">({t('disableModal.optional')})</span></label>
@@ -278,10 +279,11 @@ export function WAFRulesModal({
 function CategoryRulesSection({ category, onToggleRule, onRemoveScope, onBulkDisable, onBulkEnable, isPending, showCategoryHeader }: {
   category: WAFRuleCategory; onToggleRule: (rule: WAFRule) => void; onRemoveScope: (rule: WAFRule, exclusion: WAFRuleExclusion) => void; onBulkDisable: () => void; onBulkEnable: () => void; isPending: boolean; showCategoryHeader: boolean;
 }) {
-  const { t } = useTranslation('waf');
+  const { t, i18n } = useTranslation('waf');
   const [isExpanded, setIsExpanded] = useState(true);
   const enabledCount = category.rules?.filter((r) => r.enabled).length || 0;
   const disabledCount = (category.rules?.length || 0) - enabledCount;
+  const categoryLabel = wafCategoryText(i18n.language, category.name);
 
   return (
     <div>
@@ -290,9 +292,9 @@ function CategoryRulesSection({ category, onToggleRule, onRemoveScope, onBulkDis
           <button onClick={() => setIsExpanded(!isExpanded)} className="flex items-center gap-3">
             <CategoryIcon name={category.name} />
             <div className="text-left">
-              <div className="font-semibold text-gray-900 dark:text-white">{category.name}</div>
+              <div className="font-semibold text-gray-900 dark:text-white" title={category.description}>{categoryLabel}</div>
               <div className="text-xs text-gray-500 dark:text-slate-400">
-                {category.description} | {t('policyManager.ruleCount', { count: category.rules?.length || 0 })}
+                {categoryLabel === category.name && category.description && category.description + ' | '}{t('policyManager.ruleCount', { count: category.rules?.length || 0 })}
                 {disabledCount > 0 && (<span className="text-orange-600 dark:text-orange-400 ml-1">{t('policyManager.disabledCount', { count: disabledCount })}</span>)}
               </div>
             </div>
@@ -329,7 +331,7 @@ function RuleRow({ rule, onToggle, onRemoveScope, isPending }: { rule: WAFRule; 
       <div className="px-4 py-3 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-colors cursor-pointer" onClick={() => hasDetails && setShowDetails(!showDetails)}>
         <div className="flex items-center gap-3 min-w-0">
           <span className={`px-2 py-0.5 rounded text-xs font-mono ${rule.globally_disabled ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400' : rule.enabled ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400'}`}>{rule.id}</span>
-          <span className="text-sm text-gray-700 dark:text-slate-300 truncate" title={rule.description}>{rule.description || t('policyManager.noDescription')}</span>
+          <span className="text-sm text-gray-700 dark:text-slate-300 truncate" title={rule.description}>{wafRuleText(i18n.language, rule.id, rule.description) || t('policyManager.noDescription')}</span>
           {rule.globally_disabled && (
             <span className="px-1.5 py-0.5 text-xs rounded bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 flex items-center gap-1">
               <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -342,7 +344,7 @@ function RuleRow({ rule, onToggle, onRemoveScope, isPending }: { rule: WAFRule; 
             </span>
           )}
           {rule.severity && !rule.globally_disabled && (
-            <span className={`px-1.5 py-0.5 text-xs rounded ${rule.severity === 'CRITICAL' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' : rule.severity === 'ERROR' ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400' : rule.severity === 'WARNING' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' : 'bg-gray-100 text-gray-600 dark:bg-slate-700 dark:text-slate-400'}`}>{rule.severity}</span>
+            <span className={`px-1.5 py-0.5 text-xs rounded ${rule.severity === 'CRITICAL' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' : rule.severity === 'ERROR' ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400' : rule.severity === 'WARNING' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' : 'bg-gray-100 text-gray-600 dark:bg-slate-700 dark:text-slate-400'}`} title={rule.severity}>{ruleSeverityText(i18n.language, rule.severity)}</span>
           )}
           {hasDetails && (<svg className={`w-4 h-4 text-gray-400 transition-transform ${showDetails ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>)}
         </div>
@@ -367,7 +369,7 @@ function RuleRow({ rule, onToggle, onRemoveScope, isPending }: { rule: WAFRule; 
               <div><span className="text-orange-600 dark:text-orange-400 text-xs">{t('policyManager.disabledAt')}</span><p className="font-medium">{formatDate(rule.exclusion.created_at)}</p></div>
               {rule.exclusion.reason && (<div><span className="text-orange-600 dark:text-orange-400 text-xs">{t('policyManager.reason')}</span><p className="font-medium">{rule.exclusion.reason}</p></div>)}
               {rule.exclusion.disabled_by && (<div><span className="text-orange-600 dark:text-orange-400 text-xs">{t('policyManager.disabledBy')}</span><p className="font-medium">{rule.exclusion.disabled_by}</p></div>)}
-              {rule.exclusion.rule_category && (<div><span className="text-orange-600 dark:text-orange-400 text-xs">{t('policyManager.category')}</span><p className="font-medium">{rule.exclusion.rule_category}</p></div>)}
+              {rule.exclusion.rule_category && (<div><span className="text-orange-600 dark:text-orange-400 text-xs">{t('policyManager.category')}</span><p className="font-medium">{wafCategoryText(i18n.language, rule.exclusion.rule_category)}</p></div>)}
             </div>
           </div>
         </div>
@@ -428,8 +430,10 @@ function PolicyHistoryPanel({ history, isLoading, error }: { history: WAFPolicyH
   const filteredHistory = useMemo(() => {
     if (!historySearch.trim()) return history;
     const query = historySearch.trim().toLowerCase();
-    return history.filter((item) => item.rule_id.toString().includes(query) || item.rule_category?.toLowerCase().includes(query) || item.rule_description?.toLowerCase().includes(query));
-  }, [history, historySearch]);
+    return history.filter((item) => item.rule_id.toString().includes(query) || item.rule_category?.toLowerCase().includes(query) || item.rule_description?.toLowerCase().includes(query) ||
+        wafRuleText(i18n.language, item.rule_id, item.rule_description).toLowerCase().includes(query) ||
+        wafCategoryText(i18n.language, item.rule_category || '').toLowerCase().includes(query));
+  }, [history, historySearch, i18n.language]);
 
   if (isLoading) return <div className="flex items-center justify-center h-full"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div></div>;
   if (error) return <div className="p-6 text-center text-red-600 dark:text-red-400">{t('policyManager.history.loadError')}</div>;
@@ -474,9 +478,9 @@ function PolicyHistoryPanel({ history, isLoading, error }: { history: WAFPolicyH
                     <div className="flex items-center gap-2 mb-1">
                       <span className={`px-2 py-0.5 text-xs font-medium rounded ${item.action === 'disabled' ? 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400' : 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400'}`}>{item.action === 'disabled' ? t('policyManager.history.disabled') : t('policyManager.history.enabled')}</span>
                       <span className="font-mono text-sm font-semibold text-gray-900 dark:text-white">#{item.rule_id}</span>
-                      {item.rule_category && (<span className="px-1.5 py-0.5 text-xs bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-slate-300 rounded">{item.rule_category}</span>)}
+                      {item.rule_category && (<span className="px-1.5 py-0.5 text-xs bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-slate-300 rounded">{wafCategoryText(i18n.language, item.rule_category)}</span>)}
                     </div>
-                    {item.rule_description && <p className="text-sm text-gray-700 dark:text-slate-300 mb-1">{item.rule_description}</p>}
+                    {item.rule_description && <p className="text-sm text-gray-700 dark:text-slate-300 mb-1" title={item.rule_description}>{wafRuleText(i18n.language, item.rule_id, item.rule_description)}</p>}
                     {item.reason && <p className="text-sm text-gray-500 dark:text-slate-400"><span className="font-medium">{t('policyManager.history.reason')}:</span> {item.reason}</p>}
                     <div className="flex items-center gap-4 mt-2 text-xs text-gray-400 dark:text-slate-500">
                       <span>{new Date(item.created_at).toLocaleString(i18n.language, { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>

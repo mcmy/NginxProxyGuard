@@ -1,6 +1,6 @@
 {
   "title": "证书",
-  "subtitle": "SSL/TLS证书管理",
+  "subtitle": "SSL/TLS 证书管理",
   "certStatuses": {
     "pending": "待处理",
     "issued": "已签发",
@@ -26,7 +26,7 @@
     "more": "+{{count}}更多",
     "cloudflareProxied": "Cloudflare 代理（橙色云）已启用",
     "error": "错误",
-    "renewalFailed": "续订失败",
+    "renewalFailed": "续期失败",
     "dismissError": "解雇",
     "days": "{{count}}天",
     "view": "查看",
@@ -64,12 +64,12 @@
   },
   "form": {
     "title": "新证书",
-    "provider": "证书提供者",
+    "provider": "证书提供方",
     "providers": {
       "selfSigned": "自签名",
       "selfSignedDesc": "开发/测试",
       "letsEncrypt": "Let's Encrypt",
-      "letsEncryptDesc": "免费SSL（推荐）",
+      "letsEncryptDesc": "免费 SSL（推荐）",
       "custom": "自定义上传",
       "customDesc": "现有证书"
     },
@@ -84,10 +84,10 @@
       "dns": "DNS-01(API)",
       "dnsDesc": "支持通配符证书"
     },
-    "dnsProvider": "DNS提供商",
-    "selectDnsProvider": "选择DNS提供商",
+    "dnsProvider": "DNS 提供商",
+    "selectDnsProvider": "选择 DNS 提供商",
     "defaultSuffix": "- 默认",
-    "noDnsProvider": "找不到DNS提供商。请先添加DNS提供商。",
+    "noDnsProvider": "找不到 DNS 提供商。请先添加 DNS 提供商。",
     "httpChallengeInfo": "HTTP-01挑战：域必须指向此服务器（端口 80）。不支持通配符证书。",
     "autoRenew": "到期前自动续订",
     "selfSignedSettings": "自签名设置",
@@ -99,8 +99,8 @@
     "uploadTitle": "上传证书",
     "certPem": "证书（PEM）",
     "privateKey": "私钥（PEM）",
-    "issuerPem": "发行人证书（PEM，可选）",
-    "issuerHint": "如果需要链条，请包括中间证书。",
+    "issuerPem": "签发机构证书（PEM，可选）",
+    "issuerHint": "需要提供证书链时，请填入中间证书。",
     "cancel": "取消",
     "create": "创建证书",
     "errors": {
@@ -121,8 +121,8 @@
     "issuedAt": "发行于",
     "expiresAt": "到期时间",
     "timeUntilExpiry": "到期时间",
-    "needsRenewal": "证书需要尽快更新",
-    "dnsProvider": "DNS提供商",
+    "needsRenewal": "证书即将到期，请续期",
+    "dnsProvider": "DNS 提供商",
     "files": "证书文件",
     "id": "ID",
     "created": "已创建",
@@ -132,12 +132,12 @@
   },
   "messages": {
     "deleteConfirm": "您确定要删除此证书吗？",
-    "renewConfirm": "您确定要更新此证书吗？",
+    "renewConfirm": "确定续期此证书？",
     "loadError": "加载证书时出错",
     "createSuccess": "已提交证书请求",
     "createFailed": "请求证书失败",
-    "renewSuccess": "证书更新开始",
-    "renewFailed": "更新证书失败",
+    "renewSuccess": "已开始证书续期",
+    "renewFailed": "证书续期失败",
     "deleteSuccess": "证书已删除",
     "deleteFailed": "删除证书失败",
     "downloadError": "下载证书失败",
@@ -149,17 +149,17 @@
     "deleteInUse": "该证书仍在使用。首先从“链接的主机”下列出的主机中取消分配它 - 重定向主机也计数。"
   },
   "dnsProviders": {
-    "title": "DNS提供商",
-    "loadError": "无法加载DNS提供程序",
-    "addProvider": "添加DNS提供商",
-    "editProvider": "编辑DNS提供商",
-    "deleteProvider": "删除DNS提供商",
+    "title": "DNS 提供商",
+    "loadError": "无法加载 DNS 提供程序",
+    "addProvider": "添加 DNS 提供商",
+    "editProvider": "编辑 DNS 提供商",
+    "deleteProvider": "删除 DNS 提供商",
     "name": "名称",
     "type": "类型",
     "types": {
       "cloudflare": "云耀",
       "route53": "AWS53 号公路",
-      "duckdns": "鸭子DNS",
+      "duckdns": "鸭子 DNS",
       "dynu": "迪努",
       "ionos": "IONOS",
       "ovh": "OVH云",
@@ -172,14 +172,14 @@
     "credentials": "凭据",
     "test": "测试连接",
     "actions": "操作",
-    "empty": "未配置DNS提供程序。添加一个以启用 Let's Encrypt 证书。",
+    "empty": "未配置 DNS 提供程序。添加一个以启用 Let's Encrypt 证书。",
     "add": "添加提供商",
     "edit": "编辑",
     "delete": "删除",
-    "confirmDelete": "您确定要删除此DNS提供商吗？",
+    "confirmDelete": "您确定要删除此 DNS 提供商吗？",
     "form": {
-      "addTitle": "添加DNS提供商",
-      "editTitle": "编辑DNS提供商",
+      "addTitle": "添加 DNS 提供商",
+      "editTitle": "编辑 DNS 提供商",
       "providerName": "提供商名称",
       "providerNamePlaceholder": {
         "cloudflare": "我的 Cloudflare 帐户",
@@ -198,56 +198,56 @@
       "create": "创建",
       "update": "更新",
       "manual": {
-        "title": "手动DNS挑战",
+        "title": "手动 DNS 验证",
         "desc": "您可以通过手动添加DNSTXT记录来验证域所有权。适用于不受支持的提供商。"
       },
       "cloudflare": {
         "title": "Cloudflare 凭证",
-        "apiToken": "API令牌（推荐）",
+        "apiToken": "API 令牌（推荐）",
         "apiTokenPlaceholder": "输入 CloudflareAPI令牌",
-        "apiTokenHelp": "创建具有 Zone:DNS:Edit 和 Zone:Read 权限的API令牌。",
-        "zoneId": "区域ID",
+        "apiTokenHelp": "创建具有 Zone:DNS:Edit 和 Zone:Read 权限的 API 令牌。",
+        "zoneId": "区域 ID",
         "zoneIdPlaceholder": "例如023e105f4ecef8ad9ca31a8372d0c353",
         "zoneIdHelp": "指定 Cloudflare 区域ID以绕过自动区域检测。对于二级 ccTLD 下的域名（例如 .ai.kr、.pe.kr、.co.uk）是必需的。在 Cloudflare Dashboard > 您的域 > 概述（右侧边栏）中找到它。",
         "optional": "可选",
-        "orGlobalKey": "或者使用全局API密钥（旧版）",
-        "apiKey": "API钥匙",
+        "orGlobalKey": "或者使用全局 API 密钥（旧版）",
+        "apiKey": "API 钥匙",
         "email": "电子邮件"
       },
       "route53": {
         "title": "AWS凭证",
-        "accessKeyId": "访问密钥ID",
+        "accessKeyId": "访问密钥 ID",
         "secretAccessKey": "秘密访问密钥",
         "useDefaultCredentials": "使用AWS默认凭据（无访问密钥）",
-        "useDefaultCredentialsHelp": "AWS默认凭证链会登录：EC2实例角色、ECS任务角色或API容器的AWS_* 环境变量。在EC2上，将实例元数据跃点限制设置为 2。",
+        "useDefaultCredentialsHelp": "AWS默认凭证链会登录：EC2实例角色、ECS任务角色或 API 容器的AWS_* 环境变量。在EC2上，将实例元数据跃点限制设置为 2。",
         "region": "地区",
-        "hostedZoneId": "托管区ID（可选）"
+        "hostedZoneId": "托管区 ID（可选）"
       },
       "duckdns": {
         "title": "DuckDNS 凭证",
-        "token": "API令牌",
+        "token": "API 令牌",
         "tokenPlaceholder": "输入您的 DuckDNS 令牌",
         "tokenHelp": "从https://www.duckdns.org获取您的令牌"
       },
       "dynu": {
         "title": "Dynu 凭证",
-        "apiKey": "API钥匙",
+        "apiKey": "API 钥匙",
         "apiKeyPlaceholder": "输入您的 DynuAPI密钥",
         "apiKeyHelp": "从 Dynu 控制面板 >API凭证获取您的API密钥"
       },
       "ionos": {
         "title": "IONOS凭证",
-        "apiKeyPrefix": "API密钥前缀",
+        "apiKeyPrefix": "API 密钥前缀",
         "apiKeyPrefixPlaceholder": "输入您的IONOSAPI密钥前缀",
         "apiKeyPrefixHelp": "来自IONOS开发人员门户 (developer.hosting.ionos.com) 的API密钥有两部分：公共前缀和秘密。在此输入公共前缀；它是 certbot 的 dns_ionos_prefix。IONOS云DNS不受支持。",
-        "apiKey": "API钥匙",
+        "apiKey": "API 钥匙",
         "apiKeyPlaceholder": "输入您的IONOSAPI密钥",
         "apiKeyHelp": "与前缀相关的秘密。仅输入密码，不输入前缀和点；这是 certbot 的 dns_ionos_secret。"
       },
       "ovh": {
         "title": "OVHcloud 凭证",
-        "endpoint": "API端点",
-        "endpointHelp": "持有DNS区域的账户的 OVHcloudAPI区域。",
+        "endpoint": "API 端点",
+        "endpointHelp": "持有 DNS 区域的账户的 OVHcloudAPI区域。",
         "endpoints": {
           "eu": "OVHcloud 欧洲 (ovh-eu)",
           "ca": "OVHcloud 加拿大 (ovh-ca)",
@@ -272,14 +272,14 @@
       "credentialsConfigured": "凭据已配置。输入新值来更改它们。",
       "errors": {
         "nameRequired": "姓名为必填项",
-        "createFailed": "无法创建DNS提供程序",
-        "updateFailed": "无法更新DNS提供程序"
+        "createFailed": "无法创建 DNS 提供程序",
+        "updateFailed": "无法更新 DNS 提供程序"
       },
       "infomaniak": {
         "title": "信息狂 DynDNS",
         "username": "动态域名解析用户名",
         "password": "动态域名解析密码",
-        "help": "仅限DDNS(IPv4)，而不是DNS-01证书。首先在 Infomaniak Manager 中创建动态DNS主机名，然后使用其专用的 DynDNS 用户名和密码，而不是您的 Manager 登录名或API令牌。连接测试仅检查凭证格式。编辑凭据时，请再次输入这两个字段。"
+        "help": "仅限 DDNS(IPv4)，而不是 DNS-01证书。首先在 Infomaniak Manager 中创建动态 DNS 主机名，然后使用其专用的 DynDNS 用户名和密码，而不是您的 Manager 登录名或 API 令牌。连接测试仅检查凭证格式。编辑凭据时，请再次输入这两个字段。"
       }
     }
   },
@@ -294,18 +294,18 @@
     "custom": "自定义"
   },
   "fields": {
-    "apiKey": "API钥匙",
-    "apiToken": "API令牌",
-    "apiSecret": "API秘密",
+    "apiKey": "API 钥匙",
+    "apiToken": "API 令牌",
+    "apiSecret": "API 秘密",
     "email": "电子邮件",
-    "accessKeyId": "访问密钥ID",
+    "accessKeyId": "访问密钥 ID",
     "secretAccessKey": "秘密访问密钥",
     "region": "地区"
   },
   "validation": {
     "domainRequired": "至少需要一个域名",
     "invalidDomain": "请输入有效域名",
-    "providerRequired": "请选择DNS提供商",
+    "providerRequired": "请选择 DNS 提供商",
     "certificateRequired": "请输入证书",
     "privateKeyRequired": "请输入私钥",
     "invalidCertificate": "证书格式无效",
@@ -314,11 +314,11 @@
   "help": {
     "provider": "选择要颁发的证书类型。",
     "domains": "输入要为其颁发证书的域。",
-    "verificationMethod": "选择域名所有权验证方法。通配符域满足DNS方法。",
-    "dnsProvider": "选择DNS提供商来执行DNS质询。",
-    "autoRenew": "证书临近到期时自动续订。",
+    "verificationMethod": "选择域名所有权验证方法。通配符域满足 DNS 方法。",
+    "dnsProvider": "选择用于完成 DNS 验证的 DNS 服务商。",
+    "autoRenew": "证书临近到期时自动续期。",
     "validityPeriod": "设置自签名证书的有效期。",
-    "keyType": "颁发证书时所用的密钥，每次续订时都会保存。ECDSA证书更小，使TLS握手速度更快，并且当前的每个浏览器和客户端都支持它们。"
+    "keyType": "签发证书使用的密钥类型，续期时会保持该类型。ECDSA 证书体积较小，TLS 握手更快，现代浏览器及客户端均支持。"
   },
   "status": {
     "pending": "进行中",
@@ -337,10 +337,10 @@
     "pleaseWait": "请稍等..."
   },
   "renewal": {
-    "title": "证书更新",
-    "subtitle": "实时更新日志",
-    "completed": "证书更新完成",
-    "inProgress": "证书更新正在进行中..."
+    "title": "证书续期",
+    "subtitle": "实时续期日志",
+    "completed": "证书续期已完成",
+    "inProgress": "证书续期中…"
   },
   "history": {
     "title": "证书历史",
@@ -361,7 +361,7 @@
   "tabs": {
     "list": "证书清单",
     "history": "发行/更新历史",
-    "dnsProviders": "DNS提供商"
+    "dnsProviders": "DNS 提供商"
   },
   "pagination": {
     "prev": "上一页",

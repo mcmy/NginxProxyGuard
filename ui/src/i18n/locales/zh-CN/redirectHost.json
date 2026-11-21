@@ -23,12 +23,12 @@
     "redirectCode": "重定向代码",
     "forwardPath": "前进的道路",
     "preservePath": "保留原来的路径",
-    "sslConfig": "SSL配置",
-    "enableSsl": "启用SSL",
+    "sslConfig": "SSL 配置",
+    "enableSsl": "启用 SSL",
     "selectCertificate": "选择证书",
-    "forceHttps": "力HTTPS",
+    "forceHttps": "力 HTTPS",
     "enabled": "已启用",
-    "blockExploits": "阻止漏洞利用",
+    "blockExploits": "拦截漏洞利用",
     "cancel": "取消",
     "create": "创建",
     "update": "更新",
@@ -50,12 +50,12 @@
   },
   "help": {
     "domainNames": "输入要重定向的源域。每行输入一个。",
-    "scheme": "选择目标URL的协议 (HTTP/HTTPS)。自动自动选择。",
+    "scheme": "选择目标 URL 使用的协议（HTTP 或 HTTPS）。“自动”将自动选择协议。",
     "targetDomain": "要重定向到的目标域地址。",
     "forwardPath": "转发到的路径。留空以使用原始路径。",
-    "preservePath": "重定向时保留原来URL的路径。",
-    "enableSsl": "将SSL证书应用于该主机。",
-    "forceHttps": "强制所有HTTP请求重定向到HTTPS。",
+    "preservePath": "重定向时保留原来 URL 的路径。",
+    "enableSsl": "为此主机配置 SSL 证书。",
+    "forceHttps": "强制所有 HTTP 请求重定向到 HTTPS。",
     "blockExploits": "阻止常见的网络攻击模式。"
   }
 }

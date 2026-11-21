@@ -430,7 +430,30 @@
       "title": "공격 패턴",
       "loading": "패턴 로딩 중...",
       "test": "테스트",
-      "testing": "테스트 중..."
+      "testing": "테스트 중...",
+      "categories": {
+        "SQL Injection": "SQL 삽입",
+        "XSS": "XSS",
+        "Path Traversal": "경로 탐색",
+        "Command Injection": "명령 삽입",
+        "Scanner Detection": "스캐너 탐지",
+        "RCE": "RCE",
+        "Protocol Attack": "프로토콜 공격"
+      },
+      "descriptions": {
+        "sql_injection": "SQL 삽입 - OR 조건을 이용한 우회",
+        "sql_injection_union": "SQL 삽입 - UNION 기반 공격",
+        "xss_script": "XSS - 스크립트 태그 삽입",
+        "xss_event": "XSS - 이벤트 처리기 삽입",
+        "path_traversal": "경로 탐색 - 디렉터리 탐색 공격",
+        "path_traversal_encoded": "경로 탐색 - URL 인코딩",
+        "command_injection": "명령 삽입 - 셸 명령",
+        "command_injection_pipe": "명령 삽입 - 파이프 명령",
+        "scanner_sqlmap": "스캐너 탐지 - sqlmap User-Agent",
+        "scanner_nikto": "스캐너 탐지 - Nikto User-Agent",
+        "rce_php": "RCE - PHP 래퍼 공격",
+        "protocol_attack": "프로토콜 공격 - Host 헤더 삽입"
+      }
     },
     "modeInfo": {
       "title": "WAF 모드",

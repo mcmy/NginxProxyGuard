@@ -1,7 +1,7 @@
 {
-  "title": "身份验证提供商 (ForwardAuth)",
+  "title": "认证提供方 (ForwardAuth)",
   "actions": {
-    "add": "添加身份验证提供商",
+    "add": "添加认证提供方",
     "edit": "编辑",
     "delete": "删除",
     "cancel": "取消",
@@ -10,73 +10,73 @@
     "save": "保存中..."
   },
   "form": {
-    "newTitle": "新的身份验证提供商",
-    "editTitle": "编辑身份验证提供者",
+    "newTitle": "添加认证提供方",
+    "editTitle": "编辑认证提供方",
     "name": "名称",
     "namePlaceholder": "例如，Home Authelia",
     "type": "类型",
-    "providerUrl": "授权服务URL",
+    "providerUrl": "认证服务 URL",
     "providerUrlPlaceholder": "http://127.0.0.1:9091",
     "pickContainer": "从 Docker 中选择",
     "unbindContainer": "解除绑定",
     "verifyPath": "验证路径",
     "signinMode": "登录重定向",
-    "signinRedirect": "登录重定向URL",
-    "signinModeLocationHeader": "Location header（验证者提供重定向）",
-    "signinModeRedirectTemplate": "重定向模板（自定义URL）",
-    "cookiePassthrough": "转发设置-Cookie",
-    "largeBuffers": "大标头缓冲区",
-    "bypassPaths": "旁路路径（每条线一个）",
-    "bypassPathsInvalid": "无效路径：{{paths}}— 必须以“/”开头且不包含空格或 ;{}# 字符",
+    "signinRedirect": "登录重定向 URL",
+    "signinModeLocationHeader": "Location 响应头（由认证服务提供重定向地址）",
+    "signinModeRedirectTemplate": "重定向模板（自定义 URL）",
+    "cookiePassthrough": "转发 Set-Cookie",
+    "largeBuffers": "增大响应头缓冲区",
+    "bypassPaths": "跳过认证的路径（每行一条）",
+    "bypassPathsInvalid": "无效路径：{{paths}}。路径必须以 / 开头，且不能包含空格或 ;{}# 字符。",
     "typeAuthelia": "Authelia",
-    "typeAuthentik": "正宗",
+    "typeAuthentik": "Authentik",
     "typeCustom": "自定义（ForwardAuth）"
   },
   "usage": {
     "title": "如何使用",
-    "step1": "在此处创建一个身份验证提供程序（Authelia、Authentik 或自定义）。",
-    "step2": "将其应用到代理主机→编辑→安全选项卡→“身份验证提供程序”中的主机。每个主机的旁路路径也在那里设置。",
-    "note": "受保护的主机必须使用HTTPS— Authelia/Authentik 拒绝 http 目标。"
+    "step1": "添加认证提供方，可选 Authelia、Authentik 或自定义服务。",
+    "step2": "在「代理主机 → 编辑 → 安全 → 认证提供方」中为主机关联认证服务，也可在那里配置该主机跳过认证的路径。",
+    "note": "受保护的主机必须使用 HTTPS。Authelia 和 Authentik 会拒绝 HTTP 目标地址。"
   },
   "hosts": {
     "manage": "主机",
-    "applied": "应用到主机",
+    "applied": "已关联的主机",
     "noneApplied": "尚无主机使用此提供商。",
-    "attachTitle": "连接主机",
+    "attachTitle": "关联主机",
     "selectHost": "选择主机...",
     "attach": "关联",
     "detach": "解除关联",
-    "noAttachable": "没有可连接的主机（此处只能连接未分配的HTTP主机）。",
-    "attachHint": "仅列出未分配的HTTP主机。具有质询模式或自定义“位置/”的主机将被拒绝 - 从主机的“安全”选项卡中进行设置。",
-    "attachError": "连接主机失败",
-    "detachError": "无法分离主机"
+    "noAttachable": "暂无可关联的主机。此处仅支持尚未关联认证服务的 HTTP 主机。",
+    "attachHint": "此处仅列出尚未关联认证服务的 HTTP 主机。启用验证码验证模式或配置了自定义 location / 的主机需要在该主机的「安全」选项卡中设置。",
+    "attachError": "关联主机失败",
+    "detachError": "解除主机关联失败"
   },
   "list": {
-    "title": "身份验证提供商",
+    "title": "认证提供方",
     "name": "名称",
     "type": "类型",
     "url": "URL",
     "actions": "操作",
-    "empty": "没有授权提供者。创建一个使用 Authelia/Authentik 来保护主机。",
+    "empty": "暂无认证提供方。添加 Authelia 或 Authentik 服务后即可为主机启用认证保护。",
     "none": "未使用"
   },
   "messages": {
-    "deleteConfirm": "删除此身份验证提供者？使用它的主机将失去保护。",
-    "deleteConfirmWithHosts": "此身份验证提供程序保护{{count}}主机。删除它会删除其身份验证保护。继续？",
-    "loadError": "加载身份验证提供程序时出错",
-    "saveError": "无法保存身份验证提供者"
+    "deleteConfirm": "删除此认证提供方？使用它的主机将失去保护。",
+    "deleteConfirmWithHosts": "此认证提供方保护着 {{count}} 个主机。删除后，这些主机将失去认证保护。确定删除？",
+    "loadError": "加载认证提供方失败",
+    "saveError": "无法保存认证提供方"
   },
   "reconcile": {
     "down": "容器无法访问",
     "synced": "已同步",
-    "syncedTitle": "容器IP自动同步"
+    "syncedTitle": "容器 IP 自动同步"
   },
   "help": {
-    "authelia": "Authelia ≥4.37。会话 cookie 域必须是每个受保护主机和门户的父域。",
-    "authentik": "使用前哨站URL（嵌入式前哨站 = authentik 服务器主机：9000）。",
-    "custom": "为任何 auth_request 兼容的验证程序（例如 oauth2-proxy）提供验证路径和登录重定向。",
-    "providerUrl": "使用可从代理容器访问的地址（主机网络安装：主机IP：端口；桥接网络：服务名称）。",
-    "containerUrl": "从容器的当前IP自动填充。如果容器IP发生变化，则会重新解析并自动更新。",
-    "challengeConflict": "禁用CAPTCHA/geo 质询模式以使用 ForwardAuth 提供程序。"
+    "authelia": "需要 Authelia 4.37 或更高版本。会话 Cookie 的域名必须是所有受保护主机和登录门户的父域。",
+    "authentik": "填写 Authentik Outpost 的 URL。若使用内置 Outpost，请填写 Authentik 服务器的主机名和端口 9000。",
+    "custom": "针对兼容 auth_request 的认证服务（如 oauth2-proxy），填写验证路径和登录重定向地址。",
+    "providerUrl": "填写代理容器可以访问的地址。主机网络模式填写主机 IP:端口，桥接网络模式填写服务名。",
+    "containerUrl": "从容器的当前 IP 自动填充。如果容器 IP 发生变化，则会重新解析并自动更新。",
+    "challengeConflict": "使用 ForwardAuth 前，请关闭验证码及 GeoIP 验证模式。"
   }
 }

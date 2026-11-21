@@ -4,20 +4,20 @@
     "loadFailed": "无法加载仪表板"
   },
   "actions": {
-    "selfCheck": "自助检查",
+    "selfCheck": "自检",
     "refresh": "刷新"
   },
   "status": {
     "systemStatus": "系统状态：{{status}}",
-    "healthy": "健康",
-    "unhealthy": "不健康"
+    "healthy": "正常",
+    "unhealthy": "异常"
   },
   "hostResources": {
     "title": "主机系统资源",
-    "memory": "记忆",
+    "memory": "内存",
     "disk": "磁盘",
     "uptime": "运行时间",
-    "network": "网络输入/输出",
+    "network": "网络 I/O",
     "networkIn": "下载",
     "networkOut": "上传",
     "history": "资源历史记录（过去 1 小时）",
@@ -28,20 +28,20 @@
     "timeRange": "时间范围"
   },
   "containers": {
-    "title": "Docker容器",
-    "running": "{{healthy}}/{{total}}运行",
+    "title": "Docker 容器",
+    "running": "{{healthy}} / {{total}} 个运行中",
     "cpu": "CPU",
-    "memory": "记忆",
-    "networkIo": "网络输入/输出",
-    "blockIo": "块I/O",
-    "totalCpu": "总计CPU",
+    "memory": "内存",
+    "networkIo": "网络 I/O",
+    "blockIo": "块设备 I/O",
+    "totalCpu": "总计 CPU",
     "totalMemory": "总内存",
     "cloudflareTunnel": "Cloudflare 隧道"
   },
   "stats": {
-    "blockedRequests": "被阻止的请求",
-    "customBlocked": "自定义规则被阻止",
-    "blockedIps": "被阻止的唯一 IP",
+    "blockedRequests": "已拦截请求",
+    "customBlocked": "自定义规则拦截",
+    "blockedIps": "被拦截的独立 IP 数",
     "last24h": "过去 24 小时",
     "requests": "请求数",
     "bandwidth": "带宽",
@@ -49,11 +49,11 @@
     "errorRate": "错误率"
   },
   "security": {
-    "title": "保安（24小时）",
-    "wafBlocked": "WAF已阻止",
-    "rateLimited": "价格有限",
-    "botsBlocked": "机器人被阻止",
-    "bannedIps": "被禁止的IP"
+    "title": "安全概览（24 小时）",
+    "wafBlocked": "WAF 拦截",
+    "rateLimited": "触发限流",
+    "botsBlocked": "机器人请求拦截",
+    "bannedIps": "已封禁 IP"
   },
   "hosts": {
     "title": "主机概览",
@@ -63,11 +63,11 @@
     "expiringSoon": "即将到期"
   },
   "topLists": {
-    "hostsTitle": "顶级主持人（24 小时）",
+    "hostsTitle": "访问量最高的主机（24 小时）",
     "ipsTitle": "热门 IP（24 小时）",
     "showLocalIPs": "显示本地",
     "localBadge": "本地",
-    "userAgentsTitle": "顶级用户代理（24 小时）",
+    "userAgentsTitle": "常见 User-Agent（24 小时）",
     "noData": "还没有流量数据"
   },
   "geo": {
@@ -81,10 +81,10 @@
   },
   "storage": {
     "banner": {
-      "low": "磁盘空间不足",
-      "critical": "磁盘空间至关重要",
-      "usage": "已使用 {{percent}}% — 磁盘剩余 {{free}}，包含 {{roles}}，总容量 {{total}}",
-      "forecast": "一天增长约{{growth}}；按照这个速度，大约{{days}}天就满了。",
+      "low": "磁盘剩余空间偏低",
+      "critical": "磁盘空间严重不足",
+      "usage": "存放 {{roles}} 的磁盘已使用 {{percent}}%，总容量 {{total}}，剩余 {{free}}",
+      "forecast": "每天约增加 {{growth}}，按当前速度约 {{days}} 天后用尽。",
       "hint": "日志会占用家庭服务器的存储空间。请在数据库磁盘空间不足前缩短日志保留时间或增加磁盘空间。",
       "retentionLink": "日志保留",
       "alertsLink": "磁盘警报"
@@ -93,16 +93,16 @@
       "running": "压缩较旧的日志块以释放空间（不会删除任何内容）：{{done}}/{{total}}",
       "done": "压缩{{count}}旧日志块并释放{{freed}}。什么都没有被删除。",
       "dryRun": "试运行：{{count}}较旧的日志块可以被压缩。没有任何改变（NPG_DISK_EMERGENCY_COMPRESS=dryrun）。",
-      "off": "紧急压缩关闭（NPG_DISK_EMERGENCY_COMPRESS=关闭）。手动释放一些空间。",
+      "off": "紧急压缩已关闭（NPG_DISK_EMERGENCY_COMPRESS=off）。请手动释放一些磁盘空间。",
       "blocked": {
         "insufficient_space": "可用空间太少，无法安全压缩较旧的日志。手动释放一些空间。",
         "nothing_to_compress": "较旧的日志已经被压缩。手动释放一些空间。",
-        "policy_running": "计划的日志压缩正在运行；请稍后再试。",
-        "another_pass_running": "现在的另一项工作是重写日志块；请稍后再试。",
-        "chunks_busy": "较旧的日志块正忙于另一项工作；请稍后再试。",
+        "policy_running": "计划内的日志压缩正在运行。系统将在一分钟后重试。",
+        "another_pass_running": "另一个任务正在重写日志块。系统将在一分钟后重试。",
+        "chunks_busy": "另一个任务正在处理较早的日志块。系统将在一分钟后重试。",
         "db_disk_unmeasured": "无法测量数据库磁盘，因此未压缩任何内容。",
-        "compress_failed": "压缩旧日志失败。请参阅API容器日志。",
-        "error": "紧急按压停止。请参阅API容器日志。"
+        "compress_failed": "压缩旧日志失败。请参阅 API 容器日志。",
+        "error": "紧急压缩已停止。请查看 API 容器日志。"
       }
     },
     "roles": {
@@ -114,11 +114,11 @@
     },
     "dbNotMeasured": "未测量数据库磁盘：{{reason}}",
     "dbReason": {
-      "db_container_not_found": "将NPG_DB_CONTAINER设置为数据库容器的名称",
+      "db_container_not_found": "将 NPG_DB_CONTAINER 设置为数据库容器的名称",
       "db_external": "数据库不在该主机上",
       "db_exec_failed": "在数据库容器中运行 stat 失败",
-      "docker_unavailable": "无法从API访问 Docker"
+      "docker_unavailable": "无法从 API 访问 Docker"
     },
-    "stalled": "没有回答，所以没有测量（挂起的网络安装？）：{{disks}}"
+    "stalled": "读取磁盘信息超时，未取得用量（网络挂载可能无响应）：{{disks}}"
   }
 }

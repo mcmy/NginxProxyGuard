@@ -1,3 +1,4 @@
+import { wafRuleText } from '../../../i18n/ruleText';
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
@@ -37,7 +38,7 @@ interface Props {
 }
 
 export function ContributingRules({ log, scopeType, scopeValue, selected, setSelected }: Props) {
-  const { t } = useTranslation('logs');
+  const { t, i18n } = useTranslation('logs');
   const { data, isLoading, isError } = useQuery({
     queryKey: ['waf-event-rules', log.id],
     queryFn: () => fetchWAFEventRules(log.id, log.created_at),
@@ -90,7 +91,7 @@ export function ContributingRules({ log, scopeType, scopeValue, selected, setSel
                 />
                 <span className="min-w-0">
                   <span className="font-mono text-slate-900 dark:text-white">{r.rule_id}</span>{' '}
-                  <span className="text-slate-600 dark:text-slate-300">{r.message}</span>
+                  <span className="text-slate-600 dark:text-slate-300" title={r.message}>{wafRuleText(i18n.language, r.rule_id, r.message)}</span>
                   {covered && (
                     <span className="ml-1 rounded bg-slate-200 px-1 text-[10px] text-slate-600 dark:bg-slate-600 dark:text-slate-300">
                       {t('disableRule.contributing.alreadyExcluded')}
